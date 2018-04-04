@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="135.46666mm"
+   height="135.46666mm"
+   viewBox="0 0 135.46666 135.46666"
+   version="1.1"
+   id="svg909"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"
+   sodipodi:docname="orcid.svg">
+  <defs
+     id="defs903">
+    <style
+       id="style921">.cls-1{fill:#30353e;}.cls-2{fill:#8c929d;}.cls-3{fill:#fc6d26;}.cls-4{fill:#e24329;}.cls-5{fill:#fca326;}</style>
+  </defs>
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-44.839811"
+     inkscape:cy="152.89714"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1916"
+     inkscape:window-height="1161"
+     inkscape:window-x="3286"
+     inkscape:window-y="37"
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
+  <metadata
+     id="metadata906">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Calque 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(-37.26667,-110.72527)">
+    <rect
+       style="fill:#a6ce39;fill-opacity:1;stroke-width:0.26458332"
+       y="110.72527"
+       x="37.26667"
+       height="135.46666"
+       rx="3.96875%"
+       width="135.46666"
+       id="rect1621" />
+    <g
+       id="g1663"
+       transform="matrix(12.20152,0,0,12.20152,875.13098,-3388.6067)">
+      <g
+         aria-label="D"
+         transform="matrix(0.26755563,0,0,0.26755563,-96.498376,145.371)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:25px;font-family:Cantarell;-inkscape-font-specification:'Cantarell, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="flowRoot1639">
+        <path
+           d="m 121.96609,563.79953 v -21.84 h 6.2 c 6.68,0 9.64,5.36 9.64,10.92 0,5.6 -2.8,10.92 -9.64,10.92 z m 6.44,2.92 c 8.28,0 12.72,-5.84 12.72,-13.84 0,-7.92 -4.48,-13.84 -12.72,-13.84 h -9.76 v 27.68 z"
+           style=""
+           id="path876" />
+      </g>
+      <g
+         aria-label="i"
+         transform="matrix(0.34835512,0,0,0.34835512,18.976847,119.3495)"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:40px;line-height:25px;font-family:Cantarell;-inkscape-font-specification:'Cantarell, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+         id="flowRoot1647">
+        <path
+           d="m -246.07176,487.56953 c 1.2,0 2.16,-0.96 2.16,-2.16 0,-1.2 -0.96,-2.16 -2.16,-2.16 -1.2,0 -2.16,0.96 -2.16,2.16 0,1.2 0.96,2.16 2.16,2.16 z m -1.6,3.12 v 19.28 h 3.2 v -19.28 z"
+           style=""
+           id="path879" />
+      </g>
+    </g>
+  </g>
+</svg>
