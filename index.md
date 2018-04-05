@@ -3,7 +3,7 @@ layout: default
 ---
 
 
-## Blog Posts :
+# Blog Posts :
 
 {% for post in site.posts %}	
 

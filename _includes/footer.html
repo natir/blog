@@ -1,8 +1,25 @@
 	</div>
 
+
         <div class="footer">
 		css provided by <a href="http://purecss.io">purecss.io</a>
 	</div>
     </div>
+	
+    <nav id="toc", class="pure-menu pure-u-1">
+    </nav>
+
+    <script src="/assets/js/toc.js"></script>
+    <script>
+    function onload_call_function(event) {
+	var list = initTOC({
+	    selector:'h2, h3, h4, h5',
+	    scope: ".content"
+	})
+	document.getElementById("toc").appendChild(list)
+    }
+    
+    document.addEventListener('DOMContentLoaded', onload_call_function)
+    </script>
 </body>
 </html>

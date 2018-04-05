@@ -322,3 +322,13 @@ td {
 .content img {
     width: 100%;
 }
+
+nav {
+    top: 0px;
+    position: fixed;
+}
+
+nav ol li {
+    list-style: none;
+    padding: 0px 0px 0px 40px;
+}
