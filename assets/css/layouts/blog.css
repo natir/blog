@@ -301,3 +301,24 @@ pre {
     }
 }
 
+/* table section */
+table {
+    width: 100%;
+}
+
+thead {
+    border-bottom: 1px solid #000; 
+} 
+
+tbody{
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000; 
+}
+  
+td {
+    padding: 10px 0;
+}
+
+.content img {
+    width: 100%;
+}
