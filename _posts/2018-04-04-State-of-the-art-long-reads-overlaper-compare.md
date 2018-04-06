@@ -12,45 +12,45 @@ tags: draft overlaper benchmark
 
 ## Introduction
 
-In 2017 Chu *et la.* write a review [^fn1], they present and compare 5 long-read overlapper, on 4 dataset 2 synthetic and 2 real dataset.
-This paper are very cool and clear, author compare overlapper on memory peak, wall clock time, sensitivty and precision, table 2 in this paper present sensitivity and precision :
+In 2017, Chu *et la.* wrote a review [^fn1] to present and compare 5 long-read overlapping tools, on 4 datasets (including 2 synthetic ones).
+This paper is very cool and clear. The authors compare overlappers with respect to peak memory, wall clock time, sensitivity and precision. Table 2 from this paper presents sensitivity and precision:
 
 ![table 2 of review]({{ POST_ASSETS_PATH }}/img/table_res_review.png)
 
-Overlapper have better result on synthetic dataset than real data, and we can observe an important loss of precision between 59.6 % and 83.8 % on pacbio real dataset.
+Overlappers show better results on synthetic datasets than on real data. We can observe an important loss of sensitivity: 59.6-83.8% on the Pacbio real dataset, compared to 81.9-96.5% on the simulated data.
 
-So ok overlapper didn't have a perfect sensibility, but does they miss the same overlap ?
+So, ok, overlappers dont't achieve perfect sensibility, but do they miss the same overlaps?
 
 ## Material & Methods
 
 ### Dataset
 
-I select real dataset used by Chu *et al.*[^fn1], because the loss of sensibility are greater, so we can have better resolution if long-read overlapper didn't find same overlap.
+I selected the two real sequencing datasets in Chu *et al.*[^fn1], because they had the highest variance in sensitivity, so we can see the most extreme effects in how long-read overlappers do or do not find the same overlaps.
 
 ### What is an overlap
 
 No I didn't plan to redefine all of this notion.
 
-We define 3 type of overlap acording to algorithm present in minimap publication [^fn2]
+We define 3 type of overlaps, according to the algorithm presented in the minimap publication [^fn2]
 
 ![algorithm 5 in minimap and miniasm article by Heng Li]({{ POST_ASSETS_PATH }}/img/minimap_ovl_filter.png)
 
 
-Internal match :
-: Overlap just have little similarity in middle of read, it's probably a little repetition present in two read
+Internal match:
+: Just a short similarity in the middle of both reads, which is probably due to a repetitive region and not a real overlap
 
-Containment :
-: One of read are completly contain in other read
+Containment:
+: One read is completely contained in the other
 
-Classic overlap :
-: All other overlap
+Classic overlap:
+: Deemed a regular suffix-prefix overlap
 
 
-If isn't an internal match or an containment overlap, we store the read pairs in a set of all overlap find by one long-reads overlapper.
+If isn't an internal match nor an containment overlap, we store the read pair as element of the set of all overlaps found by a given overlapper.
 
-### Overlaper
+### Overlappers
 
-We use :
+We used:
 
 - graphmap v0.5.2 [^fn3]
 - hisea 39e01e98ca [^fn4]
@@ -58,32 +58,32 @@ We use :
 - minimap 0.2-r124 [^fn2]
 - minimap2 2.10 [^fn6]
 
-We use parametre recomand by Chu *et al.*[^fn1] and default parametre for hisea
+We used parameters recommended by Chu *et al.*[^fn1] and default parameters for HISEA.
 
 ### Venn diagram generation 
 
-We use a python script to parse output file of each overlapper, filter overlap, generate a venn diagrame, and compute Jaccard index.
-All script and step to reproduce analysis are avaible in this [repository](https://github.com/natir/SOTA-long-read-overlapping-tools-comparative-analysis-data).
+We used a Python script to parse the output file of each overlapper, filter overlaps, generate a Venn diagram, and compute the Jaccard index.
+All scripts and steps to reproduce this analysis are available in this [repository](https://github.com/natir/SOTA-long-read-overlapping-tools-comparative-analysis-data).
 
-## Result 
+## Results
 
 ### Nanopore
 
 ![venn diagram for nanopore real dataset]({{ POST_ASSETS_PATH }}/img/nanopore_venn.png)
 
-In center we have number of overlap find by all overlapper, we call this set of overlap the core overlap. Core overlap contain 9.010.533 overlap.
-Around this center we have some large set of overlap like :
+In the center of the above diagram we have the number of overlap found by all overlappers. We call this sets the _core overlaps_. Here for this dataset, core overlaps contain 9,010,533 overlaps.
+Around this center we have some large sets of overlap like:
 
 |---------------------------------+-------------------+-------------------------|
-| dataset composition             | number of overlap |       % of core overlap |
+| dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlap - hisea overlap    |       899.598     |     9.97 %              |
-| hisea overlap $$\cap$$ mhap overlap    |       517.003     |     5.74 %              |
-| core overlap - graphmap overlap |       209.040     |     2.32 %              |
-| core overlap - mhap overlap     |       168.668     |     1.86 %              |
+| core overlaps - hisea overlaps    |       899.598     |     9.97 %              |
+| hisea overlaps $$\cap$$ mhap overlaps    |       517.003     |     5.74 %              |
+| core overlaps - graphmap overlaps |       209.040     |     2.32 %              |
+| core overlaps - mhap overlaps     |       168.668     |     1.86 %              |
 |---------------------------------+-------------------+-------------------------+
 
-For all overlap find by mhap (11.574.382) 5.73 % of this overlap are find just by mhap1.6, for hisea this value are 1.02 % (for 10106276 overlap).
+In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are found only by mhap1.6. For hisea, this value is 1.02 % (out of 10,106,276 overlaps).
 
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
@@ -93,27 +93,27 @@ For all overlap find by mhap (11.574.382) 5.73 % of this overlap are find just b
 | graphmap | 0.7 | 0.66 | | 0.74 | 
 | hisea | 0.76| 0.74 | 0.74 | | 
 
-Jacard similarity between overlaper, this matrix are triangular. 
+The above matrix shows the Jacard similarity between pairs of overlappers. 
 
 ### Pacbio
 
 ![venn diagram for pacbio real dataset]({{ POST_ASSETS_PATH }}/img/pacbio_venn.png)
 
-For pacbio dataset core overlap contain 3.407.577 overlap. 
-Other large overlap set are :
+For the Pacbio dataset, core overlaps contain 3,407,577 overlaps. 
+Other large overlaps sets are:
 
 |---------------------------------+-------------------+-------------------------|
-| dataset composition             | number of overlap |       % of core overlap |
+| dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlap - graphmap overlap |       713.161     |     20.92 %             |
-| minimap2 overlap                |       538.118     |     15.78 %             |
-| mhap overlap $$\cap$$ minimap overlap  |       503.431     |     14.76 %             |
-| core overlap - hisea overlap    |       352.376     |     10.33 %             |
-| mhap overlap                    |       319.744     |     9.38 %              |
+| core overlaps - graphmap overlaps |       713.161     |     20.92 %             |
+| minimap2 overlaps                |       538.118     |     15.78 %             |
+| mhap overlaps $$\cap$$ minimap overlaps  |       503.431     |     14.76 %             |
+| core overlaps - hisea overlaps    |       352.376     |     10.33 %             |
+| mhap overlaps                    |       319.744     |     9.38 %              |
 |---------------------------------+-------------------+-------------------------+
 
-For all overlap find by minimap2 (5.640.643) 9.53 % of this overlap are find just by minimap2, for mhap this value are 5.98 % (for 5336610 overlap), they share 88.21 % and 93.24 % of overlap for minimap and mhap respectivly.
-Graphmap and hisea have less specific overlap.
+Out of all overlaps found by minimap2 (5,640,643), 9.53% of these overlaps are found only by this overlapper. For mhap this value is 5.98% (out of 5,336,610 overlaps), they share 88.21 % and 93.24 % of overlaps for minimap and mhap respectively.
+Graphmap and hisea have less specific overlaps.
 
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
@@ -123,19 +123,19 @@ Graphmap and hisea have less specific overlap.
 | graphmap | 0.86 | 0.95 | | 0.83 | 
 | hisea | 0.83 | 0.84 | 0.83 | | 
 
-Jacard similarity between overlapper
+This above table shows the Jacard similarity between overlappers.
 
 
-### Compare between version
+### Comparison between versions
 
-At begin we use mhap 2.1 but in [^fn1] Chin. *et al* use mhap 1.6, this mistake create strange resul. The part of overlap just find by mhap 2.1 it's too large.
-So we make a compare of mhap 1.6 and 2.1
+At first we used mhap 2.1, but in [^fn1], Chin. *et al* use mhap 1.6. This version difference yielded strange results: many more overlaps were found only by mhap 2.1.
+So we make a comparison between mhap 1.6 and 2.1, in terms of shared and exclusive overlaps.
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
 Jacard similarity : 0.72 and *0.26*
 
-And anothere compare between minimap and minimap2
+And another comparison between minimap and minimap2:
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/minimap_venn.png)
 
@@ -145,17 +145,17 @@ Jacard similary : 0.70 and 0.98
 
 ## Conclusion
 
-Overlapper tools have quite similare, except on real pacbio dataset[^fn1], sensibility and precision but the set of overlap find by this tools can be very different.
-This diference exist between two version of same tools.
+Overlapper tools behave quite similarly, but on real pacbio datasets[^fn1], sensibility, precision, and the set of overlaps found across tools can be very different.
+Such a difference can also exist between two versions of the same tool.
 
-The overlaper comparison based on a quantitative measurement (sensitivity, precision) are useful but isn't perfect, two tools with the same sensitivity for a given set will detect a different overlap set, see MHAP and Minimap for the nanopore set.
+Comparison of overlappers based on a quantitative measurement (sensitivity, precision) is useful but isn't perfect: two tools with the same sensitivity for a given set could still detect a different overlap set, see e.g. MHAP and Minimap for the nanopore set.
 
-Some publication use the quality of correction or assembly to have a quality metrics to compare overlaper, it's a good idea but correction and assembly tools make a choice in overlaps and it's not easy to understand where assembly or corection tools failled and wich missed overlap are can solve this trouble.
+Some publications use quality of error-correction, or results of genome assembly, as quality metrics to compare overlappers. It's a good idea but correction and assembly tools make additional choices in the overlaps they keep, and it's not easy to relate assembly or error-correction imperfections and wrong or missed overlaps.
 
-It could by interesant to study if overlap in one set of overlap have a specificity, length of read, mapping length, error rate, %GC biais, specific kmer composition, etc …
-A study like this could reveal something about algorithm used in overlapper ?
+It could by interesting to study whether certain tools preferentially find overlaps with distinct features, such as e.g. length of reads, mapping length, error rate, %GC biais, specific kmer composition, etc …
+A study like this could reveal something about the algorithms used in overlappers.
 
-Is it a good idea to create a reconciliation tool for overlaper ? Whereas the correction and assembly tools seek to reduce the amount of overlap it uses, see transitivity reduction, BOG, MARVEL[^fn7].  
+Is it a good idea to create a reconciliation tool for overlappers? We note that the correction and assembly tools seek to reduce the amount of overlaps they use, through e.g. graph transitivity reduction, Best Overlap Graph, the MARVEL approach[^fn7].  
 
 ##### Acknowledgment
 
