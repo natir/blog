@@ -9,7 +9,7 @@ exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 # so be sure to set them if your theme uses them.
 #
 title : "Pierre Marijon's blog"
-tagline: A bioinformatique scientific blog
+tagline: Yet another bioinformatic blog
 author :
   name : Pierre Marijon
   email : pierre.marijon@inira.fr

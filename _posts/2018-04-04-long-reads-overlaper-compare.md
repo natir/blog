@@ -29,7 +29,7 @@ I selected the two real sequencing datasets in Chu *et al.*[^fn1], because they 
 
 ### What is an overlap
 
-No I didn't plan to redefine all of this notion.
+No I didn't plan to redefine this notion.
 
 We define 3 type of overlaps, according to the algorithm presented in the minimap publication [^fn2]
 
@@ -83,7 +83,7 @@ Around this center we have some large sets of overlap like:
 | core overlaps - mhap overlaps     |       168.668     |     1.86 %              |
 |---------------------------------+-------------------+-------------------------+
 
-In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are found only by mhap1.6. For hisea, this value is 1.02 % (out of 10,106,276 overlaps).
+In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are found only by mhap. For hisea, this value is 1.02 % (out of 10,106,276 overlaps).
 
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
@@ -112,8 +112,7 @@ Other large overlaps sets are:
 | mhap overlaps                    |       319.744     |     9.38 %              |
 |---------------------------------+-------------------+-------------------------+
 
-Out of all overlaps found by minimap2 (5,640,643), 9.53% of these overlaps are found only by this overlapper. For mhap this value is 5.98% (out of 5,336,610 overlaps), they share 88.21 % and 93.24 % of overlaps for minimap and mhap respectively.
-Graphmap and hisea have less specific overlaps.
+Out of all overlaps found by minimap2 (5,640,643), 9.54% of these overlaps are found only by this overlapper, for mhap this value is 5.98% (out of 5,336,610 overlaps).
 
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
@@ -126,21 +125,20 @@ Graphmap and hisea have less specific overlaps.
 This above table shows the Jacard similarity between overlappers.
 
 
-### Comparison between versions
+### Comparison across versions
 
 At first we used mhap 2.1, but in [^fn1], Chin. *et al* use mhap 1.6. This version difference yielded strange results: many more overlaps were found only by mhap 2.1.
 So we make a comparison between mhap 1.6 and 2.1, in terms of shared and exclusive overlaps.
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
-Jacard similarity : 0.72 and *0.26*
+Jacard similarity : 0.72 and **0.26**
 
 And another comparison between minimap and minimap2:
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/minimap_venn.png)
 
 Jacard similary : 0.70 and 0.98
-
 
 
 ## Conclusion
@@ -155,7 +153,7 @@ Some publications use quality of error-correction, or results of genome assembly
 It could by interesting to study whether certain tools preferentially find overlaps with distinct features, such as e.g. length of reads, mapping length, error rate, %GC biais, specific kmer composition, etc …
 A study like this could reveal something about the algorithms used in overlappers.
 
-Is it a good idea to create a reconciliation tool for overlappers? We note that the correction and assembly tools seek to reduce the amount of overlaps they use, through e.g. graph transitivity reduction, Best Overlap Graph, the MARVEL approach[^fn7].  
+Is it a good idea to create a reconciliation tool for overlappers? We note that the correction and assembly tools seek to reduce the amount of overlaps they use, through e.g. graph transitivity reduction, Best Overlap Graph, the MARVEL approach[^fn7].
 
 ##### Acknowledgment
 
