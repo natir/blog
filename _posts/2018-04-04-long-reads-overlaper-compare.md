@@ -8,7 +8,7 @@ tags: draft overlaper benchmark
 
 {% include setup %}
 	
-# state-of-the-art long-read overlapping tools comparative analysis
+# State-of-the-art long-read overlapping tools comparative analysis
 
 ## Introduction
 
