@@ -77,10 +77,10 @@ Around this center we have some large sets of overlap like:
 |---------------------------------+-------------------+-------------------------|
 | dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlaps - hisea overlaps    |       899.598     |     9.97 %              |
-| hisea overlaps $$\cap$$ mhap overlaps    |       517.003     |     5.74 %              |
-| core overlaps - graphmap overlaps |       209.040     |     2.32 %              |
-| core overlaps - mhap overlaps     |       168.668     |     1.86 %              |
+| core overlaps - hisea overlaps    |       899,598     |     9.97 %              |
+| hisea overlaps $$\cap$$ mhap overlaps    |       517,003     |     5.74 %              |
+| core overlaps - graphmap overlaps |       209,040     |     2.32 %              |
+| core overlaps - mhap overlaps     |       168,668     |     1.86 %              |
 |---------------------------------+-------------------+-------------------------+
 
 In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are found only by mhap. For hisea, this value is 1.02 % (out of 10,106,276 overlaps).
@@ -105,11 +105,11 @@ Other large overlaps sets are:
 |---------------------------------+-------------------+-------------------------|
 | dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlaps - graphmap overlaps |       713.161     |     20.92 %             |
-| minimap2 overlaps                |       538.118     |     15.78 %             |
-| mhap overlaps $$\cap$$ minimap overlaps  |       503.431     |     14.76 %             |
-| core overlaps - hisea overlaps    |       352.376     |     10.33 %             |
-| mhap overlaps                    |       319.744     |     9.38 %              |
+| core overlaps - graphmap overlaps |       713,161     |     20.92 %             |
+| minimap2 overlaps                |       538,118     |     15.78 %             |
+| mhap overlaps $$\cap$$ minimap overlaps  |       503,431     |     14.76 %             |
+| core overlaps - hisea overlaps    |       352,376     |     10.33 %             |
+| mhap overlaps                    |       319,744     |     9.38 %              |
 |---------------------------------+-------------------+-------------------------+
 
 Out of all overlaps found by minimap2 (5,640,643), 9.54% of these overlaps are found only by this overlapper, for mhap this value is 5.98% (out of 5,336,610 overlaps).
