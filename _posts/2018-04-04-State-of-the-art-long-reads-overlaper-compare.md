@@ -63,7 +63,7 @@ We use parametre recomand by Chu *et al.*[^fn1] and default parametre for hisea
 ### Venn diagram generation 
 
 We use a python script to parse output file of each overlapper, filter overlap, generate a venn diagrame, and compute Jaccard index.
-All script and step to reproduce analysis are avaible in this [repository](/404.html).
+All script and step to reproduce analysis are avaible in this [repository](https://github.com/natir/SOTA-long-read-overlapping-tools-comparative-analysis-data).
 
 ## Result 
 
@@ -133,7 +133,7 @@ So we make a compare of mhap 1.6 and 2.1
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
-Jacard similarity : 0.72 and 0.26
+Jacard similarity : 0.72 and *0.26*
 
 And anothere compare between minimap and minimap2
 
@@ -146,10 +146,11 @@ Jacard similary : 0.70 and 0.98
 ## Conclusion
 
 Overlapper tools have quite similare, except on real pacbio dataset[^fn1], sensibility and precision but the set of overlap find by this tools can be very different.
-This diference exist between to version of same tools.
+This diference exist between two version of same tools.
 
-The overlaper comparison based on a quantitative measurement (sensitivity, precision) are useful but isn't perfect, two tools with the same sensitivity for a given set will detect a different overlap set, see MHAP Minimap for the nanopore set.
-Some publication use the quality of correction or assembly to have a quality metrics to compare overlaper, it's a good idea but correction and assembly tools make a choice in overlap and it's not easy to understand where assembly or corection tools failled wich overlap are important to solve this failled.
+The overlaper comparison based on a quantitative measurement (sensitivity, precision) are useful but isn't perfect, two tools with the same sensitivity for a given set will detect a different overlap set, see MHAP and Minimap for the nanopore set.
+
+Some publication use the quality of correction or assembly to have a quality metrics to compare overlaper, it's a good idea but correction and assembly tools make a choice in overlaps and it's not easy to understand where assembly or corection tools failled and wich missed overlap are can solve this trouble.
 
 It could by interesant to study if overlap in one set of overlap have a specificity, length of read, mapping length, error rate, %GC biais, specific kmer composition, etc …
 A study like this could reveal something about algorithm used in overlapper ?
