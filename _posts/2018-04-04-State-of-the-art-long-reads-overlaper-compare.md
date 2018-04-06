@@ -25,7 +25,7 @@ So ok overlapper didn't have a perfect sensibility, but does they miss the same 
 
 ### Dataset
 
-I select the dataset real dataset used by Chu *et al.*[^fn1], because the loss of sensibility are greater, so we can have better resolution if long-read overlapper didn't find same overlap.
+I select real dataset used by Chu *et al.*[^fn1], because the loss of sensibility are greater, so we can have better resolution if long-read overlapper didn't find same overlap.
 
 ### What is an overlap
 
@@ -46,7 +46,7 @@ Classic overlap :
 : All other overlap
 
 
-If isn't an internal match or an containment overlap, we store the read pairs in a set of all overlap find by one long-reads overlapper
+If isn't an internal match or an containment overlap, we store the read pairs in a set of all overlap find by one long-reads overlapper.
 
 ### Overlaper
 
@@ -62,8 +62,8 @@ We use parametre recomand by Chu *et al.*[^fn1] and default parametre for hisea
 
 ### Venn diagram generation 
 
-We use a python script to parse output file of each overlapper, filter overlap and generate a venn diagrame of common or not overlap.
-All script and step to reproduce are avaible in this [repository](/404.html).
+We use a python script to parse output file of each overlapper, filter overlap, generate a venn diagrame, and compute Jaccard index.
+All script and step to reproduce analysis are avaible in this [repository](/404.html).
 
 ## Result 
 
@@ -94,9 +94,6 @@ For all overlap find by mhap (11.574.382) 5.73 % of this overlap are find just b
 | hisea | 0.76| 0.74 | 0.74 | | 
 
 Jacard similarity between overlaper, this matrix are triangular. 
-
-
-
 
 ### Pacbio
 
@@ -144,24 +141,27 @@ And anothere compare between minimap and minimap2
 
 Jacard similary : 0.70 and 0.98
 
+
+
 ## Conclusion
 
 Overlapper tools have quite similare, except on real pacbio dataset[^fn1], sensibility and precision but the set of overlap find by this tools can be very different.
-mhap1.6 and minimap2 are more specific 
+This diference exist between to version of same tools.
 
-Actualy overlapper tools compare between use just with this sensibilty and precsion, the only method to compare the quality of finded overlap is the quality of assembly generate with this overlap.
-But the overlap find by one overlapper are different than overlap find by another, even if this just 2 different version of overlaper.
+The overlaper comparison based on a quantitative measurement (sensitivity, precision) are useful but isn't perfect, two tools with the same sensitivity for a given set will detect a different overlap set, see MHAP Minimap for the nanopore set.
+Some publication use the quality of correction or assembly to have a quality metrics to compare overlaper, it's a good idea but correction and assembly tools make a choice in overlap and it's not easy to understand where assembly or corection tools failled wich overlap are important to solve this failled.
 
-In this study we just remove no overlap, we didn't add filter on length or mapping quality of overlap, and the effect of new filter is unclear for me.
+It could by interesant to study if overlap in one set of overlap have a specificity, length of read, mapping length, error rate, %GC biais, specific kmer composition, etc …
+A study like this could reveal something about algorithm used in overlapper ?
 
-The true used by Chi et al. for this dataset are based on bwa mem mapping, and in fact it's just add another overlapper on this annalysis.
+Is it a good idea to create a reconciliation tool for overlaper ? Whereas the correction and assembly tools seek to reduce the amount of overlap it uses, see transitivity reduction, BOG, MARVEL[^fn7].  
 
-The overlaper comparison based on a quantitative measurement (sensitivity, precision) is not satisfactory, two tools with the same sensitivity for a given set will detect a different overlap set, see MHAP Minimap for the nanopore set.
-The only qualitative method currently used is the comparison of assembly quality, this notion is vague and given that this method uses many other parameters (quality threshold, read correction, specificity of the genome to be studied), this measurement is strongly noisy in addition to losing details.
+##### Acknowledgment
 
-But the importance of finding or not finding an overlap depends on your application (correction, assembly, variant detection, repeat resolution) and I think it's impossible to find a perfect measure to differentiate the overlapping in any case the measures of sensitivity, precision are not enough.
+- Rayan Chikhi
+- Jean-Stéphane Varré
 
-## Reference
+##### Reference
 
 [^fn1]: Innovations and challenges in detecting long read overlaps: an evaluation of the state-of-the-art by Chu *et al.* doi:[10.1093/bioinformatics/btw811](http://doi.org/10.1093/bioinformatics/btw811)
 [^fn2]: Minimap and miniasm: fast mapping and de novo assembly for noisy long sequences by Heng Li doi:[10.1093/bioinformatics/btw152](https://doi.org/10.1093/bioinformatics/btw152)
@@ -169,3 +169,4 @@ But the importance of finding or not finding an overlap depends on your applicat
 [^fn4]: HISEA: HIerarchical SEed Aligner for PacBio data by Khiste and Ilie doi:[10.1186/s12859-017-1953-9](https://doi.org/10.1186/s12859-017-1953-9)
 [^fn5]: Assembling large genomes with single-molecule sequencing and locality-sensitive hashing Berlin *et al.* doi:[10.1038/nbt.3238](https:doi.org/10.1038/nbt.3238)
 [^fn6]: Minimap2: pairwise alignment for nucleotide sequences by Li *et al.* [arxiv](https://arxiv.org/abs/1708.01492v5)
+[^fn7]: Supplementary information of The axolotl genome and the evolution of key tissue formation regulators by Nowoshilow *et al.* doi:[10.1038/nature25458](https://doi.org/10.1038/nature25458)

@@ -42,9 +42,9 @@
 
             if (count) {
 		var li = document.createElement('li')
-		il.className += "pure-menu-item";
+		li.className += "pure-menu-item";
                 wrapper = wrapper.appendChild(
-		    il
+		    li
                 );
             }
         }
