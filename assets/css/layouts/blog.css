@@ -277,7 +277,7 @@ pre {
 
     .cover-img {
         background-size: cover;
-	background-image: url("/img/background-rotate.svg");
+	background-image: url("/assets/img/background-rotate.svg");
     }
 
     .cover-body {
