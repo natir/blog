@@ -1,7 +1,8 @@
 function generate_venn(sets, div, width, height, padding)
 {
+    var chart = venn.VennDiagram().width(width).height(height).padding(padding)
     var div = d3.select(div);
-    div.datum(sets).call(venn.VennDiagram().width(width).height(height).padding(padding));
+    div.datum(sets).call(chart);
 
     // add a tooltip
     var tooltip = d3.select("body").append("div")
@@ -25,7 +26,6 @@ function generate_venn(sets, div, width, height, padding)
 	    // highlight the current path
 	    var selection = d3.select(this).transition("tooltip").duration(400);
 	    selection.select("path")
-		.style("stroke-width", 3)
 		.style("fill-opacity", d.sets.length == 1 ? .4 : .1)
 		.style("stroke-opacity", 1);
 	})
@@ -39,7 +39,6 @@ function generate_venn(sets, div, width, height, padding)
 	    tooltip.transition().duration(400).style("opacity", 0);
 	    var selection = d3.select(this).transition("tooltip").duration(400);
 	    selection.select("path")
-		.style("stroke-width", 0)
 		.style("fill-opacity", d.sets.length == 1 ? .25 : .0)
 		.style("stroke-opacity", 0);
 	});
