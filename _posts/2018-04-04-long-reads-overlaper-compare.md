@@ -181,7 +181,7 @@ Again the above matrix shows Jaccard similarity coefficient.
 At first we used mhap 2.1, but in [^fn1], Chin. *et al* use mhap 1.6. This version difference yielded strange results: many more overlaps were found only by mhap 2.1.
 So we make a comparison between mhap 1.6 and 2.1, in terms of shared and exclusive overlaps.
 
-**Sergey Koren, a co-author of MHAP, told us that MHAP 1 calculates a similarity score between reads and MHAP 2 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we can not use the same values.** This point explain strange result we get, below, we plotted the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap2.1 with -\-threshold 0.98 (1 - 0.02).
+**Sergey Koren, a co-author of mhap, told us that mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we can not use the same values.** This point explain strange result we get, below, we plotted the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with -\-threshold 0.98 (1 - 0.02).
 
 <center>
 <div id="venn_mhap_pacbio"></div>
