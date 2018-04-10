@@ -6,7 +6,6 @@ published: true
 tags: draft overlaper benchmark
 ---
 
-{% include setup %}
 
 <script src="https://d3js.org/d3.v5.min.js"></script>
 <script src="{{ POST_ASSETS_PATH }}/js/venn.js"></script>

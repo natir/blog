@@ -4,12 +4,13 @@ permalink: /:categories/:year/:month/:day/:title
 
 exclude: [".rvmrc", ".rbenv-version", "README.md", "Rakefile", "changelog.md"]
 #pygments: true
+theme: jekyll-theme-cayman
 
 # Themes are encouraged to use these universal variables 
 # so be sure to set them if your theme uses them.
 #
-title : "Pierre Marijon's blog"
-tagline: Yet another bioinformatic blog
+title: Yet another bioinformatic blog
+description : "Pierre Marijon's blog"
 author :
   name : Pierre Marijon
   email : pierre.marijon@inira.fr
