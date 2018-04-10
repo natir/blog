@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: post
 title: State-of-the-art long reads overlaper-compare
 date: 2018-04-04
 published: true
