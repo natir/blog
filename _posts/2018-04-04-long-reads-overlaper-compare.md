@@ -26,9 +26,9 @@ Overlappers show better results on synthetic datasets than on real data. We can 
 
 So, ok, overlappers dont't achieve perfect sensibility, but **do they miss the same overlaps**?
 
-## Material & Methods
+## Materials & Methods
 
-### Dataset
+### Datasets
 
 I selected the two real sequencing datasets in Chu *et al.*[^fn1], because they had the highest variance in sensitivity, so we can see the most extreme effects in how long-read overlappers possibly find different overlaps.
 
@@ -178,10 +178,8 @@ Again the above matrix shows Jaccard similarity coefficient.
 
 ### Comparison across versions
 
-At first we used mhap 2.1, but in [^fn1], Chin. *et al* use mhap 1.6. This version difference yielded strange results: many more overlaps were found only by mhap 2.1.
-So we make a comparison between mhap 1.6 and 2.1, in terms of shared and exclusive overlaps.
-
-**Sergey Koren, a co-author of mhap, told us that mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we can not use the same values.** This point explain strange result we get, below, we plotted the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with -\-threshold 0.98 (1 - 0.02).
+At first we used mhap 2.1, using the same parameters as in [^fn1]. But actually, Chin. *et al* used mhap 1.6. This version difference yielded odd results: many more overlaps were found only by mhap 2.1.
+Here is a comparison between our two executions of mhap 1.6 and 2.1 using the same command-line parameters, in terms of shared and exclusive overlaps.
 
 <center>
 <div id="venn_mhap_pacbio"></div>
@@ -209,7 +207,8 @@ var sets = [
     generate_venn(sets, "#venn_mhap_nanopore", 400, 400, 50);
 </script>
 
-Clearly, mhap 2.1 finds many more overlaps than mhap 1.6.
+mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get so different results between the two versions. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with -\-threshold 0.98 (1 - 0.02), i.e. where the two runs should be more equivalent.
+
 
 And another comparison between minimap and minimap2:
 
