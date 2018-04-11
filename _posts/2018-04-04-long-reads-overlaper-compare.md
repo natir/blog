@@ -127,12 +127,12 @@ Again the above matrix shows Jaccard similarity coefficient.
 ### Comparison across versions
 
 
-At first we used mhap 2.1, using the same parameters as in [^fn1]. But actually, Chin. *et al* used mhap 1.6. This version difference yielded odd results: many more overlaps were found only by mhap 2.1.
-Here is a comparison between our two executions of mhap 1.6 and 2.1 using the same command-line parameters, in terms of shared and exclusive overlaps.
+At first we used mhap 2.1, using the same parameters as in [^fn1]. But actually, Chin. *et al* used mhap 1.6. This version change yielded surprising results: many more overlaps were found only by mhap 2.1.
+Here is a comparison between the two executions of mhap 1.6 and 2.1 using the same command-line parameters, in terms of shared and exclusive overlaps.
 
 ![venn diagram for mhap compare same parameter]({{ POST_ASSETS_PATH }}/img/mhap_venn_same.png)
 
-mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get so different results between the two versions. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with -\-threshold 0.98 (1 - 0.02), i.e. where the two runs should be more equivalent.
+mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get significantly different results between the two versions, when running them carelessly with identical parameters. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with default parameters.
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
