@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/add.css' | relative_url }}">
     {% include mathjax.html %}
-    <script data-isso="//isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="//isso.pierre.marijon.fr/js/embed.min.js"></script>
+    <script data-isso="https://isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="https://isso.pierre.marijon.fr/js/embed.min.js"></script>
   </head>
   <body>
     <section class="page-header">
@@ -27,7 +27,6 @@
         <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ page.url}} &title={{ page.title }}&source={{ site.url }}">Linkedin</a>
       </div>
       
-      {% include setup %}
 
       {{ content }}
 

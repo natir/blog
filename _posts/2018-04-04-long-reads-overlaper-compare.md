@@ -94,7 +94,7 @@ In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are f
 | graphmap | 0.7 | 0.66 | | 0.74 | 
 | hisea | 0.76| 0.74 | 0.74 | | 
 
-The above matrix shows the Jacard similarity coefficient (cardinality of intersection divided by cardinality of union) between pairs of overlappers. 
+The above matrix shows the Jaccard similarity coefficient (cardinality of intersection divided by cardinality of union) between pairs of overlappers. 
 
 ### Pacbio real data
 
@@ -106,10 +106,10 @@ Other large disparities between overlappers are:
 |---------------------------------+-------------------+-------------------------|
 | dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlaps - graphmap overlaps |       713,161     |     20.92 %             |
-| minimap2-only overlaps                |       538,118     |     15.78 %             |
-| mhap overlaps $$\cap$$ minimap overlaps  |       503,431     |     14.76 %             |
-| core overlaps - hisea overlaps    |       352,376     |     10.33 %             |
+| core overlaps - graphmap overlaps |       713,161     |     20.93 %             |
+| minimap2-only overlaps                |       538,118     |     15.79 %             |
+| mhap overlaps $$\cap$$ minimap overlaps  |       503,431     |     14.77 %             |
+| core overlaps - hisea overlaps    |       352,376     |     10.44 %             |
 | mhap-only overlaps                    |       319,744     |     9.38 %              |
 |---------------------------------+-------------------+-------------------------+
 
@@ -118,10 +118,10 @@ Out of all overlaps found by minimap2 (5,640,643), 9.54% of these overlaps are f
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
 |-:|-:|-:|-:|-:|
-| mhap | | 0.87 | 0.86 | 0.83 | 
-| minimap | 0.87 | | 0.95 | 0.84 | 
-| graphmap | 0.86 | 0.95 | | 0.83 | 
-| hisea | 0.83 | 0.84 | 0.83 | | 
+| mhap | | 0.83 | 0.70 | 0.76 | 
+| minimap | 0.83 | | 0.67 | 0.74 | 
+| graphmap | 0.70 | 0.67 | | 0.74 | 
+| hisea | 0.76 | 0.74 | 0.74 | | 
 
 Again the above matrix shows Jaccard similarity coefficient.
 
@@ -141,6 +141,8 @@ mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is b
 And another comparison between minimap and minimap2:
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/minimap_venn.png)
+
+Jaccard similarity 0.71, 0.98
 
 ## Conclusion
 
