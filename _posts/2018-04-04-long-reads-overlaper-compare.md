@@ -72,27 +72,27 @@ All scripts and steps to reproduce this analysis are available in this [reposito
 
 ![venn diagram for nanopore real dataset]({{ POST_ASSETS_PATH }}/img/nanopore_venn.png)
 
-In the center of the above diagram we have the number of overlaps found by all overlappers. We call this set the _core overlaps_. Here for this dataset, core overlaps contain 9,010,533 overlaps.
+In the center of the above diagram we have the number of overlaps found by all overlappers. We call this set the _core overlaps_. Here for this dataset, core overlaps contain 8,980,212 overlaps.
 Around this center, we highlight some of the largest disparities between overlappers:
 
 |---------------------------------+-------------------+-------------------------|
 | dataset composition             | number of overlaps |       % of core overlaps |
 |:--------------------------------|------------------:|------------------------:|
-| core overlaps - hisea overlaps    |       899,598     |     9.97 %              |
-| hisea overlaps $$\cap$$ mhap overlaps    |       517,003     |     5.74 %              |
-| core overlaps - graphmap overlaps |       209,040     |     2.32 %              |
-| core overlaps - mhap overlaps     |       168,668     |     1.86 %              |
+| core overlaps - hisea overlaps    |       898,995     |     10.01 %              |
+| hisea overlaps $$\cap$$ mhap overlaps    |       464,546     |     5.17 %              |
+| core overlaps - mhap overlaps     |       198,989     |     2.21 %              |
+| core overlaps - graphmap overlaps |       198,014     |     2.21 %              |
 |---------------------------------+-------------------+-------------------------+
 
-In addition, out of the 11,574,382 overlaps found by mhap, 5.73 % of these are found only by this overlapper. For hisea, the corresponding value is 1.02 % (out of 10,106,276 overlaps).
+In addition, out of the 11,352,915 overlaps found by mhap, 4.96 % of these are found only by this overlapper. For hisea, the corresponding value is 1.55 % (out of 10,114,576 overlaps).
 
 |-+-+-+-+-|
 | | mhap | minimap | graphmap | hisea |
 |-:|-:|-:|-:|-:|
-| mhap | | 0.83 | 0.7 | 0.76 | 
-| minimap | 0.83 | | 0.66 | 0.74 | 
-| graphmap | 0.7 | 0.66 | | 0.74 | 
-| hisea | 0.76| 0.74 | 0.74 | | 
+| mhap | | 0.88 | 0.85 | 0.82 | 
+| minimap | 0.88 | | 0.94 | 0.84 | 
+| graphmap | 0.85 | 0.94 | | 0.83 | 
+| hisea | 0.82 | 0.84 | 0.83 | | 
 
 The above matrix shows the Jaccard similarity coefficient (cardinality of intersection divided by cardinality of union) between pairs of overlappers. 
 
