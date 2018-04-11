@@ -7,11 +7,6 @@ tags: draft overlaper benchmark
 ---
 
 
-<script src="https://d3js.org/d3.v5.min.js"></script>
-<script src="{{ POST_ASSETS_PATH }}/js/venn.js"></script>
-<script src="{{ POST_ASSETS_PATH }}/js/my_venn.js"></script>
-<link rel="stylesheet" href="{{ POST_ASSETS_PATH }}/css/venn.css">
-
 # State-of-the-art long-read overlapping tools comparative analysis
 
 ## Introduction
@@ -73,30 +68,7 @@ All scripts and steps to reproduce this analysis are available in this [reposito
 
 ### Nanopore real data
 
-<center>
-<div id="venn_nanopore"></div>
-</center>
-
-<script>
-var sets = [
-    {"label": "graphmap", "sets": [0], "size": 10273911},
-    {"label": 'hisea', "sets": [1], "size": 10114576},
-    {"label": 'mhap', "sets": [2], "size": 11574382},
-    {"label": 'minimap', "sets": [3], "size": 10419752},
-    {"sets": [0, 1], "size": 9274898},
-    {"sets": [0, 2], "size": 10078062},
-    {"sets": [0, 3], "size": 10086933},
-    {"sets": [1, 2], "size": 9824155},
-    {"sets": [1, 3], "size": 9397447},
-    {"sets": [2, 3], "size": 10224833},
-    {"sets": [0, 1, 2], "size": 9098112},
-    {"sets": [0, 1, 3], "size": 9179201},
-    {"sets": [0, 2, 3], "size": 9910131},
-    {"sets": [1, 2, 3], "size": 9219573},
-    {"sets": [0, 1, 2, 3], "size": 9010533},
-    ];
-    generate_venn(sets, "#venn_nanopore", 800, 800, 25);
-</script>
+![venn diagram for nanopore real dataset]({{ POST_ASSETS_PATH }}/img/nanopore_venn.png)
 
 In the center of the above diagram we have the number of overlaps found by all overlappers. We call this set the _core overlaps_. Here for this dataset, core overlaps contain 9,010,533 overlaps.
 Around this center, we highlight some of the largest disparities between overlappers:
@@ -124,30 +96,7 @@ The above matrix shows the Jacard similarity coefficient (cardinality of interse
 
 ### Pacbio real data
 
-<center>
-<div id="venn_pacbio"></div>
-</center>
-
-<script>
-var sets = [
-    {"label": "graphmap", "sets": [0], "size": 3847631},
-    {"label": 'hisea', "sets": [1], "size": 4278872},
-    {"label": 'mhap', "sets": [2], "size": 5336610},
-    {"label": 'minimap', "sets": [3], "size": 5640643},
-    {"sets": [0, 1], "size": 3449577},
-    {"sets": [0, 2], "size": 3778499},
-    {"sets": [0, 3], "size": 3812461},
-    {"sets": [1, 2], "size": 4151564},
-    {"sets": [1, 3], "size": 4222400},
-    {"sets": [2, 3], "size": 4976545},
-    {"sets": [0, 1, 2], "size": 3416628},
-    {"sets": [0, 1, 3], "size": 3435767},
-    {"sets": [0, 2, 3], "size": 3759953},
-    {"sets": [1, 2, 3], "size": 4120738},
-    {"sets": [0, 1, 2, 3], "size": 3407577},
-    ];
-    generate_venn(sets, "#venn_pacbio", 800, 800, 25);
-</script>
+![venn diagram for pacbio real dataset]({{ POST_ASSETS_PATH }}/img/pacbio_venn.png)
 
 For the Pacbio dataset, core overlaps contain 3,407,577 overlaps. 
 Other large disparities between overlappers are:
@@ -177,68 +126,19 @@ Again the above matrix shows Jaccard similarity coefficient.
 
 ### Comparison across versions
 
+
 At first we used mhap 2.1, using the same parameters as in [^fn1]. But actually, Chin. *et al* used mhap 1.6. This version difference yielded odd results: many more overlaps were found only by mhap 2.1.
 Here is a comparison between our two executions of mhap 1.6 and 2.1 using the same command-line parameters, in terms of shared and exclusive overlaps.
 
-<center>
-<div id="venn_mhap_pacbio"></div>
-Pacbio, Jacard similary 0.7
-
-<div id="venn_mhap_nanopore"></div> 
-Nanopore, Jacard similary 0.98
-</center>
-
-<script>
-var sets = [
-    {"label": "minimap", "sets": [0], "size": 4048048},
-    {"label": 'minimap2', "sets": [1], "size": 5640643},
-    {"sets": [0, 1], "size": 4010485},
-    ];
-    generate_venn(sets, "#venn_mhap_pacbio", 400, 400, 50);
-</script>
-
-<script>
-var sets = [
-    {"label": "minimap", "sets": [0], "size": 10429792},
-    {"label": 'minimap2', "sets": [1], "size": 10419752},
-    {"sets": [0, 1], "size": 10339593},
-    ];
-    generate_venn(sets, "#venn_mhap_nanopore", 400, 400, 50);
-</script>
+![venn diagram for mhap compare same parameter]({{ POST_ASSETS_PATH }}/img/mhap_venn_same.png)
 
 mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get so different results between the two versions. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with -\-threshold 0.98 (1 - 0.02), i.e. where the two runs should be more equivalent.
 
+![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
 And another comparison between minimap and minimap2:
 
-<center>
-<div id="venn_minimap_pacbio"></div>
-Pacbio, Jacard similary 0.7
-
-<div id="venn_minimap_nanopore"></div> 
-Nanopore, Jacard similary 0.98
-</center>
-
-<script>
-var sets = [
-    {"label": "minimap", "sets": [0], "size": 4048048},
-    {"label": 'minimap2', "sets": [1], "size": 5640643},
-    {"sets": [0, 1], "size": 4010485},
-    ];
-    generate_venn(sets, "#venn_minimap_pacbio", 400, 400, 50);
-</script>
-
-<script>
-var sets = [
-    {"label": "minimap", "sets": [0], "size": 10429792},
-    {"label": 'minimap2', "sets": [1], "size": 10419752},
-    {"sets": [0, 1], "size": 10339593},
-    ];
-    generate_venn(sets, "#venn_minimap_nanopore", 400, 400, 50);
-</script>
-
-
-
+![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/minimap_venn.png)
 
 ## Conclusion
 
