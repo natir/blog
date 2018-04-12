@@ -3,7 +3,7 @@ layout: post
 title: State-of-the-art long reads overlaper-compare
 date: 2018-04-04
 published: true
-tags: draft overlaper benchmark
+tags: overlaper benchmark long-reads
 ---
 
 
