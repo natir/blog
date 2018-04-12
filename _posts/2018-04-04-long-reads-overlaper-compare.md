@@ -134,9 +134,13 @@ Here is a comparison between the two executions of mhap 1.6 and 2.1 using the sa
 
 ![venn diagram for mhap compare same parameter]({{ POST_ASSETS_PATH }}/img/mhap_venn_same.png)
 
-mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get significantly different results between the two versions, when running them carelessly with identical parameters. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 (with -\-threshold 0.02 like [^fn1]) and only by mhap 2.1 with default parameters.
+Jaccard similarity 0.72, 0.26
+
+mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get significantly different results between the two versions, when running them carelessly with identical parameters. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 with -\-threshold 0.02 for pacbio and -\-threshold 0.04 (like [^fn1]) and only by mhap 2.1 with -\-threshold 0.75 for pacbio and -\-threshold 0.78.
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
+
+Jaccard similarity 
 
 And another comparison between minimap and minimap2:
 
