@@ -140,7 +140,7 @@ mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is b
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
-Jaccard similarity 
+Jaccard similarity 0.84, 0.96
 
 And another comparison between minimap and minimap2:
 
