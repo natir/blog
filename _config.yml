@@ -19,6 +19,9 @@ author :
 
 markdown: kramdown
 
+plugins:
+    - jekyll-feed
+
 kramdown:
   parse_block_html: true
 
