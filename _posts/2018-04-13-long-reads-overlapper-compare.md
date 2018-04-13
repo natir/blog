@@ -1,9 +1,9 @@
 ---
 layout: post
-title: State-of-the-art long reads overlaper-compare
-date: 2018-04-04
+title: State-of-the-art long reads overlapper-compare
+date: 2018-04-13
 published: true
-tags: overlaper benchmark long-reads
+tags: overlapper benchmark long-reads
 ---
 
 
