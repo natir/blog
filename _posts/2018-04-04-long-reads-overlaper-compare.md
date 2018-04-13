@@ -38,10 +38,10 @@ We will consider 3 type of overlaps, according to Algorithm 5 presented in the m
 
 
 Internal match:
-: Just a short similarity localized in the middle section of both reads, which is probably due to a repetitive region and not a real overlap
+: Just a short similarity localized in the middle section of both reads, which is probably due to a repetitive region and not a true overlap
 
 Containment:
-: One read is completely contained in the other
+: One read is completely contained in another
 
 Classic overlap:
 : Deemed a regular suffix-prefix overlap
@@ -55,7 +55,7 @@ We used:
 
 - graphmap v0.5.2 [^fn3]
 - hisea 39e01e98ca [^fn4]
-- mhab 1.6 and 2.1 [^fn5]
+- mhap 1.6 and 2.1 [^fn5]
 - minimap 0.2-r124 [^fn2]
 - minimap2 2.10 [^fn6]
 
@@ -129,24 +129,28 @@ Again the above matrix shows Jaccard similarity coefficient.
 ### Comparison across versions
 
 
-At first we used mhap 2.1, using the same parameters as in [^fn1]. But actually, Chin. *et al* used mhap 1.6. This version change yielded surprising results: many more overlaps were found only by mhap 2.1.
+At first we used mhap 2.1, using the same parameters as in Chu *et al.*[^fn1]. But actually, Chu. *et al* used mhap 1.6. This version change yielded surprising results: many more overlaps were found only by mhap 2.1.
 Here is a comparison between the two executions of mhap 1.6 and 2.1 using the same command-line parameters, in terms of shared and exclusive overlaps.
 
 ![venn diagram for mhap compare same parameter]({{ POST_ASSETS_PATH }}/img/mhap_venn_same.png)
 
 Jaccard similarity 0.72, 0.26
 
-mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get significantly different results between the two versions, when running them carelessly with identical parameters. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 with -\-threshold 0.02 for pacbio and -\-threshold 0.04 (like Chin. *et al*) and only by mhap 2.1 with -\-threshold 0.75 for pacbio and -\-threshold 0.78.
+mhap 2.1 found many more overlaps than mhap 1.6. But it turns out that this is because mhap 1.6 calculates a similarity score between reads and mhap 2.1 calculates a distance between reads, the meaning of the -\-threshold option is different between the two versions, so we should have not used the same parameter value for both versions (thanks to Sergey Koren for pointing this out). This explains why a user may get significantly different results between the two versions, when running them carelessly with identical parameters. Below, we plot the Venn diagrams of overlaps found only by mhap 1.6 with -\-threshold 0.02 for pacbio and -\-threshold 0.04 (like Chu. *et al*) and only by mhap 2.1 with -\-threshold 0.75 for pacbio and -\-threshold 0.78 for nanopore.
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/mhap_venn.png)
 
 Jaccard similarity 0.84, 0.96
+
+Both software find roughly the same set of overlaps, with the trend that mhap1.6 tended to find a bit more (it would be interesting to evaluate whether those were correct or wrong overlaps).
 
 And another comparison between minimap and minimap2:
 
 ![venn diagram for mhap compare]({{ POST_ASSETS_PATH }}/img/minimap_venn.png)
 
 Jaccard similarity 0.71, 0.98
+
+For the pacbio dataset, minimap2 finds significantly (1.6M) more overlaps than minimap (which found 4M overlaps). But for the nanopore dataset, both software roughly agree.
 
 ## Conclusion
 
@@ -156,6 +160,8 @@ Such a difference can also exist between two versions of the same tool.
 Comparison of overlappers based on a quantitative measurement (sensitivity, precision) is useful but isn't perfect: two tools with the same sensitivity for a given set could still detect a different set of overlaps, see e.g. mhap and minimap2 for the nanopore set.
 
 Some publications use quality of error-correction, or results of genome assembly, as quality metrics to compare overlappers. It's a good idea but correction and assembly tools make additional choices in the overlaps they keep, and it's not easy to relate assembly or error-correction imperfections and wrong or missed overlaps.
+
+From our tests, there is no clear best overlapper software so far.
 
 It could by interesting to study whether certain tools have a bias when finding overlaps, linked to e.g length of reads, mapping length, error rate, %GC, specific kmer composition, etc …
 A study like this could possibly reveal some intrinsic properties of the algorithms used in overlappers.
