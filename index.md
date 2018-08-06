@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Yet another bioinformatic blog
+title: Yet Another Bioinformatic Blog
 ---
 
 
