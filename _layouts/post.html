@@ -8,8 +8,14 @@
     <meta name="theme-color" content="#157878">
     <link rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
     <link rel="stylesheet" href="{{ '/assets/css/add.css' | relative_url }}">
+    
+    <link rel="stylesheet" href="/assets/css/fonts/fork_awesome/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/fonts/academicons/css/academicons.min.css">
+    
     {% include mathjax.html %}
+    
     {% include matomo %}
+
     <script data-isso="https://isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="https://isso.pierre.marijon.fr/js/embed.min.js"></script>
   </head>
   <body>
@@ -24,9 +30,13 @@
     
     <section class="main-content">
       <div class="share-page">
-        Share this on &rarr;
-        <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}&via={{ site.author.twitter }}&related={{ site.author.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter">Twitter</a>
-        <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ page.url}} &title={{ page.title }}&source={{ site.url }}">Linkedin</a>
+	Share this on &rarr; <br/>
+        <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}&via={{ site.author.twitter }}&related={{ site.author.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter">
+	    <span class="fa fa-twitter fa-3x"></span>
+	</a>
+	<a href="http://www.linkedin.com/shareArticle?mini=true&url={{ page.url}} &title={{ page.title }}&source={{ site.url }}">
+	    <span class="fa fa-linkedin fa-3x"></span>
+	</a>
       </div>
       
 
