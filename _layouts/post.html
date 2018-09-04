@@ -27,21 +27,10 @@
       <a class="btn" href="/feed.xml">RSS feed</a>
     </section>
 
-    
+
     <section class="main-content">
-      <div class="share-page">
-	Share this on &rarr; <br/>
-        <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}&via={{ site.author.twitter }}&related={{ site.author.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter">
-	    <span class="fa fa-twitter fa-3x"></span>
-	</a>
-	<a href="http://www.linkedin.com/shareArticle?mini=true&url={{ page.url}} &title={{ page.title }}&source={{ site.url }}">
-	    <span class="fa fa-linkedin fa-3x"></span>
-	</a>
-      </div>
-      
-
+     
       {{ content }}
-
 
     <section id="isso-thread"></section>
 
@@ -60,6 +49,16 @@
 	    <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">{{page.title}}</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Pierre Marijon</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href={{ page.url }} rel="dct:source">blog.pierre.marijon.fr</a>.</span>
       </footer>
     </section>
+
+    <section class=share-page>
+	Share this on &rarr; <br/>
+	<a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ site.url }}{{ page.url }}&via={{ site.author.twitter }}&related={{ site.author.twitter }}" rel="nofollow" target="_blank" title="Share on Twitter">
+	    <span class="fa fa-twitter fa-3x"></span>
+	</a>
+	<a href="http://www.linkedin.com/shareArticle?mini=true&url={{ page.url}} &title={{ page.title }}&source={{ site.url }}">
+	    <span class="fa fa-linkedin fa-3x"></span>
+	</a>
+    </section> 
   </body>
 </html>
 
