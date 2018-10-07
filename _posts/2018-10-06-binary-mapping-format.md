@@ -3,7 +3,7 @@ layout: post
 title: PAF I save 90 % of disc space
 date: 2018-06-18
 published: true
-tags: draft overlapper long-read compression
+tags: draft mapping long-read compression
 ---
 
 {% include setup %}
@@ -18,7 +18,7 @@ I have a 1.2 TB PAF.gz file of minimap2 all-vs-all alignments of 18 flowcells of
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-For people didn't work on long-read assembly, first welcomme, second minimap is a very good mapper used to find similar region between long read, is output are in PAF for Pairwise Alignment Format, this format are present in [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10), roughly it's tsv with for each similare region found (called before match), format store two read name, read length, begin and end position of match, plus some other information.  
+For people didn't work on long-read assembly, first welcome, second for assembly long-read we need find similar region between long read, use this to correct read or build assembly graph. minimap2 is a very good overlapper is output are in PAF for Pairwise Alignment Format, this format are present in [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10), roughly it's tsv with for each similare region found (called before match), format store two read name, read length, begin and end position of match, plus some other information.  
 
 This tweet create some discussion and thrid solution was proposed, use classic mapping against reference compression format, filter some match, creation of a new binary compressed format to store all-vs-all mapping.
 
@@ -146,6 +146,8 @@ The main problem of jPaf is many quality, read\_index it's save disque space but
 
 But I write'it in two hours, the format is lossless and they save **33 to 64 %** of disk space, depend of compression used. 
 
-Actualy I'm not sure we need binary compressed format for store pairwise alignement against read, but in future with more and more long-read data we probably need it. And this result encourage me to continue search on this problem and read more thing around bam/cram canu ovlStore.
+Actualy I'm not sure we need binary compressed format for store pairwise alignement against read, but in future with more and more long-read data we probably need it. 
 
-If you want search with me and discussion about Pairwise Aligment format comment section is avaible.
+I'm note sure we need a binary compressed format to store pairwise alignment against read, but if we continue to use Overlap Consensus Layout to assembly long-read we need a binary compressed format for pairwise alignment. And this result encourage me to continue search on this problem and read more thing around bam/cram, canu ovlStore, dazzler database. And it's maybe a good thing to have a uniq format for all-vs-all long read mapping.
+
+If you want search with me and discussion about binary compressed Pairwise Aligment format comment section is open (and it work I hope :) ).
