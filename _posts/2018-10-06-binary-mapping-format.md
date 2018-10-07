@@ -48,7 +48,7 @@ A little awk, bash, python, {choose your langage} script could make this job per
 
 Alex Di Genov [suggest to use minimap2 API](https://twitter.com/digenoma/status/1047852263111385088) to build a special minimap with intigrate filter, this solution have probably better performance than *ad hoc *script but it's less flexible you need use minimap2.
 
-My solution is a little soft in rust fpa (Filter Pairwise Alignment) fpa take as input the a paf or mhap, and this can filter match by:
+My solution is a little soft in rust [fpa (Filter Pairwise Alignment)](https://github.com/natir/fpa), fpa take as input the a paf or mhap, and this can filter match by:
 - type: containment, internal-match, dovetail
 - length: match is upper or lower than a threshold
 - read name: match against a regex, it's a read match against him
@@ -136,7 +136,7 @@ Mapping : I run minimap2 mapping with preset ava-pb and ava-ont for pacbio and n
 
 This table present file size and space savings against some other file. sam bam and cram file are long or short, in long we keep all data present in minimap2 output, in short we replace sequence and quality by a \*.
 
-If you want replicate all this result just follow instruction you can found in this github repro.
+If you want replicate all this result just follow instruction you can found in this [github repro](https://github.com/natir/jPAF).
 
 ## Discussion
 
