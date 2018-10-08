@@ -11,7 +11,7 @@ tags: draft overlapper long-read compression
 
 # PAF I save 90 % of disc space
 
-Durring last week Shaun Jack post this on twitter :
+During last week Shaun Jack post this on twitter :
 
 <blockquote class="twitter-tweet" data-lang="fr">
 <p lang="en" dir="ltr">
@@ -19,20 +19,20 @@ I have a 1.2 TB PAF.gz file of minimap2 all-vs-all alignments of 18 flowcells of
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-For people didn't work on long-read assembly, first welcomme, second minimap is a very good mapper used to find similar region between long read, is output are in PAF for Pairwise Alignment Format, this format are present in [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10), roughly it's tsv with for each similare region found (called before match), format store two read name, read length, begin and end position of match, plus some other information.  
+For people didn't work on long-read assembly, first welcome, second minimap is a very good mapper used to find similar region between long read, is output are in PAF for Pairwise Alignment Format, this format are present in [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10), roughly it's tsv with for each similar region found (called before match), format store two read name, read length, begin and end position of match, plus some other information.  
 
-This tweet create some discussion and thrid solution was proposed, use classic mapping against reference compression format, filter some match, creation of a new binary compressed format to store all-vs-all mapping.
+This tweet creates some discussion and third solution was proposed, use classic mapping against reference compression format, filter some match, the creation of a new binary compressed format to store all-vs-all mapping.
 
 ## Use mapping reference file
 
-Torsten Seemann and me suggest to use sam minimap outupt and compress it in BAM/CRAM but after little apprently isn't work, well.
+Torsten Seemann and I suggest using SAM minimap output and compress it in BAM/CRAM but after little apparently isn't working, well.
 
 <blockquote class="twitter-tweet" data-lang="fr">
 <p lang="en" dir="ltr">My trouble to convert bam in cram is solved thank to <a href="https://twitter.com/RayanChikhi?ref_src=twsrc%5Etfw">@RayanChikhi</a> !<br><br>minimap output without sequence compress in cram,noref (i.e. tmp_short.cram) is little bit heavier than classic paf compress in gz.<br><br>So it&#39;s probably time for a Binary Alignment Format. <a href="https://t.co/W02wj7tf2I">pic.twitter.com/W02wj7tf2I</a></p>&mdash; Pierre Marijon (@pierre_marijon) <a href="https://twitter.com/pierre_marijon/status/1047798695822024704?ref_src=twsrc%5Etfw">4 octobre 2018</a>
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Ok heven remove not necessary field in sam format (sequence and mapping field), and with better compression solution, isn't better than PAF format compress with gzip. Maybe with larger file this solution could be save so space.
+OK have not removed necessary field in SAM format (sequence and mapping field), and with better compression solution, isn't better than PAF format compress with gzip. Maybe with larger file this solution could be saved so space.
 
 ## Filter
 
@@ -43,20 +43,20 @@ Heng Li say :
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-Minimap didn't make any assumption about what user want do with read matching, and it's a very good thing but some times you store to many information for your usage. So filter overlap before store him on your disk, could by a good idea.
+Minimap didn't make any assumption about what user wants to do with read matching, and it's a very good thing but sometimes you store too much information for your usage. So filter overlap before store him on your disk, could by a good idea.
 
-A little awk, bash, python, {choose your langage} script could make this job perfectly.
+A little awk, bash, python, {choose your language} script could do this job perfectly.
 
-Alex Di Genov [suggest to use minimap2 API](https://twitter.com/digenoma/status/1047852263111385088) to build a special minimap with intigrate filter, this solution have probably better performance than *ad hoc *script but it's less flexible you need use minimap2.
+Alex Di Genov [suggest using minimap2 API](https://twitter.com/digenoma/status/1047852263111385088) to build a special minimap with integrating filters, this solution has probably better performance than *ad hoc *script but it's less flexible you need use minimap2.
 
 My solution is a little soft in rust [fpa (Filter Pairwise Alignment)](https://github.com/natir/fpa), fpa take as input the a paf or mhap, and this can filter match by:
 - type: containment, internal-match, dovetail
 - length: match is upper or lower than a threshold
 - read name: match against a regex, it's a read match against him
 
-fpa is avaible in bioconda and in cargo.
+fpa is available in bioconda and in cargo.
 
-Ok filter match is easy and we have many avaible solution. 
+OK filter match is easy and we have many available solution. 
 
 ## A Binary Alignment Fromat
 
@@ -67,12 +67,12 @@ Ok filter match is easy and we have many avaible solution.
 
 This is the question they initiate this blog post.
 
-Her I just want present a little investigation, about how we can compress Pairwise Alignment, I call this format jPAF and it's just a POC and this never change.
+Her I just want to present a little investigation, about how we can compress Pairwise Alignment, I call this format jPAF and it's just a POC and this never changes.
 
-Rougly jPAF is a json compressed, so isn't realy binary, but I just want test some idea so it's cool.
+Rougly jPAF is a json compressed, so isn't really binary, but I just want test some idea so it's cool.
 
 We have 3 main object in this json:
-- header\_index: a dict they associate an index to an header name
+- header\_index: a dict they associate an index to a header name
 - reads\_index: associate a read name and her length to an index
 - matchs: a list of match, a match header\_index
 
@@ -120,33 +120,33 @@ A little example are probably better:
 }
 ```
 
-Her we have a PAF like header, two read 1_2 and 2_3 with 5891 and 4490 base respectively and one overlap with length 4247 base in same strand between them.
+Her we have a PAF like header, two read 1_2 and 2_3 with 5891 and 4490 base respectively and one overlap with length 4247 base in the same strand between them.
 
 jPAF are fully inspired by PAF same field name I just take the PAF convert it in json and add two little trick to save space.
 
-First tricks write read name and read length one time.
-Second tricks is more json trick, first time each record are a dictionary with keyname associate to value, with this solution baf is heaviest than paf. If I associate a field name to a index, I can store record in table not in json object and avoid redondancy.
+First tricks write read names and read length one time.
+Second tricks is more json trick, first time each record are a dictionary with keyname associate to value, with this solution baf is heaviest than paf. If I associate a field name to a index, I can store records in table not in json object and avoid redundancy.
 
-Ok I have a pretty cool format, to avoid some repetition without loss of information, but I realy save space or not ?
+OK I have a pretty cool format, to avoid some repetition without loss of information, but I really save space or not ?
 
 ## Result
 
-Dataset: For this I reuse same dataset as may previous blog post. It's two real dataset pacbio one and nanopore one.
+Dataset: For this I reuse the same dataset as may previous blog post. It's two real dataset pacbio one and nanopore one.
 
 Mapping : I run minimap2 mapping with preset ava-pb and ava-ont for pacbio and nanopore respectively
 
-This table present file size and space savings against some other file. sam bam and cram file are long or short, in long we keep all data present in minimap2 output, in short we replace sequence and quality by a \*.
+This table presents file size and space savings against some other file. SAM bam and cram files are long or short, in long we keep all data present in minimap2 output, in short we replace sequence and quality by a \*.
 
-If you want replicate all this result just follow instruction you can found in this [github repro](https://github.com/natir/jPAF).
+If you want to replicate all this result just follow instruction, you can find in this [github repro](https://github.com/natir/jPAF).
 
 ## Discussion
 
-Ok minimap generate to much match, but it's easy to remove unusfule match, with fpa or with *ad hoc* tools. The format design to store mapping against reference, arn't better than actual format compress with generalist algorithme.
+OK minimap generate to much match, but it's easy to remove unusual match, with fpa or with *ad hoc* tools. The format design to store mapping against reference isn't better than actual format compress with generalist algorithm.
 
-The main problem of jPaf is many quality, read\_index it's save disque space but loss time and RAM, you can't stream out this format you need wait until all alignment are found before write, when you need read file you need keep read\_index in RAM any time. 
+The main problem of jPaf is many quality, read\_index it's save disque space but loss time and RAM, you can't stream out this format you need to wait until all alignment are found before writing, when you need to read file you need to keep read\_index in RAM any time. 
 
 But I write'it in two hours, the format is lossless and they save **33 to 64 %** of disk space, depend of compression used. 
 
-Actualy I'm not sure we need binary compressed format for store pairwise alignement against read, but in future with more and more long-read data we probably need it. And this result encourage me to continue search on this problem and read more thing around bam/cram canu ovlStore.
+Actually I'm not sure we need binary compressed format for store pairwise alignment against read, but in future with more and more long-read data we probably need it. And this result encourages me to continue search on this problem and read more thing around bam/cram canu ovlStore.
 
-If you want search with me and discussion about Pairwise Aligment format comment section is avaible.
+If you want search with me and discussion about Pairwise Aligment format comment section is available.
