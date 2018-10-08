@@ -2,6 +2,7 @@
 layout: post
 title: PAF I save 90 % of disc space
 date: 2018-06-18
+draft: true
 published: true
 tags: draft overlapper long-read compression
 ---
