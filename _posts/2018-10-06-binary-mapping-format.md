@@ -210,7 +210,7 @@ Minimap generate to much match, but it's easy to remove unusual match, with fpa 
 
 The main problem of jPaf is many quality, read\_index it's save disk space but loss in time and RAM. You can't stream out this format, you need to wait until all alignment are found before writing. If you want read file you need keep read\_index in RAM all time. 
 
-But I written it in two hours, the format is lossless and they save **33 to 64 %** of disk space, depend of compression used. 
+But I written it in two hours, the format is lossless and they save **33 to 64 %** of disk space. Obviously we could save even more space by moving from a text format to a binary format, especially in the numeric and strand fields (7 bit per match). But it's easier to test things with a text file.
 
 Actually I'm not sure we need binary compressed format for store pairwise alignment against read, but in future, if we continue use OLC assembler, with more and more long-read data we probably need it. This result encourages me to continue on this approch and I need read more thing about BAM/CRAM compression technic, canu ovlStore.
 
