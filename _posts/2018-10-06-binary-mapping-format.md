@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PAF I save 95 % of disc space
+title: PAF I save 95 % of disk space
 date: 2018-10-09
 draft: true
 published: true
@@ -9,7 +9,7 @@ tags: draft overlapper long-read compression
 
 {% include setup %}
 
-# PAF I save 95 % of disc space
+# PAF I save 95 % of disk space
 
 During last week Shaun Jack post this tweet:
 
@@ -72,7 +72,7 @@ This is the question they initiate this blog post.
 
 Her I just want to present a little investigation, about how we can compress Pairwise Alignment, I call this format jPAF and it's just a POC don't use it please !!
 
-Rougly jPAF is a json compressed format, so it isn't really a binary, but I just wanted to test some ideas... So it's cool.
+Rougly jPAF is a json, so it isn't really a binary, but I just wanted to test some ideas... So it's cool.
 
 We have 3 main object in this json:
 - header\_index: a dict they associate an index to a header name
