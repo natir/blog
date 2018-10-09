@@ -200,7 +200,9 @@ Pacbio:
 | **jpaf.xz**  	| 93.73 % 	| 58.14 % 	| 44.41 % 	| 39.95 % 	|
 |---------------+---------------+---------------+--------------+----------------|
 
-If I compare PAF against jPAF compress with lzma I win **95.84 %** (I have justification for my title). It's less impressive but more accurate and realistic at the same compression level I earn between **71.04 %** to **38.47 %**, we can notive a decrease of efficacity of jpaf against paf when compression algorithm become better.
+If I compare PAF against jPAF compress with lzma I win **95.84 %**, I have justification for my title, *it's 99 % when remove I removed same read, containment, internal, less than 500 bp match with fpa*.
+
+It's less impressive but more accurate and realistic at the same compression level I earn between **71.04 %** to **38.47 %**, we can notive a decrease of efficacity of jpaf against paf when compression algorithm become better.
 
 If you want to replicate results just follow instruction avaible at [github repro](https://github.com/natir/jPAF), full data are avaible her [nanopore]({{ POST_ASSETS_PATH }}/nanopore.csv), [pacbio]({{ POST_ASSETS_PATH }}/pacbio.csv).
 
