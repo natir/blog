@@ -200,7 +200,7 @@ Pacbio:
 | **jpaf.xz**  	| 93.73 % 	| 58.14 % 	| 44.41 % 	| 39.95 % 	|
 |---------------+---------------+---------------+--------------+----------------|
 
-If I compare PAF against jpaf.xz I win **95.84 %** (I have justification for my title). It's less impressive but more accurate and realistic at the same compression level I earn between **71.04 %** to **38.47 %**, we can notive a decrease of efficacity of jpaf against paf when compression algorithm become better.
+If I compare PAF against jPAF compress with lzma I win **95.84 %** (I have justification for my title). It's less impressive but more accurate and realistic at the same compression level I earn between **71.04 %** to **38.47 %**, we can notive a decrease of efficacity of jpaf against paf when compression algorithm become better.
 
 If you want to replicate results just follow instruction avaible at [github repro](https://github.com/natir/jPAF), full data are avaible her [nanopore]({{ POST_ASSETS_PATH }}/nanopore.csv), [pacbio]({{ POST_ASSETS_PATH }}/pacbio.csv).
 
@@ -212,6 +212,5 @@ The main problem of jPaf is many quality, read\_index it's save disk space but l
 
 But I written it in two hours, the format is lossless and they save **33 to 64 %** of disk space. Obviously we could save even more space by moving from a text format to a binary format, especially in the numeric and strand fields (7 bit per match). But it's easier to test things with a text file.
 
-Actually I'm not sure we need binary compressed format for store pairwise alignment against read, but in future, if we continue use OLC assembler, with more and more long-read data we probably need it. This result encourages me to continue on this approch and I need read more thing about BAM/CRAM compression technic, canu ovlStore.
+In conclusion the solution of Shaun Jackman trouble are probably filtering, but in future with more and more long-read data we probably need it. This result encourages me to continue on this approch and I need read more thing about BAM/CRAM compression technic, canu ovlStore.
 
-If you want search with me and discussion about Pairwise Aligment format comment section is available.
