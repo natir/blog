@@ -138,9 +138,9 @@ Dataset: For this I reuse the same dataset as may previous blog post. It's two r
 
 Mapping : I run minimap2 mapping with preset ava-pb and ava-ont for pacbio and nanopore respectively
 
-basic.sam designate the minimap output in sam format, short.sam designate the minimap output with SEQ, QUAL field replace by a '*'
+basic.sam designate the minimap output in sam format, short.sam designate the minimap output with SEQ, QUAL field replace by a '*'.
 
-### Effect of compression on each format
+### Effect of compression on each format
 
 Nanopore:
 
