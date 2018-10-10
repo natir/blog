@@ -72,7 +72,7 @@ This is the question they initiate this blog post.
 
 Her I just want to present a little investigation, about how we can compress Pairwise Alignment, I call this format jPAF and it's just a POC don't use it please !!
 
-Rougly jPAF is a json, so it isn't really a binary, but I just wanted to test some ideas... So it's cool.
+jPAF is a json file that contains the same information as a paf file but it is reoganized to save space", so it isn't really a binary, but I just wanted to test some ideas... So it's cool.
 
 We have 3 main object in this json:
 - header\_index: a dict they associate an index to a header name
@@ -86,14 +86,7 @@ A little example are probably better:
    "header_index":{
       "0":"read_a",
       "1":"begin_a",
-      "2":"end_a",
-      "3":"strand",
-      "4":"read_b",
-      "5":"begin_b",
-      "6":"end_b",
-      "7":"nb_match",
-      "8":"match_length",
-      "9":"qual"
+      … # index associate to the paf header name
    },
    "read_index":[
       {
@@ -107,14 +100,14 @@ A little example are probably better:
    ],
    "match":[
       [
-         0,
-         1642,
-         5889,
-         "+",
-         1,
-         1,
-         4248,
-         4247,
+         0,     # index of read in read_index table
+         1642,  # begin position for read A
+         5889,  # end position of read A
+         "+",   # read have same strand
+         1,	# index of read in read_index table
+         1,	# begin position of read B
+         4248,	# end position of read B
+         4247,	# the other fields of the paf format
          4247,
          0,
          "tp:A:S"
@@ -139,42 +132,6 @@ Dataset: For this I reuse the same dataset as may previous blog post. It's two r
 Mapping : I run minimap2 mapping with preset ava-pb and ava-ont for pacbio and nanopore respectively
 
 basic.sam designate the minimap output in sam format, short.sam designate the minimap output with SEQ, QUAL field replace by a '*'.
-
-### Effect of compression on each format
-
-Nanopore:
-
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-|           	|             	| raw  	| gz     	| bz2    	| xz     	| bam    	| cram   	|
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-| paf       	|     size    	| 2.2G 	|  317M  	|  336M  	|  146M  	|        	|        	|
-|           	| saved space 	|      	| 85.31% 	| 84.45% 	| 93.24% 	|        	|        	|
-| jpaf      	|        size 	|  762M	|   114M 	|   121M 	|    90M 	|        	|        	|
-|           	| saved space 	|      	| 85.09% 	| 84.21% 	| 88.24% 	|        	|        	|
-| basic.sam  	|        size 	|  25G 	|        	|        	|        	|   5.8G 	|   5.2G 	|
-|           	| saved space 	|      	|        	|        	|        	| 76.45% 	| 78.57% 	|
-| short.sam 	| size        	| 24G  	|        	|        	|        	| 5.5G   	| 4.8G   	|
-|           	| saved space 	|      	|        	|        	|        	| 76.61% 	| 79.55% 	|
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-
-
-Pacbio:
-
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-|           	|             	| raw  	| gz     	| bz2    	| xz     	| bam    	| cram   	|
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-| paf       	|     size    	| 2.4G 	|  361M  	|  272M  	|  252M  	|        	|        	|
-|           	| saved space 	|      	| 85.04% 	| 88.73% 	| 89.57% 	|        	|        	|
-| jpaf      	|        size 	| 698M 	|   179M 	|   150M 	|   151M 	|        	|        	|
-|           	| saved space 	|      	| 74.36% 	| 78.52% 	| 78.38% 	|        	|        	|
-| basic.sam  	|        size 	|  24G 	|        	|        	|        	|   8.4G 	|   4.5G 	|
-|           	| saved space 	|      	|        	|        	|        	| 64.44% 	| 81.28% 	|
-| short.sam 	| size        	| 24G  	|        	|        	|        	| 8.4G   	| 4.4G   	|
-|           	| saved space 	|      	|        	|        	|        	| 64.41% 	| 81.05% 	|
-|-----------	+-------------	+------	+--------	+--------	+--------	+--------	+--------	|
-
-
-With this table we can observe the compression ratio are quiet similar in each format. BAM/CRAM compression aren't better than classic compression format (confirm preliminar result), and we see jPAF save many space !!!
 
 ### PAF against jPAF
 
@@ -203,6 +160,43 @@ Pacbio:
 If I compare PAF against jPAF compress with lzma I win **95.84 %**, I have justification for my title, *it's 99 % when remove I removed same read, containment, internal, less than 500 bp match with fpa*.
 
 It's less impressive but more accurate and realistic at the same compression level I earn between **71.04 %** to **38.47 %**, we can notive a decrease of efficacity of jpaf against paf when compression algorithm become better.
+
+### Effect of compression on each format
+
+Nanopore:
+
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+|           |             | raw  | gz     | bz2    | xz     | bam    | cram   |
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+| paf       |     size    | 2.2G |  317M  |  336M  |  146M  |        |        |
+|           | saved space |      | 85.31% | 84.45% | 93.24% |        |        |
+| jpaf      |        size |  762M|   114M |   121M |    90M |        |        |
+|           | saved space |      | 85.09% | 84.21% | 88.24% |        |        |
+| basic.sam |        size |  25G |        |        |        |   5.8G |   5.2G |
+|           | saved space |      |        |        |        | 76.45% | 78.57% |
+| short.sam | size        | 24G  |        |        |        | 5.5G   | 4.8G   |
+|           | saved space |      |        |        |        | 76.61% | 79.55% |
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+
+
+Pacbio:
+
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+|           |             | raw  | gz     | bz2    | xz     | bam    | cram   |
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+| paf       |     size    | 2.4G |  361M  |  272M  |  252M  |        |        |
+|           | saved space |      | 85.04% | 88.73% | 89.57% |        |        |
+| jpaf      |        size | 698M |   179M |   150M |   151M |        |        |
+|           | saved space |      | 74.36% | 78.52% | 78.38% |        |        |
+| basic.sam |        size |  24G |        |        |        |   8.4G |   4.5G |
+|           | saved space |      |        |        |        | 64.44% | 81.28% |
+| short.sam | size        | 24G  |        |        |        | 8.4G   | 4.4G   |
+|           | saved space |      |        |        |        | 64.41% | 81.05% |
+|-----------+-------------+------+--------+--------+--------+--------+--------|
+
+
+BAM/CRAM compression aren't better than classic compression format (confirm preliminar result). Heaven the compression ratio are quiet similar in each format, this table confirm what we observe in previous section compression ratio are better on PAF than jPAF but jPAF still be smaller than PAF and I can't explain this.
+
 
 If you want to replicate results just follow instruction avaible at [github repro](https://github.com/natir/jPAF), full data are avaible her [nanopore]({{ POST_ASSETS_PATH }}/nanopore.csv), [pacbio]({{ POST_ASSETS_PATH }}/pacbio.csv).
 
