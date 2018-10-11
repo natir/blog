@@ -19,7 +19,7 @@ I have a 1.2 TB PAF.gz file of minimap2 all-vs-all alignments of 18 flowcells of
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-For people who did not work on long-read assembly, in long-read assembly for correction or assembly graph construction, we need to map the reads against each other. [Minimap2](https://github.com/lh3/minimap2) is a very good mapper used to find similar regions between long reads. Its output are PAF files (Pairwise Alignment Format) and are summarized on [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10). Roughly, it is a tsv file which stores, for each similar region found, (called before match): two reads names, reads length, begin and end positions of match, plus some other information.  
+For people who did not work on long-read assembly, in long-read assembly for correction or assembly graph construction, we need to map the reads against each other. [Minimap2](https://github.com/lh3/minimap2) is a very good mapper used to find similar regions between long reads. Its output are PAF files (Pairwise Alignment Format) and are summarized on [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10). Roughly, it is a tsv file which stores, for each similar region found, (called before match): reads names, reads length, begin and end positions of match, plus some other information.  
 
 This tweet creates some discussion, and a third solution was proposed:
 - using classical mapping against reference compression format
@@ -52,12 +52,15 @@ Awk, Bash, Python, {choose your language} script could do this job perfectly.
 
 Alex Di Genov [suggest using minimap2 API](https://twitter.com/digenoma/status/1047852263111385088) to build a special minimap with integrating filters. This solution has probably better performance than *ad hoc* script but it's less flexible, can't be applied to other mapper.
 
-My solution is a little soft in rust [fpa (Filter Pairwise Alignment)](https://github.com/natir/fpa), fpa takes as input the paf or mhap, and this can filter match by:
+
+### My solution fpa
+
+It's little soft in rust [fpa (Filter Pairwise Alignment)](https://github.com/natir/fpa), **fpa** takes as input pairwise align in the PAF or MHAP, and they can filter match by:
 - type: containment, internal-match, dovetail
 - length: match is upper or lower than a threshold
 - read name: match against a regex, it's a read match against himself
 
-fpa is available in bioconda and in cargo.
+**fpa** is available in bioconda and in cargo.
 
 OK filtering matches is easy and we have many available solution.
 
@@ -70,9 +73,9 @@ OK filtering matches is easy and we have many available solution.
 
 This is the question they initiate this blog post.
 
-Here, I just want to present a little investigation, about how we can compress Pairwise Alignment. I call this format jPAF and it's just a POC, so don't use it please!!
+jPAF is only a POC I create them to test things on how to compress this type of data, and I introduce to you where I am now because the results already seem very interesting. But there is still a lot of work to do and I would like to have your feedback to see what the needs are, to have a format that matches to the real word.
 
-jPAF is a json file that contains the same information as a PAF file, but it is reorganized to save space, so it isn't really a binary, but I just wanted to test some ideas... So it's cool.
+jPAF is a json file that contains the same information as a PAF file, but it is reorganized to save space, so it isn't really a binary.
 
 We have 3 main objects in this json:
 - header\_index: a dict they associate an index to a header name
@@ -81,6 +84,12 @@ We have 3 main objects in this json:
 
 A little example is probably better:
 
+PAF version :
+```
+1_2    5891    1642    5889    +    2_3    4490    1    4248    4247    4247    0    tp:A:S
+```
+
+jPAF version:
 ```
 {
    "header_index":{
@@ -116,7 +125,7 @@ A little example is probably better:
 }
 ```
 
-Here we have two reads 1_2 and 2_3, with 5891 and 4490 bases respectively, and one overlap with length 4247 bases in the same strand between them.
+In this example we didn't save space but I demonstrate in result how jPAF performance grow up with size of PAF. Here we have two reads 1_2 and 2_3, with 5891 and 4490 bases respectively (store in read_index object), and one overlap with length 4247 bases in the same strand between them (store in match object).
 
 jPAF are fully inspired by PAF, and have same number of fields, and same field names. I just take the PAF, convert it in json and add two little tricks to save space.
 
@@ -137,14 +146,14 @@ basic.sam designates the minimap output in sam format, short.sam designates the 
 
 Nanopore:
 
-|-------------------	+-------------------	+-------------------	+-------------------	+-------------------	|
-|                   	| paf		   	| paf.gz	 	| paf.bz2		| paf.xz	   	|
-|-------------------	+-------------------	+-------------------	+-------------------	+-------------------	|
-| **jpaf**          	| 64.65 % 	        |                   	|                	|		 	|
-| **jpaf.gz**  		| 94.73 %	     	| 64.13 %	 	| 66.11 %	     	| 22.01 %	 	|
-| **jpaf.bz2** 		| 94.42 %	 	| 62.01 %	 	| 64.11 %	 	| 17.41 %	 	|
-| **jpaf.xz**  		| 95.84 %	 	| 71.70 %	 	| 73.26 %	 	| 38.47 %	 	|
-|-------------------	+-------------------	+-------------------	+-------------------	+-------------------	|
+|---------------+---------+---------+---------+----------
+|               | paf	  | paf.gz  | paf.bz2 | paf.xz  |
+|---------------+---------+---------+---------+---------|
+| **jpaf**      | 64.65 % |         |         |	        |
+| **jpaf.gz**  	| 94.73 % | 64.13 % | 66.11 % | 22.01 % |
+| **jpaf.bz2** 	| 94.42 % | 62.01 % | 64.11 % | 17.41 % |
+| **jpaf.xz**  	| 95.84 % | 71.70 % | 73.26 % | 38.47 % |
+|---------------+---------+---------+---------+---------|
 
 Pacbio:
 
@@ -160,6 +169,13 @@ Pacbio:
 If I compare PAF against jPAF compressed with lzma I win **95.84%**. I have a justification for my title, *it's 99% when I removed same read, containment, internal, less than 500 bp matches with fpa*.
 
 It's less impressive but more accurate and realistic. At the same compression level, I earn between **71.04%** and **38.47%**. We can notice a decrease of the efficacity of jPAF against PAF when the compression algorithm becomes better.
+
+### Impact of size of input PAF on jPAF compression ratio 
+
+{% include_relative  2018-10-06-saved_space_by_nb_record.html%}
+
+On the horizontal axis, the number of PAF matches is ordered by the percentage of space saved by converting it into jPAF (uncompressed). The horizontal axis is logarithmic. I build this curve on nanopore dataset.
+We note that after two records the jPAF is better than PAF but we reach the ratios found in complete dataset after 2^19 (262,144) records.
 
 ### Effect of compression on each format
 
@@ -202,7 +218,7 @@ If you want to replicate these results, just follow the instructions avaible at 
 
 ## Discussion
 
-Minimap generates to much matches, but it's easy to remove unusual matches, with fpa or with *ad hoc* tools. The format designed to store mapping against reference isn't better than actual format compressed with a generalist algorithm.
+Minimap generates to much matches, but it's easy to remove unusual matches, with **fpa** or with *ad hoc* tools. The format designed to store mapping against reference isn't better than actual format compressed with a generalist algorithm.
 
 The main problem of jPAF is also its directly related to its main quality: read\_index allows to save disk space, but at the cost of time and RAM. You can't stream out this format, you need to wait until all alignments are found before writing. If you want to read the file, you need keep read\_index in RAM all time. 
 
