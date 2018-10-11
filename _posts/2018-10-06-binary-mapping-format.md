@@ -1,6 +1,6 @@
 ---
 layout: post
-title: PAF I save 95 % of disk space
+title: How to reduce the impact of your PAF on your disk by 95%
 date: 2018-10-09
 draft: true
 published: true
@@ -9,7 +9,7 @@ tags: draft overlapper long-read compression
 
 {% include setup %}
 
-# PAF I save 95 % of disk space
+# How to reduce the impact of your PAF on your disk by 95%
 
 During last week Shaun Jack post this tweet:
 
