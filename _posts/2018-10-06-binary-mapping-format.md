@@ -11,7 +11,7 @@ tags: draft overlapper long-read compression
 
 # How to reduce the impact of your PAF on your disk by 95%
 
-During last week Shaun Jack post this tweet:
+Last week Shaun Jackman posted this tweet:
 
 <blockquote class="twitter-tweet" data-lang="fr">
 <p lang="en" dir="ltr">
@@ -19,9 +19,9 @@ I have a 1.2 TB PAF.gz file of minimap2 all-vs-all alignments of 18 flowcells of
 </blockquote>
 <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
 
-For people who did not work on long-read assembly, in long-read assembly for correction or assembly graph construction, we need to map the reads against each other. [Minimap2](https://github.com/lh3/minimap2) is a very good mapper used to find similar regions between long reads. Its output are PAF files (Pairwise Alignment Format) and are summarized on [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10). Roughly, it is a tsv file which stores, for each similar region found, (called before match): reads names, reads length, begin and end positions of match, plus some other information.  
+For people who did not work on long-read assembly, for correction or assembly graph construction, we need to map the reads against each other. [Minimap2](https://github.com/lh3/minimap2) is a very good mapper used to find similar regions between long reads. Its output are PAF files (Pairwise Alignment Format) and are summarized on [minimap2 man page](https://lh3.github.io/minimap2/minimap2.html#10). Roughly, it is a tsv file which stores, for each similar region found, (called before match): reads names, reads length, begin and end positions of match, plus some other information.  
 
-This tweet creates some discussion, and a third solution was proposed:
+This tweet prompted a discussion, and a third solution was proposed:
 - using classical mapping against reference compression format
 - filter some matches
 - the creation of a new binary compressed format to store all-vs-all mapping
@@ -226,3 +226,12 @@ But I written it in two hours. The format is lossless and they save **33 to 64%*
 
 **In conclusion**, the solutions of Shaun Jackman trouble are probably filtering of match, but in a future with more and more long-read data, we probably need a binary compress format. This result encourages me to continue on this approch, and I need to read more things about BAM/CRAM compression technics, canu ovlStore.
 
+## Acknowledgements
+
+For proofreading:
+
+- [Rayan Chikhi](https://twitter.com/RayanChikhi)
+- [Antoine Limasset](https://twitter.com/BQPMalfoy)
+- [Pierre Morris](https://twitter.com/morispi)
+- [Sacha Schutz](https://twitter.com/dridk/)
+- [MrRictus]()
