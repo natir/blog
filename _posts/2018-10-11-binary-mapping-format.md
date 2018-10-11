@@ -1,8 +1,8 @@
 ---
 layout: post
-title: How to reduce the impact of your PAF on your disk by 95%
-date: 2018-10-09
-draft: true
+title: How to reduce the impact of your PAF file on your disk by 95%
+date: 2018-10-11
+draft: false
 published: true
 tags: draft overlapper long-read compression
 ---
@@ -53,14 +53,17 @@ Awk, Bash, Python, {choose your language} script could do this job perfectly.
 Alex Di Genov [suggest using minimap2 API](https://twitter.com/digenoma/status/1047852263111385088) to build a special minimap with integrating filters. This solution has probably better performance than *ad hoc* script but it's less flexible, can't be applied to other mapper.
 
 
-### My solution fpa
+### My solution
 
-It's little soft in rust [fpa (Filter Pairwise Alignment)](https://github.com/natir/fpa), **fpa** takes as input pairwise align in the PAF or MHAP, and they can filter match by:
+It's little soft in rust **fpa** for Filter Pairwise Alignment, they takes as input pairwise align in the PAF or MHAP, and they can filter match by:
 - type: containment, internal-match, dovetail
 - length: match is upper or lower than a threshold
 - read name: match against a regex, it's a read match against himself
 
-**fpa** is available in bioconda and in cargo.
+**fpa** is available in bioconda and in cargo, you can found more information on [github](https://github.com/natir/fpa), and you can use it in your pipeline like gzip :
+```
+minimap2 -x ava-ont reads.fa reads.fa | fpa -d --compression-output gzip > only_dovetails_overlaps.paf.gz
+```
 
 OK filtering matches is easy and we have many available solution.
 
@@ -73,7 +76,7 @@ OK filtering matches is easy and we have many available solution.
 
 This is the question they initiate this blog post.
 
-jPAF is only a POC I create them to test things on how to compress this type of data, and I introduce to you where I am now because the results already seem very interesting. But there is still a lot of work to do and I would like to have your feedback to see what the needs are, to have a format that matches to the real word.
+jPAF is only a POC I create them to test things on how to compress this type of data. I introduce to you now because the results already seem very interesting. However, there is still a lot of work to do, before release a good binary pairwise alignment format.
 
 jPAF is a json file that contains the same information as a PAF file, but it is reorganized to save space, so it isn't really a binary.
 
@@ -125,22 +128,24 @@ jPAF version:
 }
 ```
 
-In this example we didn't save space but I demonstrate in result how jPAF performance grow up with size of PAF. Here we have two reads 1_2 and 2_3, with 5891 and 4490 bases respectively (store in read_index object), and one overlap with length 4247 bases in the same strand between them (store in match object).
+In this example we didn't save space but I demonstrate in [result section](#impact-of-size-of-input-paf-on-jpaf-compression-ratio) how jPAF performance grow up with size of PAF. Here we have two reads 1_2 and 2_3, with 5891 and 4490 bases respectively (store in read_index object), and one overlap with length 4247 bases in the same strand between them (store in match object).
 
 jPAF are fully inspired by PAF, and have same number of fields, and same field names. I just take the PAF, convert it in json and add two little tricks to save space.
 
-First trick writes read names and read length one time.
-Second trick is more of a json trick. At first, each record was a dictionary with a keyname associate to a value, but with this solution jPAF was heaviest than PAF. However, if I associate a field name to an index, I can store records just in classical table and avoid redundancy.
+- First trick writes read names and read length one time.
+- Second trick is more of a json trick. At first, each record was a dictionary with a keyname associate to a value, but with this solution jPAF was heaviest than PAF. However, if I associate a field name to an index, I can store records just in classical table and avoid redundancy.
 
 OK, I have a pretty cool format, to avoid some repetition without loss of information, but do I really save space?
 
 ## Result
 
-Dataset: For this, I reuse the same dataset as my previous blog post. It is composed ot two real datasets, a [pacbio](https://github.com/PacificBiosciences/DevNet/wiki/E.-coli-Bacterial-Assembly) one, and a [nanopore](http://lab.loman.net/2015/09/24/first-sqk-map-006-experiment/) one.
+Dataset: For this, I reuse the same dataset as my previous blog post. It is composed ot two real *E. coli* datasets: [pacbio](https://github.com/PacificBiosciences/DevNet/wiki/E.-coli-Bacterial-Assembly) and [nanopore](http://lab.loman.net/2015/09/24/first-sqk-map-006-experiment/).
 
 Mapping: I run minimap2 mapping with preset ava-pb and ava-ont for pacbio and nanopore respectively.
 
-basic.sam designates the minimap output in sam format, short.sam designates the minimap output with then SEQ, QUAL fields replaced by a '*'.
+If you want to replicate these results, just follow the instructions avaible at [github repro](https://github.com/natir/jPAF). Full data are avaible here: [nanopore]({{ POST_ASSETS_PATH }}/nanopore.csv), [pacbio]({{ POST_ASSETS_PATH }}/pacbio.csv).
+
+basic.sam designates the minimap2 output in sam format, short.sam designates the minimap2 output with then SEQ, QUAL fields replaced by a '*'.
 
 ### PAF against jPAF
 
@@ -172,7 +177,7 @@ It's less impressive but more accurate and realistic. At the same compression le
 
 ### Impact of size of input PAF on jPAF compression ratio 
 
-{% include_relative  2018-10-06-saved_space_by_nb_record.html%}
+{% include_relative  2018-10-11-saved_space_by_nb_record.html%}
 
 On the horizontal axis, the number of PAF matches is ordered by the percentage of space saved by converting it into jPAF (uncompressed). The horizontal axis is logarithmic. I build this curve on nanopore dataset.
 We note that after two records the jPAF is better than PAF but we reach the ratios found in complete dataset after 2^19 (262,144) records.
@@ -214,7 +219,6 @@ Pacbio:
 BAM/CRAM compression aren't better than classical compression format (confirm preliminary result). Even the compression ratios are quiet similar in each format. This table confirms what we observed in previous section: compression ratios are better on PAF than jPAF, but jPAF is still smaller than PAF.
 
 
-If you want to replicate these results, just follow the instructions avaible at [github repro](https://github.com/natir/jPAF). Full data are avaible here: [nanopore]({{ POST_ASSETS_PATH }}/nanopore.csv), [pacbio]({{ POST_ASSETS_PATH }}/pacbio.csv).
 
 ## Discussion
 
@@ -234,4 +238,3 @@ For proofreading:
 - [Antoine Limasset](https://twitter.com/BQPMalfoy)
 - [Pierre Morris](https://twitter.com/morispi)
 - [Sacha Schutz](https://twitter.com/dridk/)
-- [MrRictus]()
