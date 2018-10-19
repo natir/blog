@@ -177,7 +177,7 @@ It's less impressive but more accurate and realistic. At the same compression le
 
 ### Impact of size of input PAF on jPAF compression ratio 
 
-{% include_relative  2018-10-11-saved_space_by_nb_record.html%}
+{% include_relative  2018-10-10-saved-space-by-nb-record.html%}
 
 On the horizontal axis, the number of PAF matches is ordered by the percentage of space saved by converting it into jPAF (uncompressed). The horizontal axis is logarithmic. I build this curve on nanopore dataset.
 We note that after two records the jPAF is better than PAF but we reach the ratios found in complete dataset after 2^19 (262,144) records.
