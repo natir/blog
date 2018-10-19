@@ -1,0 +1,46 @@
+{% extends "index.html" %}
+
+{% block content %}
+  <section class="post">
+    <div class="title-and-info">
+      <h1>{{ page.title }}</h1>
+      <div class="info">
+    	<span>{{ page.reading_time }} minute read</span>
+    	{% if page.date %}
+    	<span class='divider'/>
+    	<span>{{ page.date | date(format="%d %B %Y") }}</span>
+    	{% endif %}
+    	{% if page.category %}
+    	<span class='divider'/>
+        <!-- link to page category if user is building categories -->
+        {% if config.generate_categories_pages %}
+        <span><a href="/categories/{{page.category}}">{{ page.category }}</a></span>
+        {% else %}
+    	<span>{{ page.category }}</span>
+        {% endif %}
+    	{% endif %}
+    	
+      </div>
+    </div>
+    <article>
+      {{ page.content | safe | markdown(inline=true)}}
+    </article>
+  </section>
+
+  {% if config.extra.feather_disqus_code %}
+  {{ config.extra.feather_disqus_code | safe }}
+  {% endif %}
+
+{% endblock content %}
+
+{% block slider %}
+<section class="share-page">
+  Share this on &rarr; <br/>
+  <a href="https://twitter.com/intent/tweet?text={{ page.title }}&url={{ current_url }}&via={{ config.extra.author_twitter }}&related={{ config.extra.author_twitter }}" rel="nofollow" target="_blank" title="Share on Twitter">
+    <span class="fa fa-twitter fa-3x"></span>
+  </a>
+  <a href="http://www.linkedin.com/shareArticle?mini=true&url={{ current_url }} &title={{ page.title }}&source={{ config.base_url }}">
+    <span class="fa fa-linkedin fa-3x"></span>
+  </a>
+</section> 
+{% endblock slider%}

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/cayman.css">
+    <link rel="stylesheet" href="/add.css">
+
+    <!-- font -->
+    <link rel="stylesheet" href="/fonts/fork_awesome/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/academicons/css/academicons.min.css">
+    
+    <!-- js -->
+
+    {% if config.generate_rss %}
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="{{ get_url(path="rss.xml", trailing_slash=false) }}">
+    {% endif %}
+
+    {% include "mathjax.html" %}
+    {% include "matomo.html" %}
+    
+  </head>
+
+  <body>
+
+    <section class="page-header">
+      <h1 class="project-name">{{config.title}}</h1>
+      <a class="btn" href="/">Home</a>
+      <a class="btn" href="pierre.marijon.fr">About</a>
+      <a class="btn" href="/feed.xml">RSS feed</a>
+    </section>
+
+
+    <section class="main-content">
+      {% block content %}
+      <div class="posts">
+        {% for page in section.pages | reverse %}
+	{% if not page.draft %}
+        <section>
+          <a class='header-link' href="{{ page.permalink }}">
+            <h3 class="title"> {{ page.title }} </h3>
+          </a>
+          <p> 
+            {{ page.content | safe | striptags | truncate }} 
+          </p>
+
+          <!-- TODO: modularize this so we don't repeat ourselves -->
+          <div class='info'>
+            <span>{{ page.reading_time }} minute read</span>
+            {% if page.date %}
+            <span class='divider'/>
+            <span>{{ page.date | date(format="%d %B %Y") }}</span>
+            {% endif %}
+            {% if page.category %}
+            <span class='divider'/>
+            <!-- link to page category if user is building categories -->
+            {% if config.generate_categories_pages %}
+            <span><a href="/categories/{{page.category | slugify }}">{{ page.category }}</a></span>
+            {% else %}
+            <span>{{ page.category }}</span>
+            {% endif %}
+            {% endif %}
+          </div>
+        </section>
+        <hr/>
+	{% endif %}
+        {% endfor %}
+      </div>
+
+      
+      {% endblock content %}    
+      <footer class="site-footer">
+	<span class="site-footer-credits">
+	  <center>
+	    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+	      <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+	    </a>
+	  </center>
+	  <br />
+	  <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">{{config.title}}</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Pierre Marijon</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href={{ current_url }} rel="dct:source">blog.pierre.marijon.fr</a>.</span>
+      </footer>
+    </section>
+    
+
+    {% block slider %}
+    {% endblock slider %}
+
+  </body>
+</html>
