@@ -1,2 +1,0 @@
-{% capture POST_ASSETS_PATH %}/assets/posts/{{page.url | remove_first: '/' |replace: '/', '-'}}/{% endcapture %}
-

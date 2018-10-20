@@ -1,0 +1,22 @@
+# The URL the site will be built for
+base_url = "https://blog.pierre.marijon.fr"
+
+title = "Yet Another Bioinformatic blog"
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to do syntax highlighting
+# Theme can be customised by setting the `highlight_theme` variable to a theme supported by Gutenberg
+highlight_code = false
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+generate_rss = true
+
+[extra]
+# Put all your custom variables here
+
+author_name = "Pierre Marijon"
+author_twitter = "pierre_marijon"
