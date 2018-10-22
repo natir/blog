@@ -1,4 +1,3 @@
-language: rust
 before_script:
   # Download and unzip the gutenberg executable
   # Replace the version numbers in the URL by the version you want to use
