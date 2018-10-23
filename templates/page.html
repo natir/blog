@@ -1,4 +1,8 @@
 {% extends "index.html" %}
+    
+{% block supplemental_header %}
+ <script data-isso="//isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="https://isso.pierre.marijon.fr/js/embed.min.js"></script>
+{% endblock supplemental_header %}
 
 {% block content %}
   <section class="post">
@@ -27,10 +31,8 @@
     </article>
   </section>
 
-  {% if config.extra.feather_disqus_code %}
-  {{ config.extra.feather_disqus_code | safe }}
-  {% endif %}
-
+  <h2>Comments:</h2>
+    <section id="isso-thread"></section>
 {% endblock content %}
 
 {% block slider %}
