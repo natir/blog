@@ -43,63 +43,31 @@ Cargo.toml is file containt many information about your project and a very impor
 
 ## No more memory leak
 
-A main principe of Rust is if your code compile it will not contains any memory leak [^1], Rust do that with a new system  
+A main principe of Rust is if your code compile it will not contains any memory leak [^1]. How it's possible without Gabrage Colector. Rust introduce a new concept *ownership*, I can try to explain how it's work but I probably make many mistake and forget something so go read this [chapter of rust book](https://doc.rust-lang.org/book/second-edition/ch04-00-understanding-ownership.html) it's probably clearer than an explanation I could give.
 
+Just remember that it is very, very hard  to unintentionally create a memory leak, near to impossible for me, but that the mechanisms that Rust has put in place to be able to do this do not have impact to computation time and memory.
 
-## Same perf
+## Same perf
 
-[The Computer Benchmark Language](https://benchmarksgame-team.pages.debian.net/benchmarksgame/) is a cool project they try to compare performance of many language:
+We talk about performance [the Computer Benchmark Language](https://benchmarksgame-team.pages.debian.net/benchmarksgame/) is a cool project they try to compare performance of many language, I provide a little overview of her result:
 
 {{ plotly(id="cputime", src="cputime.js") }}
 
 {{ plotly(id="memory", src="memory.js") }}
 
-Rust is equivalent or better than c++ in cpu time and memory usage.
+Rust is equivalent or better (with the eyes of hope) than c++ in cpu time and memory usage.
 
 
-## Rust trouble
+## Rust trouble
 
-// pro
+Ok Rust solve the two major problem of C++ with same advantage. But everything is not perfect Rust introduces a lot of new concept quite close to another language concept but still different so it can be difficult to understand why the code doesn't do what you want or why the compiler refused to compile.
 
-// same perf
-// no memory leak
-// dependancy management perfect
-
-// cos
-// young language
+Another little downside Rust is a young language (less than 10 years old) some classic thing does not exist or not yet. An example for yacrd I use a min priority_queue in C++ with `std::priority_queue<size_t, std::vector<size_t>, std::greater<size_t>> stack;` Rust have an equivalent structure `std::collections::BinaryHeap` but we can't set the ordering if I want same behavior I need create a special type, with reverse ordering implementation [source code](https://github.com/natir/yacrd/blob/master/src/chimera.rs#L109). 
 
 
 # Conclusion
 
-# Rust history
-
-Rust was created by Graydon Hoare developer at Mozzila, it became an official Mozzila project in 2010. Rust is a multi-paradigm compiled language, such as c++, then why create a new language? The main problem of C++ is memory leaks, my colleague spent several days to eliminate all memory problems from a software. This task are hard, consume many time and you can't be sure if it's down.
-
-A number of languages solve this problem with collector's gabrage, each language has its own and we can discuss during many hours of their comparative interest but there is one thing I am on it that always has an impact on performance and have memory cost.
-
-# Pro 
-
-
-## cargo
-
-cargo is an usefull tools, it's main tool you use if you make rust. cargo a compile, test, benchmark, dependency, packaging manager !!
-
-
-Crates.io
-
-Bioconda
-
-## comunity
-
-The rust community is realy open and all people 
-
-# Con
-
-## new notion
-
-Rust contains many new notion.
-
-## new language less contributor
+Rust is the language that could replace C++ in all these uses, there is obviously a learning curve but the advantages that Rust brings completely compensate it. It took me about a month to feel comfortable with the language. The next time you lose 4 hours, you will find a memory leak or have managed the packaging of your application designed for Rust.
 
 ## External resource
 
