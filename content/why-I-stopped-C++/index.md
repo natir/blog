@@ -77,3 +77,8 @@ Rust is the language that could replace C++ in all these uses, there is obviousl
 
 [^1]: Is not True it's just very very hard to create memory leak, if you realy want create a memory leak it's possible, with `unsafe` keyword or if you follow this [page method](https://doc.rust-lang.org/nomicon/leaking.html) but who want do think like that ? 
 
+## Acknowledgements
+
+For proofreading:
+
+- [Maxime Garcia](https://twitter.com/gau)
