@@ -12,23 +12,23 @@ Until what time these two languages for me was python and C++. If you follow me 
 
 # C++
 
-C++ have very good performance in terme of memory usage and computation time, compare to other language for same tasks, but C++ have two huge problem.
+C++ have very good performance in term of memory usage and computation time, compare to other language for same tasks, but C++ have two huge problems.
 
 First it's easy to create memory leak in C++. You have a huge control to how memory are manage but if you are not very careful about how to allocate and free your memory, you probably create a memory leak and you may also waste a lot of time solving them. Use of intelligent pointers helps a lot but since their use is mandatory it is always very easy to create a memory leak.
 
 The second is dependency management, it's easy, there are none. When you want to integrate a dependency you assume that it is sufficiently used to be present in most of the systems. Or you integrate it directly into your code, which poses several problems, you have to update your dependency yourself, it makes the compilation of your tools longer and more complex, it also manages the dependencies of your dependencies, and it makes your tools potentially more difficult to package properly.
 
-[biicode](https://biicode.github.io/biicode/) try to solve this issue, but project seems dead, if you now other tools I am interst
+[biicode](https://biicode.github.io/biicode/) try to solve this issue, but project seems dead, if you know other tools I am interested.
 
 # Rust
 
-Recently I write a little programme to remove chimera in long read dataset [yacrd](https://github.com/natir/yacrd) the first prototype is write in Python it's work well but the runtime isn't very cool. I rewrite yacrd in C++, durring developement I use smart pointer and valgrind, so I hope I didn't create a memory leak but I'm not sure. But after a while I thought it would be nice to be able to take compressed files in. After any search I can interface the C code of the compression libraries with my C++ code, or use the kseq.h but only support gzip compression.
+Recently I wrote a little programme to remove chimera in long read dataset [yacrd](https://github.com/natir/yacrd) the first prototype is writen in Python it's worked well but the runtime isn't very cool. I rewrote yacrd in C++, durring developement I use smart pointer and valgrind, so I hope I didn't create a memory leak but I'm not sure. But after a while I thought it would be nice to be able to take compressed files in. After any search I can interface the C code of the compression libraries with my C++ code, or use the kseq.h but only support gzip compression.
 
 I had discovered Rust 3 years earlier and it was a long time since I wanted to try this language so why not see if it can solve my problems. 
 
 ## Dependancy management
 
-The dependancy management in Rust is just to easy, Cargo is the compilation, test, benchmark, dependency, packaging, *what you want* manager of Rust. 
+The dependancy management in Rust is just too easy, Cargo is the compilation, test, benchmark, dependency, packaging, *what you want* manager of Rust.
 
 When creating a Rust project, the recommended way is use the command `Cargo init {project_name}` which will automatically create a folder with `{project_name}` which looks like this:
 
@@ -43,7 +43,7 @@ Cargo.toml is file containt many information about your project and a very impor
 
 ## No more memory leak
 
-A main principe of Rust is if your code compile it will not contains any memory leak [^1]. How it's possible without Gabrage Colector. Rust introduce a new concept *ownership*, I can try to explain how it's work but I probably make many mistake and forget something so go read this [chapter of rust book](https://doc.rust-lang.org/book/second-edition/ch04-00-understanding-ownership.html) it's probably clearer than an explanation I could give.
+A main principe of Rust is if your code compile it will not contains any memory leak [^1]. How it's possible without Garbage Colector. Rust introduce a new concept *ownership*, I can try to explain how it's work but I probably make many mistake and forget something so go read this [chapter of rust book](https://doc.rust-lang.org/book/second-edition/ch04-00-understanding-ownership.html) it's probably clearer than an explanation I could give.
 
 Just remember that it is very, very hard  to unintentionally create a memory leak, near to impossible for me, but that the mechanisms that Rust has put in place to be able to do this do not have impact to computation time and memory.
 
@@ -77,3 +77,8 @@ Rust is the language that could replace C++ in all these uses, there is obviousl
 
 [^1]: Is not True it's just very very hard to create memory leak, if you realy want create a memory leak it's possible, with `unsafe` keyword or if you follow this [page method](https://doc.rust-lang.org/nomicon/leaking.html) but who want do think like that ? 
 
+## Acknowledgements
+
+For proofreading:
+
+- [Maxime Garcia](https://twitter.com/gau)
