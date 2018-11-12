@@ -45,7 +45,7 @@
     <section class="main-content">
       {% block content %}
       <div class="posts">
-        {% for page in section.pages %}
+        {% for page in section.pages | reverse %}
 	{% if not page.draft %}
         <section>
           <a class='header-link' href="{{ page.permalink }}">
