@@ -1,7 +1,7 @@
 +++
 template = "page.html"
 title = "Why I stopped C++"
-date =  2018-10-18
+date =  2018-11-12
 draft = false
 tags = ["bioinformatics", "language"]
 +++
