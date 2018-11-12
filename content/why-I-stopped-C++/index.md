@@ -83,3 +83,4 @@ For proofreading:
 
 - [Maxime Garcia](https://twitter.com/gau)
 - [Guillaume Devailly](https://twitter.com/G_Devailly)
+- [Jérome Pivert](https://github.com/Piplopp)
