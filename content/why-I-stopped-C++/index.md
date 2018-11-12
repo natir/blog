@@ -62,7 +62,7 @@ Rust is equivalent or better (with the eyes of hope) than c++ in cpu time and me
 
 Ok Rust solve the two major problem of C++ with same advantages. But everything is not perfect, Rust introduces a lot of new concepts quite close to another language concept but still different so it can be difficult to understand why the code doesn't do what you want or why the compiler refused to compile.
 
-Another small downside, Rust is a young language (less than 10 years old) some classic thing don't exist yet. An example, for yacrd I use a min priority_queue in C++ with `std::priority_queue<size_t, std::vector<size_t>, std::greater<size_t>> stack;` Rust have an equivalent structure `std::collections::BinaryHeap` but we can't set the ordering if I want same behavior I need create a special numeric type with a reverse ordering [a source code example](https://github.com/natir/yacrd/blob/master/src/chimera.rs#L109). Isn't very painfull but isn't conveniante.
+Another small downside, Rust is a young language (less than 10 years old) some classic thing don't exist yet. An example, for yacrd I use a min priority_queue in C++ with `std::priority_queue<size_t, std::vector<size_t>, std::greater<size_t>> stack;` Rust have an equivalent structure `std::collections::BinaryHeap` but we can't set the ordering if I want same behavior I need create a special numeric type with a reverse ordering [a source code example](https://github.com/natir/yacrd/blob/master/src/chimera.rs#L109). Isn't very painfull but isn't convenient.
 
 
 # Conclusion
@@ -85,3 +85,4 @@ For proofreading:
 - [Guillaume Devailly](https://twitter.com/G_Devailly)
 - [Jérome Pivert](https://github.com/Piplopp)
 - [Aurélien Beliard](https://twitter.com/aureli1bzh)
+- bjonnh
