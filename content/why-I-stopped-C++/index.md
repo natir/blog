@@ -8,13 +8,13 @@ tags = ["bioinformatics", "language"]
 
 I have the feeling generaly bioinformatician uses two languages, a language for small scripts, rapid analysis, prototyping (usually an interpreted language) and another when we have performance needs (usually a compiled language).
 
-Until what time these two languages for me was python and C++. If you follow me on twitter you probably saw my last two tools [yacrd](https://github.com/natir/yacrd) and [fpa](https://github.com/natir/fpa), these two tools were written in Rust.
+Until recently these two languages were python and C++ for me. If you follow me on twitter you probably saw my last two tools [yacrd](https://github.com/natir/yacrd) and [fpa](https://github.com/natir/fpa), these two tools were written in Rust.
 
 # C++ was cool but …
 
 C++ have very good performance in term of memory usage and computation time, compare to other language for same tasks, but C++ have two huge problems.
 
-First it's easy to create memory leak in C++. You have a huge control to how memory are manage but if you are not very careful about how to allocate and free your memory, you probably create a memory leak and you may also waste a lot of time solving them. Use of intelligent pointers helps a lot but since their use is mandatory it is always very easy to create a memory leak.
+First it's easy to create memory leak in C++. You have a huge control to how memory are manage but if you are not very careful about how to allocate and free your memory, you probably create a memory leak and you may also waste a lot of time solving them. Use of intelligent pointers helps a lot but since their use is not mandatory it is always very easy to create a memory leak.
 
 The second is dependency management, it's easy, there are none. When you want to integrate a dependency you assume that it is sufficiently used to be present in most of the systems. Or you integrate it directly into your code, which poses several problems, you have to update your dependency yourself, it makes the compilation of your tools longer and more complex, it also manages the dependencies of your dependencies, and it makes your tools potentially more difficult to package properly.
 
@@ -82,3 +82,4 @@ Rust is the language that could replace C++ in all these uses, there have not a 
 For proofreading:
 
 - [Maxime Garcia](https://twitter.com/gau)
+- [Guillaume Devailly](https://twitter.com/G_Devailly)
