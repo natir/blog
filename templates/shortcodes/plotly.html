@@ -1,25 +1,27 @@
 <script>
-    
-if (typeof plotly_load === "undefined") {
-    console.log("load plotly");
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    script.src = "https://cdn.plot.ly/plotly-latest.min.js";
-    script.id = "plotly";
-    document.getElementsByTagName("head")[0].appendChild(script);
-}
-else {
-    var script = document.getElementById("plotly");
-}
-var plotly_load = true;
 
-console.log(script);
-script.addEventListener('load', function() {
-    var s2 = document.createElement("script");
-    s2.type = "text/javascript";
-    s2.src = "{{src}}";
-    document.getElementsByTagName("head")[0].appendChild(s2);
-});
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      console.log("load plotly");
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "{{src}}";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+
+  console.log(script);
 </script>
 
 <div id="{{id}}"></div>
