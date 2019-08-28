@@ -100,7 +100,7 @@
 	});
 
 	
-	Plotly.newPlot("misassemblies_type", data, {title: "Number of misassembly when breakpoint minimale size increase"})
+	Plotly.newPlot("misassemblies_type", data, {title: "Number of relocation, translocation and inversion when extensive-min-size increase"})
     }
 
     makeplot();

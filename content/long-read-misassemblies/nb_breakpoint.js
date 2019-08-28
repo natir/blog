@@ -39,7 +39,7 @@
 	    type: 'scatter'
 	});
 	
-	Plotly.newPlot("nb_breakpoint", data, {title: "Number of misassembly when breakpoint minimale size increase"})
+	Plotly.newPlot("nb_breakpoint", data, {title: "Number of misassembly when extensive-min-size increase"})
     }
 
     makeplot();
