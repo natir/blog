@@ -34,25 +34,15 @@ We send this paper to a journal, and Reviewer 3 say something like that "quast i
 
 To define quast misassemblies we going to use simple exemple, we have a genome with one no circular chromosomes, our assembly contains only one contigs, this contigs sometimes map against the reference(green part) and sometimes didn't map (red part).
 
-<script type="text/tikz">
-  \begin{tikzpicture}[x=0.75pt,y=0.75pt,yscale=-1,xscale=1]
-	\draw [|-|] (0, -10) -- (800, -10) node[pos=0.5,above] {Chromosome};
-	\draw [fill=black] (0,0) -- (800, 0) -- (800, 40) -- (0, 40) -- cycle;
-	
-	\draw [fill=black!60!green] (50,0) -- (300, 0) -- (300, 40) -- (50, 40) -- cycle;
-	\draw [|-|] (50, 50) -- (300, 50) node[pos=0.5,below=5] {Lx};
-	
-	\draw [fill=red] (300,0) -- (500, 0) -- (500, 40) -- (300, 40) -- cycle;
-	\draw [|-|] (300, 50) -- (500, 50) node[pos=0.5,below=5] {Ly};
-	
-	\draw [fill=black!60!green] (500,0) -- (730, 0) -- (730, 40) -- (500, 40) -- cycle;
-	\draw [|-|] (500, 50) -- (730, 50) node[pos=0.5,below=5] {Lz};
-\end{tikzpicture}
-</script>
+![misassemblies_def.svg](misassemblies_def.svg)
 
-A misassembly occure when, $L_y >$ `--extensive-mis-size` (1kbp by default) option and ($L_x and L_z > 1kbp$ (this value cann't be change?). In case reference contains some chromosome, if a contig map (mappings length upper than 1kbp) on two chromosomes quast count this event as a misassemblies.
 
-This is the basic type of misassemblies, assembly mis a large part of assembly, a **Relocation**. **Translocation** occure when a contigs map on two different chromosome. **Inversion** occure when contig map on same chromosome but in differente strand.
+
+A misassembly occure when, $L_n$ > `--extensive-mis-size` (1kbp by default) option and $L_{m1}$ and $L_{m2}$ > 1kbp (this value cann't be change). In case reference contains some chromosome, if a contig map (mappings length upper than 1kbp) on two chromosomes quast count this event as a misassemblies.
+
+In this case contig mis a part chromosome, maybe a repetition contraction. It's possible the contig duplicate a part of chromosome, maybe a repetition expansion, in this case mappings $L_{m1}$ and $L_{m2}$ share an overlap.
+
+This type of misassemblies was called **Relocation**. **Translocation** occure when a contigs map on two different chromosome. **Inversion** occure when contig map on same chromosome but in differente strand.
 
 **Important note :**
 - alignement with an identity lower than `--min-identity` (95% by default minimum 80%) aren't used by quast
@@ -80,20 +70,54 @@ We launch several times quast (version v5.0.2) with parameter `--extensive-min-s
 
 ## Effect of increase --extensive-min-size
 
+### Number of misassemblies
+
 {{ plotly(id="nb_breakpoint", src="nb_breakpoint.js") }}
 
-This graph shows the evolution of the number of misassemblies in function of the parameter values `--extensive-min-size`, when this value is equal to 20000 they drop drasticly and remains stable.
+This graph shows the evolution of the number of misassemblies in function of the parameter values `--extensive-min-size`, after 10.000 the numbre of misassemblies become quiet stable.
 
-This graph show to type of misassemblies where gap was between 1000 and 10.000 bases and another where gap are larger than 10.000 bases.
+This graph show to type of misassemblies where gap was lowest than 10.000 bases and another where gap are larger than 10.000 bases.
 
-## Dotplot of small misassemblies and large misassemblies
+### Type of misassemblies
 
-We try to observe the difference between "short" and "large" misassemblies 
-	
+{{ plotly(id="misassemblies_type", src="misassemblies_type.js") }}
+
+For *H. sapiens* dataset didn't have any translocation because reference was composed by only one chromosome, majority of misassemblies was relocation but when we increase the parametere extensive-min-size the number of inversion was increase.
+
+*D. melanogaster* reference contains main small contigs this can explain the high number of translocation, relocation and translocation good simultanly. 
+
+For *C. elegans* the number of translocations was quiest stable, the number of relocations drop down rapidly and inversion increase.
+
+
+I can't explain why translocation and inversion number evolve, I didn't understand the influence of the `extensive-min-size` parameter on this type of misassemblies.
+
+### Relocation length distribution
+
+The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv` contains information about mapping and misassemblies. For other information on how quast store mapping and misassemblies information read [quast faq](http://quast.bioinf.spbau.ru/manual.html#sec7).
+
+{{ plotly(id="relocation_length", src="relocation_length.js") }}
+
+This figure show the length associate to recombination, if length is positive assembly mis a part of reference, if length is negative assembly duplicate a part of reference.
+
+For *H. sapiens* majorite of relocation was between 1000 and 5000 base in majority of case miniasm mis part of genome. *C. elegans* in contrast is more spread and in negative value. But whe are not only intrest by the majority of relocation, if our modification haven't any impacte on small relocation but remove all largest relocation it's a good think too. By clicking on icons <svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m250 850l-187 0-63 0 0-62 0-188 63 0 0 188 187 0 0 62z m688 0l-188 0 0-62 188 0 0-188 62 0 0 188 0 62-62 0z m-875-938l0 188-63 0 0-188 0-62 63 0 187 0 0 62-187 0z m875 188l0-188-188 0 0-62 188 0 62 0 0 62 0 188-62 0z m-125 188l-1 0-93-94-156 156 156 156 92-93 2 0 0 250-250 0 0-2 93-92-156-156-156 156 94 92 0 2-250 0 0-250 0 0 93 93 157-156-157-156-93 94 0 0 0-250 250 0 0 0-94 93 156 157 156-157-93-93 0 0 250 0 0 250z" transform="matrix(1 0 0 -1 0 850)"></path></svg> in the right corner of figure you unzoom (<svg viewBox="0 0 928.6 1000" class="icon" height="1em" width="1em"><path d="m786 296v-267q0-15-11-26t-25-10h-214v214h-143v-214h-214q-15 0-25 10t-11 26v267q0 1 0 2t0 2l321 264 321-264q1-1 1-4z m124 39l-34-41q-5-5-12-6h-2q-7 0-12 3l-386 322-386-322q-7-4-13-4-7 2-12 7l-35 41q-4 5-3 13t6 12l401 334q18 15 42 15t43-15l136-114v109q0 8 5 13t13 5h107q8 0 13-5t5-13v-227l122-102q5-5 6-12t-4-13z" transform="matrix(1 0 0 -1 0 850)"></path></svg> reset original zoom).
+We can see *H. sapiens* contains some very large relocation.
+
 ## Conclusion
 
-I think misassemblies Quast metrics was good, for long reads uncorrected assemblies maybe the name isn't the good one, large unalignement was a better name ? Finaly it's still an assemblies evaluation metrics if you reduce the *# misassemblies* number you improve your assemblies.
+Majority of misassembly was relocation her number drop down rapidly when extensive-min-size increase this parameter have a direct impacte on this misassembly definition. I can't explain the translocation and inversion increasing.
 
-But it's a good think to check the size of breakpoint generate misassemblies to be sure, you didn't reduce the number of short misassemblies to increase the number of large misassemblies.
+I would like to say that the relocations that remain after the value of extensive-min-size is greater than 10 kb are "true" relocations. "True" in the sense that they are actually due to assembly errors and not to a contig mapability trouble. Check each misassemblies, can be very hard and take many time, and found a good threshold seems impossible.
+
+Misassemblies quast metrics was good, for long reads uncorrected assemblies maybe the name isn't the good one, **unalignement** was maybe a better name ? Finaly it's still an assemblies evaluation metrics if you reduce the *# misassemblies* number you improve your assemblies.
+
+Reduce misassemblies number was a good think but remove short misassemblies and create large misassemblies isn't a good idea. Compare misassemblies length distribution could be a better idea, even it's less clear than a uniq number. I think we can create a better tools than just a boxplot human eye analysis
 
 ## Acknowledgement
+
+For her help in writing this blog post:
+- Rayan Chikhi
+- Jean-Stéphane Varré
+
+For her proof reading:
+-
+
