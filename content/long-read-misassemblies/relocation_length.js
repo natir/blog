@@ -22,7 +22,7 @@
 
 	    data.push({
 		type: 'box',
-		name: 'D. melanogaster',
+		name: 'D. melanogasterx',
 		x: unpack(rows, 'D. melanogaster'),
 	    });
 	    
