@@ -50,6 +50,7 @@ If `--min-identity` was to high a good alignment can be filtered out and create 
 
 We can tune these two parametre, in the rest of this blogpost I will show the impact of the `extensive-mis-size` parameter on the number of misassemblies found by quast
 
+
 ## Dataset, assembly pipeline and quast option
 
 For this test, we are going to use two Nanopore datasets and one Pacbio dataset.
@@ -65,6 +66,14 @@ For this test, we are going to use two Nanopore datasets and one Pacbio dataset.
 To perform assembly we use Minimap2 (version 2.16-r922) and Miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
 
 We launch quast (version v5.0.2) with different value for parameter `extensive-min-size` 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.0000 the parameter `--min-identity` was fix at 80 %.
+
+## Effect of min-identity parametre
+
+quast create a file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column quast store the mapping quality. For each dataset we extract this value and plot in an histogram.
+
+{{ plotly(id="mapping_identity", src="mapping_identity.js") }}
+
+The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold. 
 
 ## Effect of increase extensive-min-size
 
