@@ -96,18 +96,11 @@ Relocation misassemblies are the most common type of misassemblies and we can im
 
 The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv` contains information about mapping and misassemblies. For other information on how quast store mapping and misassemblies information read [quast faq](http://quast.bioinf.spbau.ru/manual.html#sec7).
 
-{{ plotly(id="relocation_length", src="relocation_length.js") }}
+![relocation_length.svg](relocation_length.svg)
 
-This figure shows the length associate to recombination, if the length is positive assembly mis a part of reference, if the length is negative assembly duplicate a part of the reference.
+This figure shows a violin plot of log of length associate to recombination, if the length is positive assembly mis a part of reference (green curve), if the length is negative assembly duplicate a part of the reference (orange curve). The boxplot in the violin was build with all absolute value. ([source code](relocation_length.py), [data](relocation_length.csv))
 
-For *H. sapiens* majorite of relocation was between 1000 and 5000 base in the majority of case miniasm mis part of genome. *C. elegans*, in contrast, is more spread and in a negative value. But we are not only intrested by the majority of relocation, if our modification of assembly pipeline hasn't any impact on small relocation but remove all the largest relocation it's a good thing too. By clicking on icons <svg viewBox="0 0 1000 1000" class="icon" height="1em" width="1em"><path d="m250 850l-187 0-63 0 0-62 0-188 63 0 0 188 187 0 0 62z m688 0l-188 0 0-62 188 0 0-188 62 0 0 188 0 62-62 0z m-875-938l0 188-63 0 0-188 0-62 63 0 187 0 0 62-187 0z m875 188l0-188-188 0 0-62 188 0 62 0 0 62 0 188-62 0z m-125 188l-1 0-93-94-156 156 156 156 92-93 2 0 0 250-250 0 0-2 93-92-156-156-156 156 94 92 0 2-250 0 0-250 0 0 93 93 157-156-157-156-93 94 0 0 0-250 250 0 0 0-94 93 156 157 156-157-93-93 0 0 250 0 0 250z" transform="matrix(1 0 0 -1 0 850)"></path></svg> in the right corner of figure you unzoom (<svg viewBox="0 0 928.6 1000" class="icon" height="1em" width="1em"><path d="m786 296v-267q0-15-11-26t-25-10h-214v214h-143v-214h-214q-15 0-25 10t-11 26v267q0 1 0 2t0 2l321 264 321-264q1-1 1-4z m124 39l-34-41q-5-5-12-6h-2q-7 0-12 3l-386 322-386-322q-7-4-13-4-7 2-12 7l-35 41q-4 5-3 13t6 12l401 334q18 15 42 15t43-15l136-114v109q0 8 5 13t13 5h107q8 0 13-5t5-13v-227l122-102q5-5 6-12t-4-13z" transform="matrix(1 0 0 -1 0 850)"></path></svg> reset original zoom).
-We can see *H. sapiens* contains some very large relocation.
-
-<!--------------
-### Effect of yacrd on relocation length distribution
-
-{{ plotly(id="yacrd_relocation_length", src="yacrd_relocation_length.js") }}
------->
+For *H. sapiens* majority of relocation was positive and short (between 1000 and 5000 base), with some very large relocation. For *C. elegans* it's different, majority of relocation is negative and largest relocation was shortest than *H. sapiens*. *D. melanogaster* contains more relocation than *H. sapiens* and *C. elegans*, the area under the kde curve are larger. With this representation we can analyse the difference between relocation distribution in term of number of relocation and her length distribution.
 
 ## Conclusion
 
@@ -117,14 +110,16 @@ I would like to say that the relocations that remain after the value of extensiv
 
 Misassemblies quast metrics were good, for long reads uncorrected assemblies maybe the name isn't the good one, **large unalignement** was maybe a better name? Finaly it's still an assemblies evaluation metrics if you reduce the *# misassemblies* number you improve your assemblies.
 
-Reduce misassemblies number was a good thing but remove short misassemblies and create large misassemblies isn't a good idea. Compare misassemblies length distribution could be a better idea, even it's less clear than a unique number. I think we can create better tools than just a boxplot human eye analysis.
+Reduce misassemblies number was a good thing but remove short misassemblies and create large misassemblies isn't a good idea. Compare misassemblies length distribution could be a better idea, even it's less clear than a unique number. I think we can create better tools than just a violin plot human eye analysis.
 
 ## Acknowledgement
 
 For her help in writing this blog post:
 - Rayan Chikhi
 - Jean-Stéphane Varré
+- Matthieu Falce
 
 For her proof reading:
+
 -
 
