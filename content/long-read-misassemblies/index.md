@@ -6,6 +6,9 @@ draft = true
 tags = ["long-read", "assembly", "evaluation"]
 +++
 
+
+# Introduction
+
 I think all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but how I can be sure it's the best possible one and they didn't contain many errror ?"
 
 We have many technics to evaluate the quality of assembly (isn't a complete review sorry):
@@ -30,7 +33,43 @@ Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](h
 
 We send this paper to a journal, and Reviewer 3 say something like that "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." and it's probably true.
 
-Miniasm and redbean perform an assembly without read correction step (and without consensus step for miniasm). The low quality of contigs sequence have an important impact on her mappability and quast could confuse a low-quality region misaligned with misassemblies. To confirm if quast misassemblies is or isn't a good metrics to evaluate we need to know what is a quast misassemblies?
+Miniasm and redbean perform an assembly without read correction step (and without consensus step for miniasm). The low quality of contigs sequence have an important impact on her mappability and quast could confuse a low-quality region misaligned with misassemblies.
+
+In this blog post I want answer to two question:
+- quast misassemblies count was a good tools to compare two assembly ?
+- can we have easily a better metrics than just misassemblies count ?
+
+## Quast misassemblies definition
+
+### Relocation
+
+### Translocation
+
+### Inversion
+
+**min-identity is important because if a mapping isn't see we can't see misassemblies**
+
+## Effect of min-identity
+
+### Required for uncorreted dataset
+
+### Effect on corrected dataset
+
+## Effect of extensive-min-size
+
+### By type
+
+**extensive-min-size have important impacte on relocation and relocation seem to be the majority of misassemblies**
+
+### Relocation length distribution
+
+## Conclusion
+
+- **min-identity have an important impacte but they touch all assembly**
+- **relocation was the majority of misassemblies in long-read uncorrected misassemblies**
+- **analyse length of relocation can be better than just the count**
+
+
 
 ## Quast misassemblies definition
 
