@@ -10,35 +10,19 @@
 
 	    data.push({
 		type: 'histogram',
-		name: 'H. sapiens',
-		x: unpack(rows, 'H. sapiens'),
-	    });
-
-	    data.push({
-		type: 'histogram',
 		name: 'C. elegans',
 		x: unpack(rows, 'C. elegans'),
 	    });
 
 	    data.push({
 		type: 'histogram',
-		name: 'D. melanogaster',
-		x: unpack(rows, 'D. melanogaster'),
+		name: 'C. elegans + 3 * Racon',
+		x: unpack(rows, 'C. elegans racon'),
 	    });
-
-	    Plotly.plot('mapping_identity', data,
+	    
+	    Plotly.plot('c_elegans_map_id', data,
 			{
 			    title: "Distribution of mapping identity",
-			    shapes: [{
-				type: 'line',
-				x0: 95,
-				y0: 0,
-				x1: 95,
-				y1: 240,
-				line: {
-				    width: 1
-				}
-			    }],
 			});
 	});
     }

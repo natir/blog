@@ -26,9 +26,11 @@ The main case where we perform something like that was when we want to evaluate 
 
 Quast was a very useful tool and they integrate now many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
-Recently, with Rayan Chikhi and Jean-Stéphane Varré, I publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two standalone tools they can be introduced in assembly pipeline to remove very bad reads region and filter out low-quality overlap. We evaluate the effect of this tools on without correction long-reads assembly pipeline ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)) and compare assembly quality of different pipeline with quast.
+Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two standalone tools they can be introduced in assembly pipeline to remove very bad reads region and filter out low-quality overlap. We evaluate the effect of this tools on without correction long-reads assembly pipeline ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)) and compare assembly quality of different pipeline with quast.
 
-We send this paper to a journal, and Reviewer 3 say something like that "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." and it's true. Miniasm and redbean perform an assembly without read correction step (and without consensus step form miniasm). The low quality of contigs sequence have an important impact on her mappability and quast could confuse a low-quality region misaligned with misassemblies. First question how quast define a misassemblies?
+We send this paper to a journal, and Reviewer 3 say something like that "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." and it's probably true.
+
+Miniasm and redbean perform an assembly without read correction step (and without consensus step for miniasm). The low quality of contigs sequence have an important impact on her mappability and quast could confuse a low-quality region misaligned with misassemblies. To confirm if quast misassemblies is or isn't a good metrics to evaluate we need to know what is a quast misassemblies?
 
 ## Quast misassemblies definition
 
@@ -38,7 +40,8 @@ To define quast misassemblies we going to use simple example, we have a genome w
 
 A misassembly occure when, $L_n$ > `--extensive-mis-size` (1kbp by default) option and $L_{m1}$ and $L_{m2}$ > 1kbp (this value cann't be change ?).
 
-In my example contig mis a part of reference, maybe a repetition contraction. The contig contains something not present in chromosome, maybe a repetition expansion, in this case, mappings begin of $L_{m2}$ was before end of $L_{m1}$. This type of misassemblies was called **Relocation** by quast.
+In my example contig mis a part of reference, maybe a repetition contraction or a region with an error rate upper than 80 %. 
+In another hand the contig can contains something not present in chromosome, maybe a repetition expansion, in this case, mappings begin of $L_{m2}$ was before end of $L_{m1}$. This type of misassemblies was called **Relocation** by quast.
 
 **Translocation** occur when a contigs map on two different chromosomes and **inversion** occur when contig map on the same chromosome but in different strand. For more details on quast misassemblies definition, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of quast manual.
 
@@ -48,8 +51,7 @@ In my example contig mis a part of reference, maybe a repetition contraction. Th
 
 If `--min-identity` was to high a good alignment can be filtered out and create a large gap in mapping count as misassemblies. If `--extensive-mis-size` was to small many short gaps create by errors in contigs can be create misassemblies.
 
-We can tune these two parametre, in the rest of this blogpost I will show the impact of the `extensive-mis-size` parameter on the number of misassemblies found by quast
-
+We can tune these two parametre, on the number of misassemblies found by quast
 
 ## Dataset, assembly pipeline and quast option
 
@@ -63,9 +65,19 @@ For this test, we are going to use two Nanopore datasets and one Pacbio dataset.
   * [C. elegans](ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz) 100.2 Mb
   * [H. sapiens chr1](ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz) 248.9 Mb
   
-To perform assembly we use Minimap2 (version 2.16-r922) and Miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
+To perform assembly we use minimap2 (version 2.16-r922) and Miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
 
 We launch quast (version v5.0.2) with different value for parameter `extensive-min-size` 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.0000 the parameter `--min-identity` was fix at 80 %.
+
+To test the effect of correction on misassemblies count we run racon (v1.4.3) 3 times *C. elegans* (the one with the best reference) dataset.
+
+## Effect of correction
+
+For not corrected assembly quast use 7049 mapping, for corrected assembly quast use 30931 (increasing ratio 4.38).
+
+{{ plotly(id="c_elegans_map_id", src="c_elegans_map_id.js") }}
+
+We can observe an increasing of mapping quality, a majority of mapping have an identity upper than 95 % compare to the uncorrected assembly.
 
 ## Effect of min-identity parametre
 
@@ -73,7 +85,21 @@ quast create a file `contigs_reports/minimap_output/{output-name}.coords` in the
 
 {{ plotly(id="mapping_identity", src="mapping_identity.js") }}
 
-The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold. 
+The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold for uncorrected dataset usage of `--min-identity 80` seem necessary.
+
+To have an insite on effect of mapping_identity on corrected assembly we run quast with default parameter on corrected (with racon) *C. elegans* dataset.
+
+| racon | no | yes | yes |
+| -| -| -| -|
+| **min-identity** | **80** | **80** | **95** |
+| relocation | 1131 | 886 | 635 |
+| translocation | 200 | 259 | 170 |
+| inversion | 65 | 68 | 75 |
+| total | 1396 | 1213 | 880 |
+
+With `min-identity` = 80 % the number of relocation and translocation is increase compare to the default value of `min-identity`. If quast have only one alignment of a contig, quast can't found misassemblies, by reduce the `min-identity` we increase the number of alignement and mechanicly increase the number of misassemblies.
+
+Maybe some of this misassemblies isn't a real misassemblies but if we use the same `min-identity` value for all assembly we wan't compare. We can hope this number of fake misassemblies was the same on all condition.
 
 ## Effect of increase extensive-min-size
 
