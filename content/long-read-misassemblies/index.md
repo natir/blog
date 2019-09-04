@@ -15,7 +15,7 @@ We have many technics to evaluate the quality of assembly (isn't a complete revi
 - with only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
   + analysis of read remapping against assembly [ASMOValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
-  + by computing the probability of the reads dataset can be got by assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
+  + by computing the probability of the reads dataset can be generate from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
 - by using external information: 
   + count the number of core gene present in assembly, [BUSCO](https://busco.ezlab.org/)
   + transcriptome information, [for example, *Bos taurus* genome validation](https://doi.org/10.1186/gb-2009-10-4-r42)
@@ -37,64 +37,44 @@ Miniasm and redbean perform an assembly without read correction step (and withou
 
 In this blog post I want answer to two question:
 - quast misassemblies count was a good tools to compare two assembly ?
-- can we have easily a better metrics than just misassemblies count ?
+- can we found easily a better metrics than just misassemblies count ?
 
 ## Quast misassemblies definition
+
+Quast define three type of misassemblies **relocation**, **translocation** and **inversion**.
 
 ### Relocation
 
-### Translocation
-
-### Inversion
-
-**min-identity is important because if a mapping isn't see we can't see misassemblies**
-
-## Effect of min-identity
-
-### Required for uncorreted dataset
-
-### Effect on corrected dataset
-
-## Effect of extensive-min-size
-
-### By type
-
-**extensive-min-size have important impacte on relocation and relocation seem to be the majority of misassemblies**
-
-### Relocation length distribution
-
-## Conclusion
-
-- **min-identity have an important impacte but they touch all assembly**
-- **relocation was the majority of misassemblies in long-read uncorrected misassemblies**
-- **analyse length of relocation can be better than just the count**
-
-
-
-## Quast misassemblies definition
-
-To define quast misassemblies we going to use simple example, we have a genome with one no circular chromosomes, our assembly contains only one contig, this contig map against the reference(green part) and didn't map (red part).
+To define a relocation we going to use simple example, we have a genome with one no circular chromosomes, our assembly contains only one contig, this contig map against the reference(green part) and didn't map (red part).
 
 ![misassemblies_def.svg](misassemblies_def.svg)
 
-A misassembly occure when, $L_n$ > `--extensive-mis-size` (1kbp by default) option and $L_{m1}$ and $L_{m2}$ > 1kbp (this value cann't be change ?).
+A misassembly occure when, $L_n$ > `extensive-mis-size` (1kbp by default) option and $L_{m1}$ and $L_{m2}$ > 1kbp (this value cann't be change ?).
 
 In my example contig mis a part of reference, maybe a repetition contraction or a region with an error rate upper than 80 %. 
-In another hand the contig can contains something not present in chromosome, maybe a repetition expansion, in this case, mappings begin of $L_{m2}$ was before end of $L_{m1}$. This type of misassemblies was called **Relocation** by quast.
+In another hand the contig can contains something not present in chromosome, maybe a repetition expansion, in this case, mappings begin of $L_{m2}$ was before end of $L_{m1}$.
 
-**Translocation** occur when a contigs map on two different chromosomes and **inversion** occur when contig map on the same chromosome but in different strand. For more details on quast misassemblies definition, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of quast manual.
+### Translocation
 
-**Important note :**
-- alignment with an identity lower than `--min-identity` (95% by default minimum 80%) aren't used by quast
-- to perform alignment of contigs against references recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when --min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65)
+A translocation occur when contig have mapping on more than one reference chromosomes.
 
-If `--min-identity` was to high a good alignment can be filtered out and create a large gap in mapping count as misassemblies. If `--extensive-mis-size` was to small many short gaps create by errors in contigs can be create misassemblies.
+### Inversion
 
-We can tune these two parametre, on the number of misassemblies found by quast
+A inversion occur when contig have two consecutive mapping on the same chromosome but in different strand.
 
-## Dataset, assembly pipeline and quast option
+### Important precision
 
-For this test, we are going to use two Nanopore datasets and one Pacbio dataset.
+For more details on quast misassemblies definition, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of quast manual.
+
+To perform alignment of contigs against references recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Not all alignment found by minimap2 are keep with an identity lower than `min-identity` (95% by default minimum 80%) aren't used by quast.
+
+`min-identity` was a very important parameter, to have a misassemblies we need to have at minimum two mapping for a contig. If the second mapping have identity under than `min-identity` threshold quast can't observe this misassemblies. But even more if we take another case with a contigs with three mapping if the mapping in middle was lowest than threshold and the gap between the two other mapping is larger than `extensize-mis-size` quast can count a misassemblies where it's isn't a missassemblies.
+
+`min-identity` and `extensize-mis-size` have a important impact on misassemblies detection what is the effect of evolution of this two parametre on the number of misassemblies found by quast ?
+
+## Dataset, assembly pipeline, correction and quast option
+
+To test this, we are going to use two Nanopore datasets and one Pacbio dataset.
 - Reads:
   * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
   * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
@@ -104,27 +84,29 @@ For this test, we are going to use two Nanopore datasets and one Pacbio dataset.
   * [C. elegans](ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz) 100.2 Mb
   * [H. sapiens chr1](ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz) 248.9 Mb
   
-To perform assembly we use minimap2 (version 2.16-r922) and Miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
+To perform assembly we use minimap2 (version 2.16-r922) and miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
 
-We launch quast (version v5.0.2) with different value for parameter `extensive-min-size` 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.0000 the parameter `--min-identity` was fix at 80 %.
+We use quast version v5.0.2.
 
-To test the effect of correction on misassemblies count we run racon (v1.4.3) 3 times *C. elegans* (the one with the best reference) dataset.
+## Effect of min-identity
 
-## Effect of correction
+### Required for uncorreted dataset
+
+quast create a file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column quast store the mapping quality. For each dataset we extract this value and plot in an histogram.
+
+{{ plotly(id="mapping_identity", src="mapping_identity.js") }}
+
+The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold for uncorrected dataset usage of `min-identity 80` seem necessary.
+
+### Effect on corrected dataset
+
+To test the effect of correction on misassemblies count we run racon (v1.4.3) 3 times on *C. elegans* (the one with the best reference) dataset.
 
 For not corrected assembly quast use 7049 mapping, for corrected assembly quast use 30931 (increasing ratio 4.38).
 
 {{ plotly(id="c_elegans_map_id", src="c_elegans_map_id.js") }}
 
 We can observe an increasing of mapping quality, a majority of mapping have an identity upper than 95 % compare to the uncorrected assembly.
-
-## Effect of min-identity parametre
-
-quast create a file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column quast store the mapping quality. For each dataset we extract this value and plot in an histogram.
-
-{{ plotly(id="mapping_identity", src="mapping_identity.js") }}
-
-The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold for uncorrected dataset usage of `--min-identity 80` seem necessary.
 
 To have an insite on effect of mapping_identity on corrected assembly we run quast with default parameter on corrected (with racon) *C. elegans* dataset.
 
@@ -136,13 +118,13 @@ To have an insite on effect of mapping_identity on corrected assembly we run qua
 | inversion | 65 | 68 | 75 |
 | total | 1396 | 1213 | 880 |
 
-With `min-identity` = 80 % the number of relocation and translocation is increase compare to the default value of `min-identity`. If quast have only one alignment of a contig, quast can't found misassemblies, by reduce the `min-identity` we increase the number of alignement and mechanicly increase the number of misassemblies.
+With `min-identity 80` the number of relocation and translocation is increase compare to the default value of `min-identity`. If quast have only one alignment of a contig, quast can't found misassemblies, by reduce the `min-identity` we increase the number of alignement and mechanicly increase the number of misassemblies.
 
 Maybe some of this misassemblies isn't a real misassemblies but if we use the same `min-identity` value for all assembly we wan't compare. We can hope this number of fake misassemblies was the same on all condition.
 
-## Effect of increase extensive-min-size
+## Effect of extensive-min-size on misassemblies count
 
-### Number of misassemblies
+We launch quast with different value for parameter `extensive-min-size` 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.0000 the parameter `min-identity` was fix at 80 %.
 
 {{ plotly(id="nb_breakpoint", src="nb_breakpoint.js") }}
 
@@ -150,7 +132,7 @@ This graph shows the evolution of the number of misassemblies in function of the
 
 This graph shows two types of misassemblies some found with `extensive-min-size` lower than 10.000 and another where `extensive-min-size` are upper than 10.000. We can't say the first group of misassemblies was a *fake* misassemblies but I think we can be sure misassemblies found with `extensive-min-size` upper than 10.000 was *true* misassemblies
 
-### Misassemblies group
+### Effect of extensive-min-size on each misassemblies types count
 
 Quast defines three types of misassemblies **relocation**, **translocation** and **inversion** previously we observe the total number of misassemblies, how each group of misassembly evolves.
 
@@ -166,25 +148,35 @@ I can't explain why translocation and inversion number change with a different v
 
 Relocation misassemblies are the most common type of misassemblies and we can impute the reduction of misassemblies to relocation misassemblies reduction.
 
+
 ### Relocation length distribution
+
+We see previously for our not corrected assemblies a majority of misassemblies was relocation we are now focus on this type of misassemblies.
 
 The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv` contains information about mapping and misassemblies. For other information on how quast store mapping and misassemblies information read [quast faq](http://quast.bioinf.spbau.ru/manual.html#sec7).
 
 ![relocation_length.svg](relocation_length.svg)
 
-This figure shows a violin plot of log of length associate to recombination, if the length is positive assembly mis a part of reference (green curve), if the length is negative assembly duplicate a part of the reference (orange curve). The boxplot in the violin was build with all absolute value. ([source code](relocation_length.py), [data](relocation_length.csv))
+This figure shows a swarm plot of log of length associate to recombination it's the size of the gap between mapping border the misassemblies. if the length is positive assembly mis a part of reference (green point), if the length is negative assembly duplicate a part of the reference (orange point), [source code](relocation_length.py), [data](relocation_length.csv) and raw data was avaible.
 
-For *H. sapiens* majority of relocation was positive and short (between 1000 and 5000 base), with some very large relocation. For *C. elegans* it's different, majority of relocation is negative and largest relocation was shortest than *H. sapiens*. *D. melanogaster* contains more relocation than *H. sapiens* and *C. elegans*, the area under the kde curve are larger. With this representation we can analyse the difference between relocation distribution in term of number of relocation and her length distribution.
+For *H. sapiens* majority of relocation was positive and short (between 1000 and 5000 base), with some very large relocation. For *C. elegans* it's different, majority of relocation is negative and largest relocation was shortest than *H. sapiens*. For *D. melanogaster* the size of relocations was more spread the majority of relocation isn't the shortest this confirm by the appearance of the curve seen in the previous part when the extensize-min-size is increased, the number of relocations decreases less quickly than for the other datasets. 
+
+With this representation we can analyse the difference between relocation distribution in term of number of relocation and her length distribution.
+
 
 ## Conclusion
+
+- **min-identity have an important impacte but they touch all assembly**
+- **relocation was the majority of misassemblies in long-read uncorrected misassemblies**
+- **analyse length of relocation can be better than just the count**
 
 Majority of misassembly was relocation her number drop-down rapidly when `extensive-min-size` increase this parameter has a direct impact on this relocation misassembly definition. I can't explain the translocation and inversion evolution.
 
 I would like to say that the relocations that remain after the value of extensive-min-size are greater than 10 kb are *true* relocations. *True* in the sense that they are actualy due to assembly errors and not to a contig mappability trouble. Checking each misassembly, manually is difficult, takes a lot of time, be very arbitrary but found a good threshold for `extensive-min-size` seems impossible.
 
-Misassemblies quast metrics were good, for long reads uncorrected assemblies maybe the name isn't the good one, **large unalignement** was maybe a better name? Finaly it's still an assemblies evaluation metrics if you reduce the *# misassemblies* number you improve your assemblies.
+The count of misassemblies produce by quast is good assembly quality metrics even for uncorrected longread assemblies. But we need not focus on the number of misassemblies but more on the number by types and for relocations check the length distribution to see in details the effect of change on assembly pipeline.
 
-Reduce misassemblies number was a good thing but remove short misassemblies and create large misassemblies isn't a good idea. Compare misassemblies length distribution could be a better idea, even it's less clear than a unique number. I think we can create better tools than just a violin plot human eye analysis.
+Reduce the number of misassemblies was a good thing, for translocation and inversion we can just check the number. But for relocation remove short relocation and create large relocation isn't a good idea. Compare relocations length distribution could be a better idea, even it's less clear than a unique number. I think we can create better tools than just a human eye analysis on a plot.
 
 ## Acknowledgement
 
@@ -194,6 +186,5 @@ For her help in writing this blog post:
 - Matthieu Falce
 
 For her proof reading:
-
--
+- [insert your name here by editing this file](https://github.com/natir/blog/blob/master/content/long-read-misassemblies/index.md)
 
