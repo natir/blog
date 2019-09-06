@@ -1,7 +1,7 @@
 +++
 template = "page.html"
-title = "Uncorrected long-read misassemblies"
-date = 2019-08-23
+title = "Use misassemblies to compare assembly without correction and polishing"
+date = 2019-09-06
 draft = true
 tags = ["long-read", "assembly", "evaluation"]
 +++
@@ -32,22 +32,20 @@ We send this paper to a journal, and a reviewer says something like that "quast 
 
 Miniasm and redbean perform an assembly without reads correction step (and without consensus step for miniasm). The low quality of the contigs sequence is a real problem quast could confuse a low-quality region misaligned with misassemblies.
 
-In this blog post I want an answer some questions:
-- how to run quast on long-read uncorrected misassemblies
-- quast misassemblies count was a good tool to compare two assemblies?
-- can we found easily better metrics than just misassemblies count?
+In this blog post I want an answer the following questions:
+1) how to run quast on long-read uncorrected misassemblies
+2) is the quast misassemblies count a good tool to evaluate / compare assemblies?
+3) can we find better metrics than just a number of misassemblies?
 
 If you have no time to read all this long and technical details you can go directly to the [TL;DR](#take-home-message).
-
-**First wich dataset, assembly, analysis tools, and other stuff we use !**
 
 ## Dataset, assembly pipeline, analysis pipeline her version and parameter
 
 For our test we are going to use two Nanopore datasets and one Pacbio dataset.
 - Reads:
-  * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783)
-  * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam)
-  * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html)
+  * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783) 63x
+  * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam) 29x
+  * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html) 80x
 - References:
   * [D. melanogaster](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4) 143.726002 Mb
   * [C. elegans](ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz) 100.2 Mb
