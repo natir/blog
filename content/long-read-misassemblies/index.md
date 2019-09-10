@@ -1,38 +1,38 @@
 +++
 template = "page.html"
-title = "Use misassemblies to compare assembly without correction and polishing"
+title = "Use misassemblies to compare noisy assembly"
 date = 2019-09-06
 draft = true
-tags = ["long-read", "assembly", "evaluation"]
+tags = ["long-read", "assembly", "evaluation", "misassemblies"]
 +++
 
-I think all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure it's the best possible one and they didn't contain many errors ?"
+I think all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure it's the best and it didn't contain many errors ?"
 
-We have many technics to evaluate the quality of assembly (isn't a complete review sorry):
+We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
 - with only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
-  + analysis of read remapping against assembly [ASMOValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
-  + by computing the probability of the reads dataset can be generate from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
+  + by analyse read remapping against assembly [ASMOValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
+  + by computing the probability of the reads dataset that can be generate from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
 - by using external information: 
-  + count the number of core gene present in assembly, [BUSCO](https://busco.ezlab.org/)
+  + count the number of core gene present in an assembly, [BUSCO](https://busco.ezlab.org/)
   + transcriptome information, [for example, *Bos taurus* genome validation](https://doi.org/10.1186/gb-2009-10-4-r42)
   + synteny information [Lui et al](https://doi.org/10.1186/s12859-018-2026-4)
   + map assembly against a near genome, [quast](https://doi.org/10.1093/bioinformatics/btt086)
   + map assembly against the reference genome
   
-If you use quast to reference genome, you have a reference genome, so why you want to perform an assembly?
+If you use quast to reference genome, you have already a reference genome, so why you want to perform an assembly?
 
-The main case where we perform something like that was when we want to evaluate different assembly pipeline on the same read data set. To evaluate a completely new assembly pipeline, test a different set of parameters, evaluate the impact of add or change tools in an assembly pipeline.
+The main case where we perform something like that was when we want to evaluate different assembly pipelines on the same read data set. To evaluate completely a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing tools in an assembly pipeline.
 
-Quast was a very useful tool and they integrate now many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
+Quast was a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
-Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two standalone tools they can be introduced in assembly pipeline to remove very bad reads region and filter out low-quality overlap. We evaluate the effect of these tools on without correction long-reads assembly pipeline ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)) and compare the assembly quality of different pipeline with quast.
+Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two standalone tools they can be introduced in assembly pipeline to remove very bad reads region and filter out low-quality overlap. We evaluate the effect of these tools on "without correction long-reads assembly pipeline" ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)) and compare the assembly quality of different pipeline with quast.
 
-We send this paper to a journal, and a reviewer says something like that "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." and it's probably true.
+We send this paper to a journal, and a reviewer says something like "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." And it's probably true.
 
-Miniasm and redbean perform an assembly without reads correction step (and without consensus step for miniasm). The low quality of the contigs sequence is a real problem quast could confuse a low-quality region misaligned with misassemblies.
+Miniasm and redbean perform an assembly without reads correction step (and without consensus step for miniasm). The low quality of the contigs sequence is a real problem: quast could confuse a low-quality region misaligned with misassemblies.
 
-In this blog post I want an answer the following questions:
+In this blog post, I want to answer the following questions:
 1) how to run quast on long-read uncorrected misassemblies
 2) is the quast misassemblies count a good tool to evaluate / compare assemblies?
 3) can we find better metrics than just a number of misassemblies?
@@ -226,6 +226,7 @@ You can use quast to compare long-read uncorrected misassemblies but:
 For their help in writing this blogpost:
 - Rayan Chikhi
 - Jean-Stéphane Varré
-- Matthieu Falce
 - Yoann Dufresne
 - Antoine Limasset
+- Matthieu Falce
+- Kevin Gueuti
