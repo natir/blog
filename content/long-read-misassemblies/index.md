@@ -126,27 +126,28 @@ Quast base its misassemblies analysis by mapping the contigs against a reference
 
 ### Low min-identity is required for uncorrected assembly
 
-Quast uses mapping with alignment identity upper than `min-identity`, what is the good value of this parameter for long-read uncorrected assembly.
+Quast uses mappings with alignment identity upper than `min-identity`. So, what could be a good value for this parameter for long-read uncorrected assembly.
 
-File `contigs_reports/minimap_output/{output-name}.coords` in the fourth column contains the mapping quality. For each dataset, we extract this value and plot in a histogram.
+**TODO: Qui génère ce fichier ? minimap ? Quast ?**
+The file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column contains the mapping quality. For each dataset, we extracted this value and plot it in an histogram.
 
 {{ plotly(id="mapping_identity", src="mapping_identity.js") }}
 
-In the horizontal axis, we have the identity percent, in the vertical axis, we have the number of mappings in each bin.
+Horizontal axis: identity percentage, vertical axis: number of mappings in each bin.
 
 The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold for uncorrected dataset usage of `min-identity 80` seems necessary.
 
 ### Effect on a corrected dataset
 
-To test the effect of correction on misassemblies count we run racon 3 times on *C. elegans* (the one with the best reference) dataset.
+To test the effect of correction on misassemblies count, we run racon 3 times on *C. elegans* (the one with the best reference) dataset.
 
-For not corrected assembly quast use 7049 mapping, for corrected assembly quast use 30931 (increasing ratio 4.38).
+For non-corrected assembly, quast uses 7049 mapping, and for corrected assembly 30931 (increasing ratio 4.38).
 
 {{ plotly(id="c_elegans_map_id", src="c_elegans_map_id.js") }}
 
-In the horizontal axis, we have the identity percent, in the vertical axis, we have the number of mappings in each bin.
+Horizontal axis: identity percentage, vertical axis: number of mappings in each bin.
 
-We can observe an increase in mapping quality, a majority of mapping has an identity upper than 95 % compared to the uncorrected assembly.
+We can observe an increase in mapping quality. Contrary to the uncorrected assembly, the majority of the mappings have a 95% or more identity.
 
 To have an insight on the effect of mapping_identity on corrected assembly we run quast with default parameter on corrected (with racon) *C. elegans* dataset.
 
@@ -158,9 +159,9 @@ To have an insight on the effect of mapping_identity on corrected assembly we ru
 | inversion | 65 | 68 | 75 |
 | total | 1396 | 1213 | 880 |
 
-With `min-identity 80` the number of relocation and translocation is increased compared to the default value of `min-identity`. If quast have only one alignment of a contig, quast can't found misassemblies, by reducing the `min-identity` we increase the number of alignment and mechanically increase the number of misassemblies.
+With `min-identity 80` the number of relocation and translocation is increased compared to the default value of `min-identity`. If quast have only one alignment of a contig, it cannot find misassemblies. By reducing the `min-identity` we increased the number of alignment and mechanically increased the number of misassemblies.
 
-Maybe some of these misassemblies aren't real misassemblies but if we use the same `min-identity` value for all assembly we want to compare. We can hope this number of fake misassemblies was the same in all conditions.
+Some of these misassemblies aren't real misassemblies. But if we use the same `min-identity` value for all assemblies that we want to compare, we can hope that the number of fake misassemblies are the same in all conditions.
 
 **For an uncorrected long-read misassemblies use the minimal identity threshold (80 %) was required**
 
