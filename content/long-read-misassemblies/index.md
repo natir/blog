@@ -113,13 +113,13 @@ The contig utg0000021L map on chromosome I but contig contains an inversion.
 
 ### Important point
 
-For more details on quast misassemblies definition, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of quast manual.
+For more details on quast misassembly definitions, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of the quast manual.
 
-Quast base her misassemblies analysis by mapping contigs against a reference. To perform alignment recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Alignment with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
+Quast base its misassemblies analysis by mapping the contigs against a reference. To perform alignment recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Alignment with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
 
-`min-identity` was a very important parameter, to have misassemblies we need to have at minimum two mappings for a contig. If the second mapping has an identity under than `min-identity` threshold quast can't observe this misassembly. But even more, if we take another case with three mappings if the mapping in middle was lowest than the `min-identity` threshold and if the gap creates between two other mappings is larger than `extensize-mis-size` quast can count misassembly, where it's, isn't a misassembly.
+`min-identity` is a very important parameter. To consider a contig as misassembled, quast must have a minimum of two mappings for this contig. If the second mapping has an identity under than `min-identity` threshold quast can't observe the misassembly. But even more, if a contig has three successive mappings, the mapping in the middle has a lowest score than the `min-identity` threshold and the remaining gap between the two other mappings is larger than `extensize-mis-size`, then quast count a misassembly, where it isn't.
 
-**`min-identity` and `extensize-mis-size` have an important impact on misassemblies detection what is the effect of the evolution of these two parametres on the number of misassemblies found by quast?**
+**`min-identity` and `extensize-mis-size` have an important impact on misassemblies detection. So, what is the effect of the evolution of these two parametres on the number of misassemblies found by quast?**
 
 
 ## Effect of min-identity
