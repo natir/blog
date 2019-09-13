@@ -75,7 +75,6 @@ A relocation can occur between two mappings of the same contig against the same 
 
 ![relocation definition](relocation_def.svg)
 
-**TODO: mise en forme**  
 A misassembly was count when $L_x$ and $L_z$ > 1kbp (this value can't be change ?) and when $L_y$ > `extensive-mis-size` (1kbp by default).
 
 Let's call $L_y$ the length of the relocation.
@@ -128,8 +127,7 @@ Quast base its misassemblies analysis by mapping the contigs against a reference
 
 Quast uses mappings with alignment identity upper than `min-identity`. So, what could be a good value for this parameter for long-read uncorrected assembly.
 
-**TODO: Qui génère ce fichier ? minimap ? Quast ?**
-The file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column contains the mapping quality. For each dataset, we extracted this value and plot it in an histogram.
+The file `contigs_reports/minimap_output/{output-name}.coords`, generate by quast, in the fourth column contains the mapping quality. For each dataset, we extracted this value and plot it in an histogram.
 
 {{ plotly(id="mapping_identity", src="mapping_identity.js") }}
 
