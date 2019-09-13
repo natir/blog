@@ -63,21 +63,25 @@ All dotplot was produced by [D-Genies](http://dgenies.toulouse.inra.fr/).
 
 ## Quast misassemblies definition
 
-What's a quast misassemblies? Did we have some different type? How they are defined? 
+What are quast misassemblies? Do we have different misassembly types? How are they defined? 
 
 Quast define three type of misassemblies **relocation**, **translocation** and **inversion**.
 
 ### Relocation
 
-A relocation can occur between two mappings of the same contigs against the same chromosome, we have two cases when these two mappings:
-- is separated by a region without mapping (case **A**)
-- cover the same region of the chromosome  (case **B**)
+A relocation can occur between two mappings of the same contig against the same chromosome, we have two cases when these two mappings:
+- are separated by an unmapped region (case **A**)
+- are mapped on the same chromosome with a shared mapping area  (case **B**)
 
 ![relocation definition](relocation_def.svg)
 
+**TODO: mise en forme**  
 A misassembly was count when $L_x$ and $L_z$ > 1kbp (this value can't be change ?) and when $L_y$ > `extensive-mis-size` (1kbp by default).
 
-We can call $L_y$ the length of the relocations, it's a part where assembly pipeline make an error we can quantify the length of this error. When it's a relocation where a part of the reference is missing in assembly (case **A**) this length is positive when it's a relocation where assembly contains a duplication of a region present one time in reference (case **B**) this length is negative.
+Let's call $L_y$ the length of the relocation.
+- The relocation lenght is positive when the assembly missed a part of the reference (case **A**)
+- Negative when the assembly includes a duplicated region (cas **B**)
+In both cases, this is an assembly error.
 
 ![relocation dotplot exemple](relocation_dotplot_exemple.svg)
 
