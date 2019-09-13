@@ -362,3 +362,8 @@ a {
 .site-footer-credits {
   color: $blockquote-text-color;
 }
+
+.divider:before {
+		padding: 0 8px;
+		content: "•";
+}
