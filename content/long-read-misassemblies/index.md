@@ -85,23 +85,23 @@ In both cases, this is an assembly error.
 
 ![relocation dotplot exemple](relocation_dotplot_exemple.svg)
 
-A dotplot of contigs ctg000002L for our *C. elegans* miniasm assembly against the chromosome V, we can see two relocation events of type **B** circle in blue and a relocation event of type **A**, I have no idea to explain the other problem upper.
+Here is a dotplot of contigs ctg000002L for our *C. elegans* miniasm assembly against the chromosome V of the reference. We can see two relocation events of type **B** circled in blue and one relocation event of type **A**. I have no idea on how to explain the other problem on the right.
 
 ### Translocation
 
-A translocation occurs when contig has mapping on more than one reference chromosomes.
+A translocation occurs when a contig has mapped on more than one reference chromosome.
 
 ![translocation definition](translocation_def.svg)
 
-Generally, it's easy to spot this type of misassemblies on dotplot, the contig has a match on two chromosomes.
+It's easy to spot this kind of misassemblies on a dotplot because of the multi-chromosome match.
 
 ![translocation dotplot exemple](translocation_dotplot_exemple.svg)
 
-A part utg16L from our *C. elegans* miniasm assembly, map on chromosome II and V of reference, these contigs contain a translocation without any doubt. 
+A part utg16L from our *C. elegans* miniasm assembly, map on chromosome II and V of reference. This contig contains a translocation without any doubt. 
 
 ### Inversion
 
-An inversion occurs when contig has two consecutive mappings on the same chromosome but in different strands.
+An inversion occurs when a contig has two consecutive mappings on the same chromosome but in different strands.
 
 ![inversion definition](inversion_def.svg)
 
@@ -109,44 +109,45 @@ An inversion observes in dotplot of reference genome against miniasm assembly of
 
 ![inversion dotplot exemple](inversion_dotplot_exemple.svg)
 
-The contig utg0000021L map on chromosome I but contig contains an inversion in begin.
+The contig utg0000021L map on chromosome I but contig contains an inversion.
 
 ### Important point
 
-For more details on quast misassemblies definition, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of quast manual.
+For more details on quast misassembly definitions, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of the quast manual.
 
-Quast base her misassemblies analysis by mapping contigs against a reference. To perform alignment recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Alignment with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
+Quast base its misassemblies analysis by mapping the contigs against a reference. To perform alignment recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Alignment with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
 
-`min-identity` was a very important parameter, to have misassemblies we need to have at minimum two mappings for a contig. If the second mapping has an identity under than `min-identity` threshold quast can't observe this misassembly. But even more, if we take another case with three mappings if the mapping in middle was lowest than the `min-identity` threshold and if the gap creates between two other mappings is larger than `extensize-mis-size` quast can count misassembly, where it's, isn't a misassembly.
+`min-identity` is a very important parameter. To consider a contig as misassembled, quast must have a minimum of two mappings for this contig. If the second mapping has an identity under than `min-identity` threshold quast can't observe the misassembly. But even more, if a contig has three successive mappings, the mapping in the middle has a lowest score than the `min-identity` threshold and the remaining gap between the two other mappings is larger than `extensize-mis-size`, then quast count a misassembly, where it isn't.
 
-**`min-identity` and `extensize-mis-size` have an important impact on misassemblies detection what is the effect of the evolution of these two parametres on the number of misassemblies found by quast?**
+**`min-identity` and `extensize-mis-size` have an important impact on misassemblies detection. So, what is the effect of the evolution of these two parametres on the number of misassemblies found by quast?**
 
 
 ## Effect of min-identity
 
 ### Low min-identity is required for uncorrected assembly
 
-Quast uses mapping with alignment identity upper than `min-identity`, what is the good value of this parameter for long-read uncorrected assembly.
+Quast uses mappings with alignment identity upper than `min-identity`. So, what could be a good value for this parameter for long-read uncorrected assembly.
 
-File `contigs_reports/minimap_output/{output-name}.coords` in the fourth column contains the mapping quality. For each dataset, we extract this value and plot in a histogram.
+**TODO: Qui génère ce fichier ? minimap ? Quast ?**
+The file `contigs_reports/minimap_output/{output-name}.coords` in the fourth column contains the mapping quality. For each dataset, we extracted this value and plot it in an histogram.
 
 {{ plotly(id="mapping_identity", src="mapping_identity.js") }}
 
-In the horizontal axis, we have the identity percent, in the vertical axis, we have the number of mappings in each bin.
+Horizontal axis: identity percentage, vertical axis: number of mappings in each bin.
 
 The black line mark quast the default identity value threshold, we can see a majority of alignment was under this threshold for uncorrected dataset usage of `min-identity 80` seems necessary.
 
 ### Effect on a corrected dataset
 
-To test the effect of correction on misassemblies count we run racon 3 times on *C. elegans* (the one with the best reference) dataset.
+To test the effect of correction on misassemblies count, we run racon 3 times on *C. elegans* (the one with the best reference) dataset.
 
-For not corrected assembly quast use 7049 mapping, for corrected assembly quast use 30931 (increasing ratio 4.38).
+For non-corrected assembly, quast uses 7049 mapping, and for corrected assembly 30931 (increasing ratio 4.38).
 
 {{ plotly(id="c_elegans_map_id", src="c_elegans_map_id.js") }}
 
-In the horizontal axis, we have the identity percent, in the vertical axis, we have the number of mappings in each bin.
+Horizontal axis: identity percentage, vertical axis: number of mappings in each bin.
 
-We can observe an increase in mapping quality, a majority of mapping has an identity upper than 95 % compared to the uncorrected assembly.
+We can observe an increase in mapping quality. Contrary to the uncorrected assembly, the majority of the mappings have a 95% or more identity.
 
 To have an insight on the effect of mapping_identity on corrected assembly we run quast with default parameter on corrected (with racon) *C. elegans* dataset.
 
@@ -158,9 +159,9 @@ To have an insight on the effect of mapping_identity on corrected assembly we ru
 | inversion | 65 | 68 | 75 |
 | total | 1396 | 1213 | 880 |
 
-With `min-identity 80` the number of relocation and translocation is increased compared to the default value of `min-identity`. If quast have only one alignment of a contig, quast can't found misassemblies, by reducing the `min-identity` we increase the number of alignment and mechanically increase the number of misassemblies.
+With `min-identity 80` the number of relocation and translocation is increased compared to the default value of `min-identity`. If quast have only one alignment of a contig, it cannot find misassemblies. By reducing the `min-identity` we increased the number of alignment and mechanically increased the number of misassemblies.
 
-Maybe some of these misassemblies aren't real misassemblies but if we use the same `min-identity` value for all assembly we want to compare. We can hope this number of fake misassemblies was the same in all conditions.
+Some of these misassemblies aren't real misassemblies. But if we use the same `min-identity` value for all assemblies that we want to compare, we can hope that the number of fake misassemblies are the same in all conditions.
 
 **For an uncorrected long-read misassemblies use the minimal identity threshold (80 %) was required**
 
