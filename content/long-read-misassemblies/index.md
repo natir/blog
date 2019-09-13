@@ -6,7 +6,7 @@ draft = true
 tags = ["long-read", "assembly", "evaluation", "misassemblies"]
 +++
 
-I think all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure it's the best and it didn't contain many errors ?"
+I think that all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure that it's the best and it don't contain a lot of errors ?"
 
 We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
 - with only assembly information:
@@ -20,17 +20,19 @@ We have many technics to evaluate the quality of assembly (it isn't a complete r
   + map assembly against a near genome, [quast](https://doi.org/10.1093/bioinformatics/btt086)
   + map assembly against the reference genome
   
-If you use quast to reference genome, you have already a reference genome, so why you want to perform an assembly?
+If you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
 
-The main case where we perform something like that was when we want to evaluate different assembly pipelines on the same read data set. To evaluate completely a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing tools in an assembly pipeline.
+The main case where we perform something like that was when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing the tools that are part of it.
 
-Quast was a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
+Quast is a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
-Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two standalone tools they can be introduced in assembly pipeline to remove very bad reads region and filter out low-quality overlap. We evaluate the effect of these tools on "without correction long-reads assembly pipeline" ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)) and compare the assembly quality of different pipeline with quast.
+Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two new standalone tools. These tools can be included in assembly pipelines to remove very bad reads region and filter out low-quality overlaps. We evaluated the effect of these tools on "short-reads assembly pipeline" ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)). Using quast, we compared the results with the assembly quality of different pipelines.
 
-We send this paper to a journal, and a reviewer says something like "quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate." And it's probably true.
+We send this paper to a journal, and one of the reviewers said:  
+"quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate."  
+And it's probably true.
 
-Miniasm and redbean perform an assembly without reads correction step (and without consensus step for miniasm). The low quality of the contigs sequence is a real problem: quast could confuse a low-quality region misaligned with misassemblies.
+Miniasm and redbean perform assemblies without read correction steps (and without consensus step for miniasm). The low quality of the contig sequence is a real problem: quast could confuse a low-quality region misaligned with misassemblies.
 
 In this blog post, I want to answer the following questions:
 1) how to run quast on long-read uncorrected misassemblies
@@ -61,21 +63,25 @@ All dotplot was produced by [D-Genies](http://dgenies.toulouse.inra.fr/).
 
 ## Quast misassemblies definition
 
-What's a quast misassemblies? Did we have some different type? How they are defined? 
+What are quast misassemblies? Do we have different misassembly types? How are they defined? 
 
 Quast define three type of misassemblies **relocation**, **translocation** and **inversion**.
 
 ### Relocation
 
-A relocation can occur between two mappings of the same contigs against the same chromosome, we have two cases when these two mappings:
-- is separated by a region without mapping (case **A**)
-- cover the same region of the chromosome  (case **B**)
+A relocation can occur between two mappings of the same contig against the same chromosome, we have two cases when these two mappings:
+- are separated by an unmapped region (case **A**)
+- are mapped on the same chromosome with a shared mapping area  (case **B**)
 
 ![relocation definition](relocation_def.svg)
 
+**TODO: mise en forme**  
 A misassembly was count when $L_x$ and $L_z$ > 1kbp (this value can't be change ?) and when $L_y$ > `extensive-mis-size` (1kbp by default).
 
-We can call $L_y$ the length of the relocations, it's a part where assembly pipeline make an error we can quantify the length of this error. When it's a relocation where a part of the reference is missing in assembly (case **A**) this length is positive when it's a relocation where assembly contains a duplication of a region present one time in reference (case **B**) this length is negative.
+Let's call $L_y$ the length of the relocation.
+- The relocation lenght is positive when the assembly missed a part of the reference (case **A**)
+- Negative when the assembly includes a duplicated region (cas **B**)
+In both cases, this is an assembly error.
 
 ![relocation dotplot exemple](relocation_dotplot_exemple.svg)
 
@@ -216,7 +222,7 @@ For relocations, the majority of misassemblies in our case, some of them are *tr
 
 ## Take home message
 
-You can use quast to compare long-read uncorrected misassemblies but:
+You can use quast to compare uncorrected long-read misassemblies but:
 - run quast with `--min-identity 80`
 - compare translocation and inversion count
 - for relocation compare distribution of length associate to each misassemblies
