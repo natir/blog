@@ -85,23 +85,23 @@ In both cases, this is an assembly error.
 
 ![relocation dotplot exemple](relocation_dotplot_exemple.svg)
 
-A dotplot of contigs ctg000002L for our *C. elegans* miniasm assembly against the chromosome V, we can see two relocation events of type **B** circle in blue and a relocation event of type **A**, I have no idea to explain the other problem upper.
+Here is a dotplot of contigs ctg000002L for our *C. elegans* miniasm assembly against the chromosome V of the reference. We can see two relocation events of type **B** circled in blue and one relocation event of type **A**. I have no idea on how to explain the other problem on the right.
 
 ### Translocation
 
-A translocation occurs when contig has mapping on more than one reference chromosomes.
+A translocation occurs when a contig has mapped on more than one reference chromosome.
 
 ![translocation definition](translocation_def.svg)
 
-Generally, it's easy to spot this type of misassemblies on dotplot, the contig has a match on two chromosomes.
+It's easy to spot this kind of misassemblies on a dotplot because of the multi-chromosome match.
 
 ![translocation dotplot exemple](translocation_dotplot_exemple.svg)
 
-A part utg16L from our *C. elegans* miniasm assembly, map on chromosome II and V of reference, these contigs contain a translocation without any doubt. 
+A part utg16L from our *C. elegans* miniasm assembly, map on chromosome II and V of reference. This contig contains a translocation without any doubt. 
 
 ### Inversion
 
-An inversion occurs when contig has two consecutive mappings on the same chromosome but in different strands.
+An inversion occurs when a contig has two consecutive mappings on the same chromosome but in different strands.
 
 ![inversion definition](inversion_def.svg)
 
@@ -109,7 +109,7 @@ An inversion observes in dotplot of reference genome against miniasm assembly of
 
 ![inversion dotplot exemple](inversion_dotplot_exemple.svg)
 
-The contig utg0000021L map on chromosome I but contig contains an inversion in begin.
+The contig utg0000021L map on chromosome I but contig contains an inversion.
 
 ### Important point
 
