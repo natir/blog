@@ -1,7 +1,7 @@
 +++
 template = "page.html"
-title = "Use misassemblies to compare noisy assembly"
-date = 2019-09-06
+title = "Misassemblies in noisy assemblies"
+date = 2019-09-16
 draft = true
 tags = ["long-read", "assembly", "evaluation", "misassemblies"]
 +++
