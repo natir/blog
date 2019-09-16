@@ -44,43 +44,44 @@ In this post I will talk about quast and not dnAQET, which has just been release
 
 ## Dataset, assembly pipeline, analysis pipeline her version and parameter
 
-For our test we are going to use two Nanopore datasets and one Pacbio dataset.
+For our tests we are going to use two Nanopore datasets and one Pacbio dataset.
 - Reads:
-  * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783) 63x
+  * [Oxford nanopore D melanogaster](https://www.ebi.ac.uk/ena/data/view/SRX3676783) 63x coverage
   * [Oxford nanopore H sapiens chr1](http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam) 29x
   * [Pacbio RS P6-C4 C elegans](http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html) 80x
 - References:
-  * [D. melanogaster](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4) 143.726002 Mb
+  * [D. melanogaster](https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4) 143.7 Mb
   * [C. elegans](ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz) 100.2 Mb
   * [H. sapiens chr1](ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz) 248.9 Mb
   
 To perform assembly we use minimap2 (version 2.16-r922) and miniasm (version 0.3-r179) with recommended preset for each sequencing technology (`ava-ont` and `ava-pb`).
 
-We use [racon](https://github.com/lbcb-sci/racon) (v1.4.3), for mapping read against assembly we use minimap2, with recommended preset for each sequencing technology.
+We use [racon](https://github.com/lbcb-sci/racon) (v1.4.3) for polishing. For mapping reads against assembly we use minimap2, with recommended preset for each sequencing technology.
 
 We use quast version v5.0.2.
 
-All dotplot was produced by [D-Genies](http://dgenies.toulouse.inra.fr/).
+All dotplots were produced by [D-Genies](http://dgenies.toulouse.inra.fr/).
 
 ## Quast misassemblies definition
 
 What are quast misassemblies? Do we have different misassembly types? How are they defined? 
 
-Quast define three type of misassemblies **relocation**, **translocation** and **inversion**.
+Quast defines three types of misassemblies: **relocation**, **translocation** and **inversion**.
 
 ### Relocation
 
-A relocation can occur between two mappings of the same contig against the same chromosome, we have two cases when these two mappings:
-- are separated by an unmapped region (case **A**)
-- are mapped on the same chromosome with a shared mapping area  (case **B**)
+A relocation can occur based on signal from two mappings of the same contig against the same chromosome. We have two cases:
+- either the two mappings are separated by an unmapped region (case **A**)
+- or they map on the same chromosome with a shared mapping area  (case **B**)
 
 ![relocation definition](relocation_def.svg)
 
-A misassembly was count when $L_x$ and $L_z$ > 1kbp (this value can't be change ?) and when $L_y$ > `extensive-mis-size` (1kbp by default).
+A misassembly is said to occur when $L_x$ and $L_z$ > 1kbp (this value can't be changed, it seems) and when $L_y$ > `extensive-mis-size` (1kbp by default).
 
 Let's call $L_y$ the length of the relocation.
-- The relocation lenght is positive when the assembly missed a part of the reference (case **A**)
-- Negative when the assembly includes a duplicated region (cas **B**)
+- The relocation length is positive when the assembly missed a part of the reference (case **A**)
+- Negative when the assembly includes a duplicated region (cas **B**).
+
 In both cases, this is an assembly error.
 
 ![relocation dotplot exemple](relocation_dotplot_exemple.svg)
