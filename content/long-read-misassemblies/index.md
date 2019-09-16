@@ -98,7 +98,7 @@ It's easy to spot this kind of misassemblies on a dotplot because of the multi-c
 
 ![translocation dotplot exemple](translocation_dotplot_exemple.svg)
 
-A part utg16L from our *C. elegans* miniasm assembly, map on chromosome II and V of reference. This contig contains a translocation without any doubt. 
+In the image above, two parts of contig 'utg16L' from our *C. elegans* miniasm assembly, map respectively on chromosomes II and V of the reference. This contig contains a translocation without any doubt. 
 
 ### Inversion
 
@@ -106,17 +106,17 @@ An inversion occurs when a contig has two consecutive mappings on the same chrom
 
 ![inversion definition](inversion_def.svg)
 
-An inversion observes in dotplot of reference genome against miniasm assembly of *C. elegans*
+The dotplot below shows an inversion between a reference genome and a miniasm assembly of *C. elegans*.
 
 ![inversion dotplot exemple](inversion_dotplot_exemple.svg)
 
-The contig utg0000021L map on chromosome I but contig contains an inversion.
+The contig utg0000021L maps on chromosome I but it contains a small inversion at its end.
 
 ### Important point
 
 For more details on quast misassembly definitions, you can read this section [3.1.1](http://quast.bioinf.spbau.ru/manual.html#misassemblies) and section [3.1.2](http://quast.bioinf.spbau.ru/manual.html#sec3.1.2) of the quast manual.
 
-Quast base its misassemblies analysis by mapping the contigs against a reference. To perform alignment recent version of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). Alignment with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
+Quast bases its misassemblies analysis on the alignmnt of contigs against a reference. To perform alignment, recent versions of quast use [minimap2](https://github.com/lh3/minimap2), with preset `-x asm5` by default, or `-x asm20` [when min-identity is lower than 90%](https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65). After that, alignments with identity lower than `min-identity` (95% by default, minimum 80%) are filtered by quast.
 
 `min-identity` is a very important parameter. To consider a contig as misassembled, quast must have a minimum of two mappings for this contig. If the second mapping has an identity under than `min-identity` threshold quast can't observe the misassembly. But even more, if a contig has three successive mappings, the mapping in the middle has a lowest score than the `min-identity` threshold and the remaining gap between the two other mappings is larger than `extensize-mis-size`, then quast count a misassembly, where it isn't.
 
