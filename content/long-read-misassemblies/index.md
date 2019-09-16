@@ -169,64 +169,64 @@ Some of these misassemblies aren't real misassemblies. But if we use the same `m
 
 We observed that the `min-identity` parameter has a very important impact on the number of misassemblies for uncorrected long-read assemblies (-> need to set it to 80 %.) Now we want to observe what is the impact of another parameter: `extensive-mis-size`, which is length threshold for the detection of relocations as misassemblies.
 
-We launch quast with different value for parameter `extensive-mis-size`: 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.000. The parameter `min-identity` was set to 80 %.
+We launch quast with different value for parameter `extensive-mis-size`: 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.000 (in base pairs). The parameter `min-identity` was set to 80 %.
 
 {{ plotly(id="nb_breakpoint", src="nb_breakpoint.js") }}
 
 In the horizontal axis, we have the `extensive-mis-size` value. In the vertical axis we have the number of misassemblies. You can click on the legend to show or hide an element.
 
-This graph shows the evolution of the number of misassemblies in the function of the `extensive-mis-size` value, after 10.000 the number of misassemblies becomes quite stable.
+This graph shows the evolution of the number of misassemblies in function of the `extensive-mis-size` value. After 10.000 base pairs, the number of misassemblies becomes quite stable.
 
-This graph shows two types of misassemblies some found with `extensive-mis-size` lower than 10.000 and another where `extensive-mis-size` are upper than 10.000. **This information was intresting but we know quast have three type of misassemblies and only relocation was affect by `extensive-min-size` parameter. How each type evolve when this parameter grow**
+This graph shows two regimes: with `extensive-mis-size` lower than 10.000 bp, it detects quite a lot of misassemblies.  With `extensive-mis-size` higher than 10.000 bp, it detects less of them. **Yet we know that quast detects three type of misassemblies (relocations, translocations, inversions). Only relocation should be affected by `extensive-min-size` parameter, but let's verify this assumption.**
 
-### Effect of extensive-min-size on each misassemblies types count
+### Effect of parameter extensive-mis-size on each misassemblies types count
 
-Quast defines three types of misassemblies **relocation**, **translocation** and **inversion** previously we observe the total number of misassemblies, how each group of misassembly evolves.
+Quast defines three types of misassemblies **relocation**, **translocation** and **inversion**. Previously we observed the total number of misassemblies. Now we break down by group of misassemblies.
 
 {{ plotly(id="misassemblies_type", src="misassemblies_type.js") }}
 
 In the horizontal axis, we have the `extensive-mis-size` value. In the vertical axis, we have the number of misassemblies. You can click on the legend to show or hide an element.
 
-For *H. sapiens* dataset didn't have any translocation because the reference was composed of only one chromosome, the majority of misassemblies were relocation but when we increase the parameter extensive-min-size the number of inversions was increasing.
+The *H. sapiens* dataset doesn't have any translocation because the reference is composed of only one chromosome. The majority of misassemblies are relocations, but when we increase the parameter `extensive-mis-size` the number of inversions also increases.
 
-*D. melanogaster* reference contains many small contigs this can explain the high number of translocation. Relocation and translocation drop at the same time. 
+*D. melanogaster* reference contains many small contigs. This can explain the high number of translocations. Relocations and translocations drop at the same time. 
 
-For *C. elegans* the number of translocations was quite stable, the number of relocations drops down rapidly and the inversion has a little increase.
+For *C. elegans* the number of translocations was quite stable, the number of relocations drops down rapidly and the inversions has only a little increase.
 
-I can't explain why translocation and inversion number change with a different value of `extensive-min-size`. By reading quast documentation and code I didn't understand the influence of this parameter on this group of misassemblies.
+I can't explain why translocations and inversions numbers change with a different value of `extensive-min-size`. By reading quast documentation and code I didn't understand the influence of this parameter on this group of misassemblies.
 
-**Relocation misassemblies are the most common type of misassemblies and we can impute the reduction of misassemblies, when `extensive-min-size` grow up, to relocation misassemblies reduction.**
+**Relocation misassemblies are the most common type of misassemblies and we can impute the reduction of misassemblies, when `extensive-mis-size` grows, to a reduction of relocations.**
 
 ### Relocation length distribution
 
-We see previously for our assemblies a majority of misassemblies were relocation we are now focused on this type of misassemblies. For each relocation we can attach a length, this length was the length of incongruence between assembly and reference genome, it's equal to $L_y$.
+We see previously for our assemblies that a majority of misassemblies were relocations. We are now focused on this type of misassemblies. For each relocation we can attach a length, this length is the length of incongruence between assembly and reference genome. It's equal to $L_y$.
 
-The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv` contains information about mapping and misassemblies. For other information on how quast store mapping and misassemblies information read [quast faq](http://quast.bioinf.spbau.ru/manual.html#sec7).
+The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv` contains information about mapping and misassemblies. For other information on how quast stores mapping and misassemblies information, read [quast faq](http://quast.bioinf.spbau.ru/manual.html#sec7).
 
 ![relocation_length.svg](relocation_length.svg)
 
-In the horizontal axis, we have the log length of each relocation, in the vertical axis, we have the species, orange point for negative relocation, green point for positive relocation.
+In the horizontal axis, we have the log length of each relocation. In the vertical axis, we have the species. Orange points are for negative relocations, green points for positive relocations.
 
-This figure shows a swarm plot of log of length associated to recombination it's the size of the gap between mapping border the misassemblies. If the length is positive assembly miss a part of the reference (green point) if the length is negative assembly duplicate a part of the reference (orange point), [source code](relocation_length.py), [data](relocation_length.csv) and data was available.
+This figure shows a swarm plot of log of length associated to recombination. It's the size of the gap between mappings flankings a misassembly. If the length is positive, the assembly misses part of the reference (green point). If the length is negative, the assembly duplicates a part of the reference (orange point). [Source code](relocation_length.py), [data](relocation_length.csv) is available.
 
-For *H. sapiens* majority of relocation was positive and short (between 1000 and 5000 base), with some very large relocation. For *C. elegans* it's different, the majority of relocation is negative and the largest relocation was shortest than *H. sapiens*. For *D. melanogaster* the size of relocations was more spread the majority of relocation isn't the shortest this confirmed by the appearance of the curve seen in the previous part when the `extensize-min-size` is increased, the number of relocations decreases less quickly than for the other datasets. 
+For *H. sapiens* a majority of relocations were positive and short (between 1000 and 5000 bases), with some very large relocations. For *C. elegans* it's different, the majority of relocations are negative and the largest relocation was shortest than in *H. sapiens*. For *D. melanogaster* the size of relocations was more spread; the majority of relocations aren't short. This is confirmed by the look of the curve seen in the previous part, when `extensize-mis-size` is increased, the number of relocations decreases less quickly than for the other datasets. 
 
 **With this representation, we can analyze the difference between relocation distribution in term of the number of relocation and her length distribution.**
 
 ## Conclusion
 
-If you work with quast to evaluate an uncorrected misassembly, you need to set `min-identity` parameter to 80 %. It would be nice to have a lower minimum value, maybe 70%, but the quast code would have to be modified. And this value is required only for miniasm assembly, for tools with a better consensus step (redbean for exemple) 80 % was suffisent.
+If you work with quast to evaluate an uncorrected misassembly, you need to set `min-identity` parameter to 80 %. It would be nice to have a lower minimum value, maybe 70%, but the quast code would have to be modified. And such a low identity is required only for a miniasm assemblies; for tools with a better consensus step (redbean for exemple), 80 % seems sufficient.
 
-The translocation and inversion was the minority of misassemblies but when they occure the are clearly a misassemblies. I would be very surprised to see a translocation or inversion created by a mapping error generated by errors in uncorrected reads. We can use the count of translocation and inversion.
+Translocations and inversions constitute a minority within misassemblies, yet when they are detected it's clear that they are 'true' misassemblies. I would be very surprised to see a translocation or inversion created by a mapping error generated by errors in uncorrected reads. We can thus trust the count of translocations and inversions.
 
-For relocations, the majority of misassemblies in our case, some of them are *true* some of them are  *false*, check all misassemblies manualy is impossible, found the good `extensive-min-size` value seems very hard for me. The easiest think we can do is compare the series of length associate to relocation in this blogpost I use a swarmplot I think statisticien people could find better tools.
+For relocations, the situation is different. They constitute the majority of misassemblies in our cases, and some of them are *true* some of them are  *false*. Checking all misassemblies manualy is impossible, and finding a good `extensive-mis-size` value seems very hard for me. The easiest thing we can do is compare the series of lengths associated to relocations, as shown in this blogpost I used a swarmplot; I think statisticians could find better tools.
 
 ## Take home message
 
 You can use quast to compare uncorrected long-read misassemblies but:
 - run quast with `--min-identity 80`
-- compare translocation and inversion count
-- for relocation compare distribution of length associate to each misassemblies
+- rely on translocations and inversions counts for comparisons
+- for relocations, compare distributions of lengths associated to each misassembly
 
 ## Acknowledgement
 
