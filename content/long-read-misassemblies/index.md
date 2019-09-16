@@ -17,8 +17,8 @@ We have many technics to evaluate the quality of assembly (it isn't a complete r
   + count the number of core gene present in an assembly, [BUSCO](https://busco.ezlab.org/)
   + transcriptome information, [for example, *Bos taurus* genome validation](https://doi.org/10.1186/gb-2009-10-4-r42)
   + synteny information [Lui et al](https://doi.org/10.1186/s12859-018-2026-4)
-  + map assembly against a near genome, [quast](https://doi.org/10.1093/bioinformatics/btt086)
-  + map assembly against the reference genome
+  + map assembly against a near genome, [quast](https://doi.org/10.1093/bioinformatics/btt086) or [dnAQET](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x)
+  + map assembly against the reference genome, quast or dnAQET
   
 If you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
 
@@ -40,6 +40,8 @@ In this blog post, I want to answer the following questions:
 3) can we find better metrics than just a number of misassemblies?
 
 If you have no time to read all this long and technical details you can go directly to the [TL;DR](#take-home-message).
+
+In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But going to read the dnAQET publication there are lots of super interesting ideas in it.
 
 ## Dataset, assembly pipeline, analysis pipeline her version and parameter
 
