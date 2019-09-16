@@ -11,37 +11,36 @@ I think that all the people who have ever done a genome assembly one day say: "O
 We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
 - with only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
-  + by analyse read remapping against assembly [ASMOValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
-  + by computing the probability of the reads dataset that can be generate from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
+  + by analyse read remapping against assembly [AMOSValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
+  + by computing the probability of the reads dataset that can be generated from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
 - by using external information: 
-  + count the number of core gene present in an assembly, [BUSCO](https://busco.ezlab.org/)
+  + count the number of core genes present in an assembly, [BUSCO](https://busco.ezlab.org/)
   + transcriptome information, [for example, *Bos taurus* genome validation](https://doi.org/10.1186/gb-2009-10-4-r42)
   + synteny information [Lui et al](https://doi.org/10.1186/s12859-018-2026-4)
-  + map assembly against a near genome, [quast](https://doi.org/10.1093/bioinformatics/btt086) or [dnAQET](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x)
-  + map assembly against the reference genome, quast or dnAQET
+  + map assembly against a near reference genome, [quast](https://doi.org/10.1093/bioinformatics/btt086) or [dnAQET](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x)
   
-If you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
+Note that for the last bullet point, if you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
 
 The main case where we perform something like that was when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing the tools that are part of it.
 
 Quast is a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
-Recently, with Rayan Chikhi and Jean-Stéphane Varré, we publish a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two new standalone tools. These tools can be included in assembly pipelines to remove very bad reads region and filter out low-quality overlaps. We evaluated the effect of these tools on "short-reads assembly pipeline" ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)). Using quast, we compared the results with the assembly quality of different pipelines.
+Recently, with Rayan Chikhi and Jean-Stéphane Varré, we published a [preprint](https://www.biorxiv.org/content/10.1101/674036v2) about [yacrd](https://github.com/natir/yacrd/) and [fpa](https://github.com/natir/fpa), two new standalone tools. These tools can be included in assembly pipelines to remove very bad reads regions, and filter out low-quality overlaps. We evaluated the effect of these tools on some pipelines ([miniasm](https://github.com/lh3/miniasm) and [redbean](https://github.com/ruanjue/wtdbg2)). Using quast, we compared the results with the assembly quality of different pipelines.
 
-We send this paper to a journal, and one of the reviewers said:  
-"quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluate."  
+We sent this paper to a journal, and one of the reviewers said something along the lines of:
+"quast isn't a good tool to evaluate high error assembly, the number of misassemblies was probably over evaluated."  
 And it's probably true.
 
-Miniasm and redbean perform assemblies without read correction steps (and without consensus step for miniasm). The low quality of the contig sequence is a real problem: quast could confuse a low-quality region misaligned with misassemblies.
+Miniasm and redbean perform assemblies without read correction steps (and without consensus step for miniasm). The low quality of a contig sequence is a real problem: quast could confuse a misaligned low-quality region with a misassembly.
 
 In this blog post, I want to answer the following questions:
-1) how to run quast on long-read uncorrected misassemblies
-2) is the quast misassemblies count a good tool to evaluate / compare assemblies?
+1) how to run quast on long-read uncorrected assemblies
+2) is the quast misassembly count a good metric to evaluate / compare assemblies?
 3) can we find better metrics than just a number of misassemblies?
 
 If you have no time to read all this long and technical details you can go directly to the [TL;DR](#take-home-message).
 
-In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But going to read the dnAQET publication there are lots of super interesting ideas in it.
+In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.
 
 ## Dataset, assembly pipeline, analysis pipeline her version and parameter
 
