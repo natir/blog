@@ -34,9 +34,9 @@ And it's probably true.
 Miniasm and redbean perform assemblies without read correction steps (and without consensus step for miniasm). The low quality of a contig sequence is a real problem: quast could confuse a misaligned low-quality region with a misassembly.
 
 In this blog post, I want to answer the following questions:
-1) how to run quast on long-read uncorrected assemblies
-2) is the quast misassembly count a good metric to evaluate / compare assemblies?
-3) can we find better metrics than just a number of misassemblies?
+1. how to run quast on long-read uncorrected misassemblies
+2. is the quast misassemblies count a good tool to evaluate / compare assemblies?
+3. can we find better metrics than just a number of misassemblies?
 
 If you have no time to read all this long and technical details you can go directly to the [TL;DR](#take-home-message).
 
