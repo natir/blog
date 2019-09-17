@@ -6,12 +6,12 @@ draft = true
 tags = ["noisy", "assemblies", "evaluation", "misassemblies"]
 +++
 
-I think that all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure that it's the best and it don't contain a lot of errors ?"
+I think that all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?"
 
-We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
-- wih only assembly information:
+We have many technics to evaluate the quality of assemblies (it isn't a complete review, sorry):
+- with only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
-  + by analyse read remapping against assembly [AMOSValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
+  + by analysing read remapping against assembly [AMOSValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
   + by computing the probability of the reads dataset that can be generated from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
 - by using external information: 
   + count the number of core genes present in an assembly, [BUSCO](https://busco.ezlab.org/)
@@ -21,7 +21,7 @@ We have many technics to evaluate the quality of assembly (it isn't a complete r
   
 Note that for the last bullet point, if you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
 
-The main case where we perform an assembly when a quality reference genome is already available. That was when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing the tools that are part of it.
+When a quality reference genome is already available, the main case we want to perform an assembly is when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and to evaluate the impact of adding and/or changing tools that composed it.
 
 Quast is a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
@@ -42,7 +42,7 @@ If you have no time to read all this long and technical details you can go direc
 
 In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.
 
-## Dataset, assembly pipeline, analysis pipeline her version and parameter
+## Dataset, assembly pipeline, analysis pipelines, their version and parameters
 
 For our tests we are going to use two Nanopore datasets and one Pacbio dataset.
 - Reads:
