@@ -1,9 +1,9 @@
 +++
 template = "page.html"
 title = "Misassemblies in noisy assemblies"
-date = 2019-09-16
+date = 2019-09-17
 draft = true
-tags = ["long-read", "assembly", "evaluation", "misassemblies"]
+tags = ["noisy", "assemblies", "evaluation", "misassemblies"]
 +++
 
 I think that all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure that it's the best and it don't contain a lot of errors ?"
