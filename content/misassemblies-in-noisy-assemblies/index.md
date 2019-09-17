@@ -6,10 +6,11 @@ draft = true
 tags = ["noisy", "assemblies", "evaluation", "misassemblies"]
 +++
 
-I think that all the people who have ever done a genome assembly one day say: "Ok my assembly is cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?"
 
-We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
-- wih only assembly information:
+I  think that all the people who have ever done a genome assembly one day say: "Ok my assembly is cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?"
+
+We have many technics to evaluate the quality of assemblies (it isn't a complete review, sorry):
+- with only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
   + by analyzing reads remapping against assembly [AMOSValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
   + by computing the probability of the reads given the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
@@ -41,6 +42,7 @@ In this blog post, I want to answer the following questions:
 If you have no time to read all these long and technical details you can go directly to the [TL;DR](#take-home-message).
 
 In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.
+
 
 ## Datasets, assembly pipelines, analysis pipelines; versions and parameters
 
