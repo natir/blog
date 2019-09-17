@@ -9,7 +9,7 @@ tags = ["long-read", "assembly", "evaluation", "misassemblies"]
 I think that all the people who have ever done a genome assembly one day say: "Ok my assembly was cool, but now how I can be sure that it's the best and it don't contain a lot of errors ?"
 
 We have many technics to evaluate the quality of assembly (it isn't a complete review, sorry):
-- with only assembly information:
+- wih only assembly information:
   + with [N50 family metrics](https://doi.org/10.1089/cmb.2017.0013)
   + by analyse read remapping against assembly [AMOSValidate](http://amos.sourceforge.net/wiki/index.php/Amosvalidate), [REAPR](https://www.sanger.ac.uk/science/tools/reapr), [FRCbam](https://github.com/vezzi/FRC_align), [Pilon](https://github.com/broadinstitute/pilon/wiki), [VALET](https://www.cbcb.umd.edu/software/valet)
   + by computing the probability of the reads dataset that can be generated from the assembly ([ALE](https://doi.org/10.1093/bioinformatics/bts723), [CGAL](https://doi.org/10.1186/gb-2013-14-1-r8), [LAP](https://doi.org/10.1186/1756-0500-6-334))
@@ -165,7 +165,7 @@ Some of these misassemblies aren't real misassemblies. But if we use the same `m
 
 **For an uncorrected long-read assemblies, we recommend to use a lower-than-default QUAST identity threshold parameter (80 %)**
 
-## Effect of extensive-min-size on misassemblies count
+## Effect of extensive-mis-size on misassemblies count
 
 We observed that the `min-identity` parameter has a very important impact on the number of misassemblies for uncorrected long-read assemblies (-> need to set it to 80 %.) Now we want to observe what is the impact of another parameter: `extensive-mis-size`, which is length threshold for the detection of relocations as misassemblies.
 
@@ -177,7 +177,7 @@ In the horizontal axis, we have the `extensive-mis-size` value. In the vertical 
 
 This graph shows the evolution of the number of misassemblies in function of the `extensive-mis-size` value. After 10.000 base pairs, the number of misassemblies becomes quite stable.
 
-This graph shows two regimes: with `extensive-mis-size` lower than 10.000 bp, it detects quite a lot of misassemblies.  With `extensive-mis-size` higher than 10.000 bp, it detects less of them. **Yet we know that quast detects three type of misassemblies (relocations, translocations, inversions). Only relocation should be affected by `extensive-min-size` parameter, but let's verify this assumption.**
+This graph shows two regimes: with `extensive-mis-size` lower than 10.000 bp, it detects quite a lot of misassemblies.  With `extensive-mis-size` higher than 10.000 bp, it detects less of them. **Yet we know that quast detects three type of misassemblies (relocations, translocations, inversions). Only relocation should be affected by `extensive-mis-size` parameter, but let's verify this assumption.**
 
 ### Effect of parameter extensive-mis-size on each misassemblies types count
 
@@ -193,7 +193,7 @@ The *H. sapiens* dataset doesn't have any translocation because the reference is
 
 For *C. elegans* the number of translocations was quite stable, the number of relocations drops down rapidly and the inversions has only a little increase.
 
-I can't explain why translocations and inversions numbers change with a different value of `extensive-min-size`. By reading quast documentation and code I didn't understand the influence of this parameter on this group of misassemblies.
+I can't explain why translocations and inversions numbers change with a different value of `extensive-mis-size`. By reading quast documentation and code I didn't understand the influence of this parameter on this group of misassemblies.
 
 **Relocation misassemblies are the most common type of misassemblies and we can impute the reduction of misassemblies, when `extensive-mis-size` grows, to a reduction of relocations.**
 
