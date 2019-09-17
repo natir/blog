@@ -42,7 +42,7 @@ If you have no time to read all these long and technical details you can go dire
 
 In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.
 
-## Dataset, assembly pipeline, analysis pipeline her version and parameter
+## Datasets, assembly pipelines, analysis pipelines; versions and parameters
 
 For our tests we are going to use two Nanopore datasets and one Pacbio dataset.
 - Reads:
@@ -88,7 +88,7 @@ In both cases, this is an assembly error.
 
 Here is a dotplot of contigs ctg000002L for our *C. elegans* miniasm assembly against the chromosome V of the reference. We can see two relocation events of type **B** circled in blue and one relocation event of type **A** (green). I have no idea on how to explain the other problem on the top right.
 
-### Translocation
+### Translocations
 
 A translocation occurs when a contig has mapped on more than one reference chromosome.
 
@@ -100,7 +100,7 @@ It's easy to spot this kind of misassemblies on a dotplot because of the multi-c
 
 In the image above, two parts of contig 'utg16L' from our *C. elegans* miniasm assembly, map respectively on chromosomes II and V of the reference. This contig contains a translocation without any doubt. 
 
-### Inversion
+### Inversions
 
 An inversion occurs when a contig has two consecutive mappings on the same chromosome but in different strands.
 
@@ -137,7 +137,7 @@ Horizontal axis: identity percentage bins, vertical axis: number of mappings in 
 
 The black line marks quast default identity value threshold, we can see a majority of alignments are under this threshold for an uncorrected dataset. So, setting parameter `min-identity 80` seems necessary.
 
-### Effect on a corrected dataset
+### Effect on a polished assembly
 
 To test the effect of correction on misassemblies count, we ran racon 3 times on *C. elegans* (the one with the best reference) dataset.
 
@@ -197,7 +197,7 @@ I can't explain why translocations and inversions numbers change with a differen
 
 **Relocation misassemblies are the most common type of misassemblies. We can impute the reduction of misassemblies, when `extensive-mis-size` grows, to a reduction of relocations.**
 
-### Relocation length distribution
+### Relocations lengths distribution
 
 We see previously for our assemblies that a majority of misassemblies were relocations. We are now focused on this type of misassemblies. For each relocation we can attach a length, this length is the length of incongruence between assembly and reference genome. It's equal to $L_y$.
 
@@ -228,7 +228,7 @@ You can use quast to compare uncorrected long-reads assemblies but:
 - rely on translocations and inversions counts
 - for relocations, compare distributions of lengths associated to each assembly
 
-## Acknowledgement
+## Acknowledgements
 
 For their help in writing this blogpost:
 - Rayan Chikhi
