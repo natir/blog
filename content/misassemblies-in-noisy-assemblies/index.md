@@ -21,7 +21,7 @@ We have many technics to evaluate the quality of assembly (it isn't a complete r
   
 Note that for the last bullet point, if you are using quast with a reference genome, you already have, by definition, a reference genome. So why perform an assembly?
 
-The main case where we perform something like that was when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing the tools that are part of it.
+The main case where we perform an assembly when a quality reference genome is already available. That was when we want to evaluate different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, you have to test a different set of parameters, and evaluate the impact of adding or changing the tools that are part of it.
 
 Quast is a very useful tool and now they integrate many other assembly evaluating tools (BUSCO, [GeneMark](http://exon.gatech.edu/GeneMark/), [GlimmerHMM](https://doi.org/10.1093/bioinformatics/bth315), [barnap](https://github.com/tseemann/barrnap))
 
