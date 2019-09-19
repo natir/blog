@@ -1,13 +1,13 @@
 +++
 template = "page.html"
 title = "Misassemblies in noisy assemblies"
-date = 2019-09-17
-draft = true
+date = 2019-09-19
+draft = false
 tags = ["noisy", "assemblies", "evaluation", "misassemblies"]
 +++
 
 
-I  think that all the people who have ever done a genome assembly one day say: "Ok my assembly is cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?"
+I think that all the people who have ever done a genome assembly one day say: "Ok my assembly is cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?"
 
 We have many technics to evaluate the quality of assemblies (it isn't a complete review, sorry):
 - with only assembly information:
@@ -42,7 +42,6 @@ In this blog post, I want to answer the following questions:
 If you have no time to read all these long and technical details you can go directly to the [TL;DR](#take-home-message).
 
 In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.
-
 
 ## Datasets, assembly pipelines, analysis pipelines; versions and parameters
 
@@ -232,6 +231,8 @@ You can use quast to compare uncorrected long-reads assemblies but:
 
 ## Acknowledgements
 
+For the creation of this very effective and useful tool all Quast contributors.
+
 For their help in writing this blogpost:
 - Rayan Chikhi
 - Jean-Stéphane Varré
@@ -239,3 +240,4 @@ For their help in writing this blogpost:
 - Antoine Limasset
 - Matthieu Falce
 - Kevin Gueuti
+
