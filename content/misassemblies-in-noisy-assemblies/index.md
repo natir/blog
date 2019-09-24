@@ -18,7 +18,7 @@ We have many technics to evaluate the quality of assemblies (it isn't a complete
   + count the number of core genes present in an assembly, [BUSCO](https://busco.ezlab.org/)
   + transcriptome information, [for example, *Bos taurus* genome validation](https://doi.org/10.1186/gb-2009-10-4-r42)
   + synteny information [Lui et al](https://doi.org/10.1186/s12859-018-2026-4)
-  + map assembly against a near reference genome, [quast](https://doi.org/10.1093/bioinformatics/btt086) or [dnAQET](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x)
+  + map assembly against a near reference genome, [quast](https://doi.org/10.1093/bioinformatics/btt086), [dnAQET](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x) or [Assemblytics](http://assemblytics.com/)
   
 Note that for the last bullet point, if you are using quast with a reference genome you already have, by definition, a reference genome. So why perform an assembly?
 
