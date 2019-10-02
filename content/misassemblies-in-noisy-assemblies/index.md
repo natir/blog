@@ -206,7 +206,7 @@ The file `{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.ts
 
 ![relocation_length.svg](relocation_length.svg)
 
-In the vertial axis, we have the log length of each relocation. Each raw is a species. Orange points are for negative (<0 bp) relocations, green points for positive relocations.
+In the vertial axis, we have the log length of each relocation. Each raw is a species. Green points are for negative (<0 bp) relocations, orange points for positive relocations.
 
 This figure shows a swarm plot of log of length associated to recombination. It's the size of the gap between mappings flankings a misassembly. If the length is positive, the assembly misses part of the reference (green point). If the length is negative, the assembly duplicates a part of the reference (orange point). [Source code](relocation_length.py), [data](relocation_length.csv) is available.
 
