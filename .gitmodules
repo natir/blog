@@ -1,0 +1,6 @@
+[submodule "static/fonts/fork_awesome"]
+	path = static/fonts/fork_awesome
+	url = https://github.com/ForkAwesome/Fork-Awesome.git
+[submodule "static/fonts/academicons"]
+	path = static/fonts/academicons
+	url = https://github.com/jpswalsh/academicons.git
