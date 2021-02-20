@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>Yet Another Bioinformatic blog</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/cayman.css">
+    <link rel="stylesheet" href="/add.css">
+
+    <!-- font -->
+    <link rel="stylesheet" href="/fonts/fork_awesome/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/academicons/css/academicons.min.css">
+    
+    <!-- js -->
+
+    
+
+    
+<script>
+  MathJax = {
+      tex: {
+	  inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+	  fontCache: 'global'
+      }
+  };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"> </script>
+
+
+
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+<script>
+(function(f, a, t, h, o, m){
+	a[h]=a[h]||function(){
+		(a[h].q=a[h].q||[]).push(arguments)
+	};
+	o=f.createElement('script'),
+	m=f.getElementsByTagName('script')[0];
+	o.async=1; o.src=t; o.id='fathom-script';
+	m.parentNode.insertBefore(o,m)
+})(document, window, '//stats.pierre.marijon.fr/tracker.js', 'fathom');
+fathom('set', 'siteId', 'NYKUR');
+fathom('trackPageview');
+</script>
+<!-- / Fathom -->
+
+
+
+    
+ <script data-isso="//isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="https://isso.pierre.marijon.fr/js/embed.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <a href="https://github.com/natir/blog" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#485F41; color:#B6C8B1; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    
+    <section class="page-header">
+      <h1 class="project-name">Yet Another Bioinformatic blog</h1>
+      <a class="btn" href="/">Home</a>
+      <a class="btn" href="//pierre.marijon.fr">About</a>
+      <a class="btn" href="/rss.xml">RSS feed</a>
+    </section>
+
+
+    <section class="main-content">
+      
+  <section class="post">
+    <div class="title-and-info">
+      <h1>Why I stopped C++</h1>
+      <div class="info">
+    	<span>6 minute read</span>
+    	
+    	<span class='divider'/>
+    	<span>12 November 2018</span>
+    	
+    	
+    	
+      </div>
+    </div>
+    <article>
+      <p>I have the feeling that generally bioinformatician use two languages, a language for small scripts, rapid analysis, prototyping (usually an interpreted language) and another when we have performance needs (usually a compiled language).</p>
+<p>Until recently these two languages were python and C++ for me. If you follow me on twitter, you probably saw my last two tools <a href="https://github.com/natir/yacrd">yacrd</a> and <a href="https://github.com/natir/fpa">fpa</a>, those were written in Rust.</p>
+<h1 id="c-was-cool-but">C++ was cool but …</h1>
+<p>C++ have very good performance in term of memory usage and computation time, compared to other language for the same tasks, but C++ have two huge problems.</p>
+<p>First it's easy to create memory leak in C++. You have a huge control to how memory is managed but if you are not very careful about how to allocate and free your memory, you will probably create a memory leak and may also waste a lot of time solving them. Use of intelligent pointers helps a lot but since their use is not mandatory it is always very easy to create said memory leak.</p>
+<p>The second is dependency management, it's easy, there are none. When you want to integrate a dependency you assume that it is sufficiently used to be present in most of the systems. Or you integrate it directly into your code, which poses several problems, you have to update your dependency yourself, it makes the compilation of your tools longer and more complex, it also manages the dependencies of your dependencies, and it makes your tools potentially more difficult to package properly.</p>
+<p><a href="https://biicode.github.io/biicode/">biicode</a> try to solve this issue, but the project seems dead, if you know other tools I am interested.</p>
+<h1 id="rust-is-better">Rust is better</h1>
+<p>Recently I wrote a little program to remove chimera in long read dataset <a href="https://github.com/natir/yacrd">yacrd</a> the first prototype is writen in Python it's worked well but the runtime is horrible !! I rewrote yacrd in C++, durring developement I use smart pointer and valgrind, so I hope I didn't create a memory leak but I can't be sure. After a while I thought it would be nice to be able to take as input compressed files. The main solution is to write an interface between my C++ code and the lib to read or write gzip, bzip2 and xz file, in addition my compilation system must find where these libs are installed and check that it works on as many systems as possible.</p>
+<p>I had discovered Rust 3 years earlier and it was a long time since I wanted to try this language so why not see if it can solve my problems. </p>
+<h2 id="dependancy-management">Dependancy management</h2>
+<p>The dependancy management in Rust is just too easy, Cargo is the compilation, test, benchmark, dependency, packaging, <a href="https://github.com/rust-lang/cargo/wiki/Third-party-cargo-subcommand"><em>what you want</em> manager</a>s of Rust.</p>
+<p>When creating a Rust project, the recommended way is use the command <code>Cargo init {project_name}</code> which will automatically create a folder with <code>{project_name}</code> which looks like this:</p>
+<pre><code>{project_name}
+├── Cargo.toml
+└── src
+    └── main.rs
+</code></pre>
+<p>Cargo.toml file contains many informations about your project and a very important section <code>[dependencies]</code>. If you want to add a dependencies in your project go to <a href="https://crates.io">crates.io</a>, <em>crates is name of package/module in Rust</em>, find crates you need and add it in your dependencies section in your Cargo.toml and that's it, cargo download and build your dependency (and dependencies of your dependencies) for you, your contibutor and user. An easier dependency system than python in compiled language, what more do you want !!!</p>
+<h2 id="no-more-memory-leak">No more memory leak</h2>
+<p>A main principe of Rust is, if your code compile, it will not contains any memory leak <sup class="footnote-reference"><a href="#1">1</a></sup>. How it's possible without Garbage Colector. Rust introduce a new concept <em>ownership</em>, I can try to explain how it works but I'll probably make many mistakes and forget something so go read this <a href="https://doc.rust-lang.org/book/second-edition/ch04-00-understanding-ownership.html">chapter of rust book</a> it's probably clearer than any explanation I could give.</p>
+<p>Just remember that it is very, very hard  to unintentionally create a memory leak, nearly to impossible, but the mechanism that Rust has put in place to be able to do this do not have impact to computation time and memory.</p>
+<h2 id="same-perf">Same perf</h2>
+<p>We talk about performance <a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">the Computer Benchmark Language</a> is a cool project they try to compare performance of many language, I provide a little overview of her result:</p>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "cputime.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="cputime"></div>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "memory.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="memory"></div>
+<p>Rust is equivalent or better (with the eyes of hope) than c++ in cpu time and memory usage.</p>
+<h2 id="rust-trouble">Rust trouble</h2>
+<p>Ok Rust solve the two major problem of C++ with same advantages. But everything is not perfect, Rust introduces a lot of new concepts quite close to another language concept but still different so it can be difficult to understand why the code doesn't do what you want or why the compiler refused to compile.</p>
+<p>Another small downside, Rust is a young language (less than 10 years old) some classic thing don't exist yet. An example, for yacrd I use a min priority_queue in C++ with <code>std::priority_queue&lt;size_t, std::vector&lt;size_t&gt;, std::greater&lt;size_t&gt;&gt; stack;</code> Rust have an equivalent structure <code>std::collections::BinaryHeap</code> but we can't set the ordering if I want same behavior I need create a special numeric type with a reverse ordering <a href="https://github.com/natir/yacrd/blob/master/src/chimera.rs#L109">a source code example</a>. Isn't very painfull but isn't convenient.</p>
+<h1 id="conclusion">Conclusion</h1>
+<p>Rust is the language that could replace C++ in all these uses, this is not a funny learning curve but the advantages that Rust brings completely compensate it. The next time you lose 4 hours, to find a memory leak or managing the packaging of your application rethink to switch to Rust.</p>
+<h2 id="external-resource">External resource</h2>
+<ul>
+<li><a href="https://www.slideshare.net/corehard_by/rust-vs-c">Rust vs C++</a> slide create for C++ CoreHard Conference</li>
+<li><a href="https://benchmarksgame-team.pages.debian.net/benchmarksgame/">The Computer benchmark game</a></li>
+</ul>
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p>It is not True it's just very very hard to create memory leak, if you realy want to create a memory leak it's possible, with <code>unsafe</code> keyword or if you follow this <a href="https://doc.rust-lang.org/nomicon/leaking.html">page method</a> but who want to do stuff like that ? </p>
+</div>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>For proofreading:</p>
+<ul>
+<li><a href="https://twitter.com/gau">Maxime Garcia</a></li>
+<li><a href="https://twitter.com/G_Devailly">Guillaume Devailly</a></li>
+<li><a href="https://github.com/Piplopp">Jérome Pivert</a></li>
+<li><a href="https://twitter.com/aureli1bzh">Aurélien Beliard</a></li>
+<li>bjonnh</li>
+</ul>
+
+    </article>
+  </section>
+
+  <h2>Comments:</h2>
+    <section id="isso-thread"></section>
+    
+      <footer class="site-footer">
+	<span class="site-footer-credits">
+	  <center>
+	    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+	      <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+	    </a>
+	  </center>
+	  <br />
+	  <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Yet Another Bioinformatic blog</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Pierre Marijon</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;why-i-stopped-c&#x2F; rel="dct:source">blog.pierre.marijon.fr</a>.</span>
+      </footer>
+    </section>
+    
+
+    
+<section class="share-page">
+  Share this on &rarr; <br/>
+  <a href="https://twitter.com/intent/tweet?text=Why I stopped C++&url=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;why-i-stopped-c&#x2F;&via=pierre_marijon&related=pierre_marijon" rel="nofollow" target="_blank" title="Share on Twitter">
+    <span class="fa fa-twitter fa-3x"></span>
+  </a>
+  <a href="http://www.linkedin.com/shareArticle?mini=true&url=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;why-i-stopped-c&#x2F; &title=Why I stopped C++&source=https:&#x2F;&#x2F;blog.pierre.marijon.fr">
+    <span class="fa fa-linkedin fa-3x"></span>
+  </a>
+</section> 
+
+
+  </body>
+</html>

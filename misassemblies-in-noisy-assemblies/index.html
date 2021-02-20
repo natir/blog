@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+    <!-- Enable responsiveness on mobile devices-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+    <title>Yet Another Bioinformatic blog</title>
+
+    <!-- css -->
+    <link rel="stylesheet" href="/cayman.css">
+    <link rel="stylesheet" href="/add.css">
+
+    <!-- font -->
+    <link rel="stylesheet" href="/fonts/fork_awesome/css/fork-awesome.min.css">
+    <link rel="stylesheet" href="/fonts/academicons/css/academicons.min.css">
+    
+    <!-- js -->
+
+    
+
+    
+<script>
+  MathJax = {
+      tex: {
+	  inlineMath: [['$', '$'], ['\\(', '\\)']]
+      },
+      svg: {
+	  fontCache: 'global'
+      }
+  };
+</script>
+
+<script type="text/javascript" id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"> </script>
+
+
+
+    <!-- Fathom - simple website analytics - https://github.com/usefathom/fathom -->
+<script>
+(function(f, a, t, h, o, m){
+	a[h]=a[h]||function(){
+		(a[h].q=a[h].q||[]).push(arguments)
+	};
+	o=f.createElement('script'),
+	m=f.getElementsByTagName('script')[0];
+	o.async=1; o.src=t; o.id='fathom-script';
+	m.parentNode.insertBefore(o,m)
+})(document, window, '//stats.pierre.marijon.fr/tracker.js', 'fathom');
+fathom('set', 'siteId', 'NYKUR');
+fathom('trackPageview');
+</script>
+<!-- / Fathom -->
+
+
+
+    
+ <script data-isso="//isso.pierre.marijon.fr/" data-isso-reply-to-self="true" data-isso-require-author="true" data-isso-reveal-on-click="inf" src="https://isso.pierre.marijon.fr/js/embed.min.js"></script>
+
+  </head>
+
+  <body>
+
+    <a href="https://github.com/natir/blog" class="github-corner" aria-label="View source on GitHub"><svg width="80" height="80" viewBox="0 0 250 250" style="fill:#485F41; color:#B6C8B1; position: absolute; top: 0; border: 0; right: 0;" aria-hidden="true"><path d="M0,0 L115,115 L130,115 L142,142 L250,250 L250,0 Z"></path><path d="M128.3,109.0 C113.8,99.7 119.0,89.6 119.0,89.6 C122.0,82.7 120.5,78.6 120.5,78.6 C119.2,72.0 123.4,76.3 123.4,76.3 C127.3,80.9 125.5,87.3 125.5,87.3 C122.9,97.6 130.6,101.9 134.4,103.2" fill="currentColor" style="transform-origin: 130px 106px;" class="octo-arm"></path><path d="M115.0,115.0 C114.9,115.1 118.7,116.5 119.8,115.4 L133.7,101.6 C136.9,99.2 139.9,98.4 142.2,98.6 C133.8,88.0 127.5,74.4 143.8,58.0 C148.5,53.4 154.0,51.2 159.7,51.0 C160.3,49.4 163.2,43.6 171.4,40.1 C171.4,40.1 176.1,42.5 178.8,56.2 C183.1,58.6 187.2,61.8 190.9,65.4 C194.5,69.0 197.7,73.2 200.1,77.6 C213.8,80.2 216.3,84.9 216.3,84.9 C212.7,93.1 206.9,96.0 205.4,96.6 C205.1,102.4 203.0,107.8 198.3,112.5 C181.9,128.9 168.3,122.5 157.7,114.1 C157.9,116.9 156.7,120.9 152.7,124.9 L141.0,136.5 C139.8,137.7 141.6,141.9 141.8,141.8 Z" fill="currentColor" class="octo-body"></path></svg></a><style>.github-corner:hover .octo-arm{animation:octocat-wave 560ms ease-in-out}@keyframes octocat-wave{0%,100%{transform:rotate(0)}20%,60%{transform:rotate(-25deg)}40%,80%{transform:rotate(10deg)}}@media (max-width:500px){.github-corner:hover .octo-arm{animation:none}.github-corner .octo-arm{animation:octocat-wave 560ms ease-in-out}}</style>
+
+    
+    <section class="page-header">
+      <h1 class="project-name">Yet Another Bioinformatic blog</h1>
+      <a class="btn" href="/">Home</a>
+      <a class="btn" href="//pierre.marijon.fr">About</a>
+      <a class="btn" href="/rss.xml">RSS feed</a>
+    </section>
+
+
+    <section class="main-content">
+      
+  <section class="post">
+    <div class="title-and-info">
+      <h1>Misassemblies in noisy assemblies</h1>
+      <div class="info">
+    	<span>14 minute read</span>
+    	
+    	<span class='divider'/>
+    	<span>19 September 2019</span>
+    	
+    	
+    	
+      </div>
+    </div>
+    <article>
+      <p>I think that all the people who have ever done a genome assembly one day say: &quot;Ok my assembly is cool, but now how I can be sure that it's the best and it doesn't contain a lot of errors ?&quot;</p>
+<p>We have many technics to evaluate the quality of assemblies (it isn't a complete review, sorry):</p>
+<ul>
+<li>with only assembly information:
+<ul>
+<li>with <a href="https://doi.org/10.1089/cmb.2017.0013">N50 family metrics</a></li>
+<li>by analyzing reads remapping against assembly <a href="http://amos.sourceforge.net/wiki/index.php/Amosvalidate">AMOSValidate</a>, <a href="https://www.sanger.ac.uk/science/tools/reapr">REAPR</a>, <a href="https://github.com/vezzi/FRC_align">FRCbam</a>, <a href="https://github.com/broadinstitute/pilon/wiki">Pilon</a>, <a href="https://www.cbcb.umd.edu/software/valet">VALET</a></li>
+<li>by computing the probability of the reads given the assembly (<a href="https://doi.org/10.1093/bioinformatics/bts723">ALE</a>, <a href="https://doi.org/10.1186/gb-2013-14-1-r8">CGAL</a>, <a href="https://doi.org/10.1186/1756-0500-6-334">LAP</a>)</li>
+</ul>
+</li>
+<li>by using external information: 
+<ul>
+<li>count the number of core genes present in an assembly, <a href="https://busco.ezlab.org/">BUSCO</a></li>
+<li>transcriptome information, <a href="https://doi.org/10.1186/gb-2009-10-4-r42">for example, <em>Bos taurus</em> genome validation</a></li>
+<li>synteny information <a href="https://doi.org/10.1186/s12859-018-2026-4">Lui et al</a></li>
+<li>map assembly against a near reference genome, <a href="https://doi.org/10.1093/bioinformatics/btt086">quast</a>, <a href="https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-019-6070-x">dnAQET</a> or <a href="http://assemblytics.com/">Assemblytics</a></li>
+</ul>
+</li>
+</ul>
+<p>Note that for the last bullet point, if you are using quast with a reference genome you already have, by definition, a reference genome. So why perform an assembly?</p>
+<p>The main reason to perform reference-assisted evaluation is when testing different assembly pipelines on the same read data set. To evaluate a new assembly pipeline, one also has to test different sets of parameters, and evaluate the impact of adding or changing the tools that are part of the pipeline.</p>
+<p>Quast is a very useful tool and now it integrates many other assembly evaluating tools (BUSCO, <a href="http://exon.gatech.edu/GeneMark/">GeneMark</a>, <a href="https://doi.org/10.1093/bioinformatics/bth315">GlimmerHMM</a>, <a href="https://github.com/tseemann/barrnap">barnap</a>)</p>
+<p>Recently, with Rayan Chikhi and Jean-Stéphane Varré, we published a <a href="https://www.biorxiv.org/content/10.1101/674036v2">preprint</a> about <a href="https://github.com/natir/yacrd/">yacrd</a> and <a href="https://github.com/natir/fpa">fpa</a>, two new standalone tools. These tools can be included in assembly pipelines to remove very bad reads regions, and filter out low-quality overlaps. We evaluated the effect of these tools on some pipelines (<a href="https://github.com/lh3/miniasm">miniasm</a> and <a href="https://github.com/ruanjue/wtdbg2">redbean</a>). Using quast, we compared the results with the assembly quality of different pipelines.</p>
+<p>We sent this paper to a journal, and one of the reviewers said something along the lines of:
+&quot;quast isn't a good tool to evaluate high-consensus-error assemblies, the number of misassemblies was probably over evaluated.&quot;<br />
+And it's probably true.</p>
+<p>Miniasm and redbean perform assemblies without read correction steps (and without consensus step for miniasm). The low quality of a contig sequence is a real problem: quast could confuse a misaligned low-quality region with a misassembly.</p>
+<p>In this blog post, I want to answer the following questions:</p>
+<ol>
+<li>how to run quast on long-read uncorrected misassemblies</li>
+<li>is the quast misassemblies count a good proxy to evaluate / compare assemblies?</li>
+<li>can we find better metrics than just the number of misassemblies?</li>
+</ol>
+<p>If you have no time to read all these long and technical details you can go directly to the <a href="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/#take-home-message">TL;DR</a>.</p>
+<p>In this post I will talk about quast and not dnAQET, which has just been released, but dnAQET uses the same method (mapping the assembly against the reference) and the same misassembly definition as quast. It seems to me that what I am going to say about quast also applies to dnAQET. But go read the dnAQET publication, there are lots of super interesting ideas in it.</p>
+<h2 id="datasets-assembly-pipelines-analysis-pipelines-versions-and-parameters">Datasets, assembly pipelines, analysis pipelines; versions and parameters</h2>
+<p>For our tests we are going to use two Nanopore datasets and one Pacbio dataset.</p>
+<ul>
+<li>Reads:
+<ul>
+<li><a href="https://www.ebi.ac.uk/ena/data/view/SRX3676783">Oxford nanopore D melanogaster</a> 63x coverage</li>
+<li><a href="http://s3.amazonaws.com/nanopore-human-wgs/chr1.sorted.bam">Oxford nanopore H sapiens chr1</a> 29x</li>
+<li><a href="http://datasets.pacb.com.s3.amazonaws.com/2014/c_elegans/list.html">Pacbio RS P6-C4 C elegans</a> 80x</li>
+</ul>
+</li>
+<li>References:
+<ul>
+<li><a href="https://www.ncbi.nlm.nih.gov/assembly/GCF_000001215.4">D. melanogaster</a> 143.7 Mb</li>
+<li><a href="ftp://ftp.ensembl.org/pub/release-95/fasta/caenorhabditis_elegans/dna/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa.gz">C. elegans</a> 100.2 Mb</li>
+<li><a href="ftp://ftp.ensembl.org/pub/release-95/fasta/homo_sapiens/dna/Homo_sapiens.GRCh38.dna.chromosome.1.fa.gz">H. sapiens chr1</a> 248.9 Mb</li>
+</ul>
+</li>
+</ul>
+<p>To perform assembly we use minimap2 (version 2.16-r922) and miniasm (version 0.3-r179) with recommended preset for each sequencing technology (<code>ava-ont</code> and <code>ava-pb</code>).</p>
+<p>We use <a href="https://github.com/lbcb-sci/racon">racon</a> (v1.4.3) for polishing. For mapping reads against assembly we use minimap2, with recommended preset for each sequencing technology.</p>
+<p>We use quast version v5.0.2.</p>
+<p>All dotplots were produced by <a href="http://dgenies.toulouse.inra.fr/">D-Genies</a>.</p>
+<h2 id="quast-misassemblies-definition">Quast misassemblies definition</h2>
+<p>What are quast misassemblies? Do we have different misassembly types? How are they defined? </p>
+<p>Quast defines three types of misassemblies: <strong>relocation</strong>, <strong>translocation</strong> and <strong>inversion</strong>.</p>
+<h3 id="relocation">Relocation</h3>
+<p>A relocation can occur based on signal from two mappings of the same contig against the same chromosome. We have two cases:</p>
+<ul>
+<li>either the two mappings are separated by an unmapped region (case <strong>A</strong>)</li>
+<li>or they map on the same chromosome with a shared mapping area  (case <strong>B</strong>)</li>
+</ul>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/relocation_def.svg" alt="relocation definition" /></p>
+<p>A misassembly is said to occur when $L_x$ and $L_z$ &gt; 1kbp (this value can't be changed, it seems) and when $L_y$ &gt; <code>extensive-mis-size</code> (1kbp by default).</p>
+<p>Let's call $L_y$ the length of the relocation.</p>
+<ul>
+<li>The relocation length is positive when the assembly missed a part of the reference (case <strong>A</strong>)</li>
+<li>Negative when the assembly includes a duplicated region (cas <strong>B</strong>).</li>
+</ul>
+<p>In both cases, this is an assembly error.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/relocation_dotplot_exemple.svg" alt="relocation dotplot exemple" /></p>
+<p>Here is a dotplot of contigs ctg000002L for our <em>C. elegans</em> miniasm assembly against the chromosome V of the reference. We can see two relocation events of type <strong>B</strong> circled in blue and one relocation event of type <strong>A</strong> (green). I have no idea on how to explain the other problem on the top right.</p>
+<h3 id="translocations">Translocations</h3>
+<p>A translocation occurs when a contig has mapped on more than one reference chromosome.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/translocation_def.svg" alt="translocation definition" /></p>
+<p>It's easy to spot this kind of misassemblies on a dotplot because of the multi-chromosome match.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/translocation_dotplot_exemple.svg" alt="translocation dotplot exemple" /></p>
+<p>In the image above, two parts of contig 'utg16L' from our <em>C. elegans</em> miniasm assembly, map respectively on chromosomes II and V of the reference. This contig contains a translocation without any doubt. </p>
+<h3 id="inversions">Inversions</h3>
+<p>An inversion occurs when a contig has two consecutive mappings on the same chromosome but in different strands.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/inversion_def.svg" alt="inversion definition" /></p>
+<p>The dotplot below shows an inversion between a reference genome and a miniasm assembly of <em>C. elegans</em>.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/inversion_dotplot_exemple.svg" alt="inversion dotplot exemple" /></p>
+<p>The contig utg0000021L maps on chromosome I, but it contains a small inversion at its end.</p>
+<h3 id="important-point">Important point</h3>
+<p>For more details on quast misassembly definitions, you can read this section <a href="http://quast.bioinf.spbau.ru/manual.html#misassemblies">3.1.1</a> and section <a href="http://quast.bioinf.spbau.ru/manual.html#sec3.1.2">3.1.2</a> of the quast manual.</p>
+<p>Quast bases its misassemblies analysis on the alignmnt of contigs against a reference. To perform alignment, recent versions of quast use <a href="https://github.com/lh3/minimap2">minimap2</a>, with preset <code>-x asm5</code> by default, or <code>-x asm20</code> <a href="https://github.com/ablab/quast/blob/b040cc9140c7630eea95f94cdda3b825cf4a22c3/quast_libs/ca_utils/align_contigs.py#L65">when min-identity is lower than 90%</a>. After that, alignments with identity lower than <code>min-identity</code> are filtered out by quast (95% identity by default, but can be set to as low as 80%).</p>
+<p><code>min-identity</code> is a very important parameter. To consider a contig as misassembled, quast must have a minimum of two mappings for this contig. If the second mapping has an identity under the <code>min-identity</code> threshold, quast can't observe the misassembly. But even more, if a contig has three successive mappings, and assume also that the mapping in the middle has lower identity than the <code>min-identity</code> threshold, and the remaining gap between the two other mappings is larger than <code>extensize-mis-size</code>, then quast sees this as a misassembly, where in fact it isn't.</p>
+<p><strong>Parameters <code>min-identity</code> and <code>extensize-mis-size</code> have an important impact on misassemblies detection. So, what is the effect of changes in of these two parameters on the number of misassemblies found by quast?</strong></p>
+<h2 id="effect-of-min-identity">Effect of min-identity</h2>
+<h3 id="low-min-identity-is-required-for-uncorrected-assembly">Low min-identity is required for uncorrected assembly</h3>
+<p>Quast only uses mappings with alignment identity higher than <code>min-identity</code>. So, what could be a good value for this parameter for long-read uncorrected assembly?</p>
+<p>The file <code>contigs_reports/minimap_output/{output-name}.coords</code>, generated by quast, in the fourth column contains the alignment identity %. For each dataset, we extracted this value and plot it in an histogram.</p>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "mapping_identity.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="mapping_identity"></div>
+<p>Horizontal axis: identity percentage bins, vertical axis: number of mappings in each bin.</p>
+<p>The black line marks quast default identity value threshold, we can see a majority of alignments are under this threshold for an uncorrected dataset. So, setting parameter <code>min-identity 80</code> seems necessary.</p>
+<h3 id="effect-on-a-polished-assembly">Effect on a polished assembly</h3>
+<p>To test the effect of correction on misassemblies count, we ran racon 3 times on <em>C. elegans</em> (the one with the best reference) dataset.</p>
+<p>On the non-corrected assembly, quast makes use of 7049 mappings; for the corrected assembly, 30931 mappings (increasing ratio 4.38).</p>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "c_elegans_map_id.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="c_elegans_map_id"></div>
+<p>Horizontal axis: identity percentage bins, vertical axis: number of mappings in each bin.</p>
+<p>We can observe an increase in alignment identity due to racon (unsurprisingly). Contrary to the uncorrected assembly, a majority of the mappings now have 95% or more identity.</p>
+<p>To have an insight on the effect of <code>min-identity</code> on unpolished/polished assemblies, we run quast with default parameters and changing only <code>min-identity</code> (still the <em>C. elegans</em> dataset).</p>
+<table><thead><tr><th>racon</th><th>no</th><th>yes</th><th>yes</th></tr></thead><tbody>
+<tr><td><strong>min-identity</strong></td><td><strong>80</strong></td><td><strong>80</strong></td><td><strong>95</strong></td></tr>
+<tr><td>relocation</td><td>1131</td><td>886</td><td>635</td></tr>
+<tr><td>translocation</td><td>200</td><td>259</td><td>170</td></tr>
+<tr><td>inversion</td><td>65</td><td>68</td><td>75</td></tr>
+<tr><td>total</td><td>1396</td><td>1213</td><td>880</td></tr>
+</tbody></table>
+<p>With <code>min-identity 80</code> the number of relocations and translocations is increased compared to the default value of <code>min-identity</code>. If quast has only one alignment of a contig, it cannot find misassemblies. By reducing the <code>min-identity</code> we increased the number of alignments and mechanically increased the number of detected misassemblies.</p>
+<p>We think that some of these misassemblies aren't real misassemblies. But if we use the same <code>min-identity</code> value for all assemblies that we want to compare, we can hope that the number of 'false' misassemblies will be similar.</p>
+<p><strong>For uncorrected long-read assemblies, we recommend to use a lower-than-default QUAST identity threshold parameter (80 %)</strong></p>
+<h2 id="effect-of-extensive-mis-size-on-misassemblies-count">Effect of extensive-mis-size on misassemblies count</h2>
+<p>We observed that the <code>min-identity</code> parameter has a very important impact on the number of misassemblies for uncorrected long-read assemblies (-&gt; need to set it to 80 %.) Now we want to observe what is the impact of another parameter: <code>extensive-mis-size</code>, which is a length threshold for the detection of relocation-type misassemblies.</p>
+<p>We launch quast with different value for parameter <code>extensive-mis-size</code>: 1.000, 2.000, 3.000, 4.000, 5.000, 6.000, 7.000, 8.000, 9.000, 10.000, 20.000, 30.000, 40.000, 50.000 (in base pairs). The parameter <code>min-identity</code> was set to 80 %.</p>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "nb_breakpoint.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="nb_breakpoint"></div>
+<p>In the horizontal axis, we have the <code>extensive-mis-size</code> value. In the vertical axis we have the number of misassemblies. You can click on the legend to show or hide an element.</p>
+<p>This graph shows the evolution of the number of misassemblies in function of the <code>extensive-mis-size</code> value. After 10.000 base pairs, the number of misassemblies becomes quite stable.</p>
+<p>This graph shows two regimes: with <code>extensive-mis-size</code> lower than 10.000 bp, it detects quite a lot of misassemblies.  With <code>extensive-mis-size</code> higher than 10.000 bp, it detects less of them. <strong>Yet we know that quast detects three type of misassemblies (relocations, translocations, inversions). Only relocation should be affected by <code>extensive-mis-size</code> parameter, but let's verify this assumption.</strong></p>
+<h3 id="effect-of-parameter-extensive-mis-size-on-the-detection-of-each-misassembly-type">Effect of parameter extensive-mis-size on the detection of each misassembly type</h3>
+<p>Quast defines three types of misassemblies <strong>relocation</strong>, <strong>translocation</strong> and <strong>inversion</strong>. Previously we observed the total number of misassemblies. Now we break down by group of misassemblies.</p>
+<script>
+
+   window.PlotlyConfig = {MathJaxConfig: 'local'}
+
+  var plotly_load;
+  if (typeof plotly_load === "undefined") {
+      var script = document.createElement("script");
+      script.type = "text/javascript";
+      script.src = "https://cdn.plot.ly/plotly-latest.min.js";
+      script.id = "plotly";
+      document.getElementsByTagName("head")[0].appendChild(script);
+      plotly_load = true;
+  }
+  else {
+      var script = document.getElementById("plotly");
+  }
+
+  script.addEventListener('load', function() {
+      var s2 = document.createElement("script");
+      s2.type = "text/javascript";
+      s2.src = "misassemblies_type.js";
+      document.getElementsByTagName("head")[0].appendChild(s2);
+  });
+</script>
+
+<div id="misassemblies_type"></div>
+<p>In the horizontal axis, we have the <code>extensive-mis-size</code> value. In the vertical axis, we have the number of misassemblies. You can click on the legend to show or hide an element.</p>
+<p>The <em>H. sapiens</em> dataset doesn't have any translocation because the reference is composed of only one chromosome. The majority of misassemblies are relocations, but when we increase the parameter <code>extensive-mis-size</code> the number of inversions also increases.</p>
+<p><em>D. melanogaster</em> reference contains many small contigs. This can explain the high number of translocations. Relocations and translocations drop at the same time. </p>
+<p>For <em>C. elegans</em> the number of translocations was quite stable, the number of relocations drops down rapidly and the inversions has only a little increase.</p>
+<p>I can't explain why translocations and inversions numbers change with a different value of <code>extensive-mis-size</code>. By reading quast documentation and code I didn't understand the influence of this parameter on this group of misassemblies.</p>
+<p><strong>Relocation misassemblies are the most common type of misassemblies. We can impute the reduction of misassemblies, when <code>extensive-mis-size</code> grows, to a reduction of relocations.</strong></p>
+<h3 id="relocations-lengths-distribution">Relocations lengths distribution</h3>
+<p>We see previously for our assemblies that a majority of misassemblies were relocations. We are now focused on this type of misassemblies. For each relocation we can attach a length, this length is the length of incongruence between assembly and reference genome. It's equal to $L_y$.</p>
+<p>The file <code>{quast_output}/contigs_reports/all_alignements_{assembly_file_name}.tsv</code> contains information about mapping and misassemblies. For other information on how quast stores mapping and misassemblies information, read <a href="http://quast.bioinf.spbau.ru/manual.html#sec7">quast faq</a>.</p>
+<p><img src="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/relocation_length.svg" alt="relocation_length.svg" /></p>
+<p>In the vertial axis, we have the log length of each relocation. Each raw is a species. Green points are for negative (&lt;0 bp) relocations, orange points for positive relocations.</p>
+<p>This figure shows a swarm plot of log of length associated to recombination. It's the size of the gap between mappings flankings a misassembly. If the length is positive, the assembly misses part of the reference (green point). If the length is negative, the assembly duplicates a part of the reference (orange point). <a href="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/relocation_length.py">Source code</a>, <a href="https://blog.pierre.marijon.fr/misassemblies-in-noisy-assemblies/relocation_length.csv">data</a> is available.</p>
+<p>For <em>H. sapiens</em> a majority of relocations were positive and short (between 1000 and 5000 bases), with some very large relocations. For <em>C. elegans</em> it's different, the majority of relocations are negative and the largest relocation was shorter than in <em>H. sapiens</em>. For <em>D. melanogaster</em> the size of relocations was more spread out; the majority of relocations aren't short. This is confirmed by the look of the curve seen in the previous part, when <code>extensize-mis-size</code> is increased, the number of relocations decreases less quickly than for the other datasets. </p>
+<p><strong>With this representation, we can analyze the differences in relocations between assemblies, in terms of their numbers and more importantly the distributions of their lengths.</strong></p>
+<h2 id="conclusion">Conclusion</h2>
+<p>If you work with quast to evaluate an assembly made with miniasm, you need to set <code>min-identity</code> parameter to 80 %. It would be nice to have a lower minimum value, maybe 70%, but the quast code would have to be modified. And such a low identity is required only for a miniasm assemblies; for tools with a better consensus step (redbean for exemple), 80 % seems sufficient.</p>
+<p>Translocations and inversions constitute a minority within misassemblies, yet when they are detected it's clear that they are 'true' misassemblies. I would be very surprised to see a translocation or inversion created by a mapping error, itself generated by error(s) in an uncorrected long-reads assembly. We can thus trust the count of translocations and inversions.</p>
+<p>For relocations, the situation is different. They constitute the majority of misassemblies in our cases, and some of them are <em>true</em> some of them are  <em>false</em>. Checking all misassemblies manualy is impossible, and finding a good <code>extensive-mis-size</code> value seems very hard for me. The easiest thing we can do is compare the series of lengths associated to relocations, as shown in this blogpost I used a swarmplot; I think statisticians could find better tools.</p>
+<h2 id="take-home-message">Take home message</h2>
+<p>You can use quast to compare uncorrected long-reads assemblies but:</p>
+<ul>
+<li>run quast with <code>--min-identity 80</code></li>
+<li>rely on translocations and inversions counts</li>
+<li>for relocations, compare distributions of lengths associated to each assembly</li>
+</ul>
+<h2 id="acknowledgements">Acknowledgements</h2>
+<p>For the creation of this very effective and useful tool all Quast contributors.</p>
+<p>For their help in writing this blogpost:</p>
+<ul>
+<li>Rayan Chikhi</li>
+<li>Jean-Stéphane Varré</li>
+<li>Yoann Dufresne</li>
+<li>Antoine Limasset</li>
+<li>Matthieu Falce</li>
+<li>Kevin Gueuti</li>
+</ul>
+
+    </article>
+  </section>
+
+  <h2>Comments:</h2>
+    <section id="isso-thread"></section>
+    
+      <footer class="site-footer">
+	<span class="site-footer-credits">
+	  <center>
+	    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+	      <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+	    </a>
+	  </center>
+	  <br />
+	  <span xmlns:dct="http://purl.org/dc/terms/" property="dct:title">Yet Another Bioinformatic blog</span> by <span xmlns:cc="http://creativecommons.org/ns#" property="cc:attributionName">Pierre Marijon</span> is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.<br />Based on a work at <a xmlns:dct="http://purl.org/dc/terms/" href=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;misassemblies-in-noisy-assemblies&#x2F; rel="dct:source">blog.pierre.marijon.fr</a>.</span>
+      </footer>
+    </section>
+    
+
+    
+<section class="share-page">
+  Share this on &rarr; <br/>
+  <a href="https://twitter.com/intent/tweet?text=Misassemblies in noisy assemblies&url=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;misassemblies-in-noisy-assemblies&#x2F;&via=pierre_marijon&related=pierre_marijon" rel="nofollow" target="_blank" title="Share on Twitter">
+    <span class="fa fa-twitter fa-3x"></span>
+  </a>
+  <a href="http://www.linkedin.com/shareArticle?mini=true&url=https:&#x2F;&#x2F;blog.pierre.marijon.fr&#x2F;misassemblies-in-noisy-assemblies&#x2F; &title=Misassemblies in noisy assemblies&source=https:&#x2F;&#x2F;blog.pierre.marijon.fr">
+    <span class="fa fa-linkedin fa-3x"></span>
+  </a>
+</section> 
+
+
+  </body>
+</html>
